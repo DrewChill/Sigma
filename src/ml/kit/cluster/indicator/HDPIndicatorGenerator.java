@@ -4,18 +4,18 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
-import ml.kit.cluster.Cluster;
-import ml.kit.structs.item.Item;
+import ml.kit.cluster.Symbol;
+import ml.kit.structs.item.Stimulus;
 
 public class HDPIndicatorGenerator<T> implements IndicatorGenerator<T>{
 
 	@Override
-	public byte[] getLabelForCluster(Cluster<T> cluster) {
+	public byte[] getLabelForCluster(Symbol<T> cluster) {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		ObjectOutputStream oos;
 		try {
 			oos = new ObjectOutputStream(bos);
-			for(Item<T> data : cluster.itemList()) {
+			for(Stimulus<T> data : cluster.itemList()) {
 				oos.writeObject(data.getValue());
 			}
 			oos.flush();

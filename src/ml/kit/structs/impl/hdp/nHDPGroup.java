@@ -4,14 +4,14 @@ import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
-import ml.kit.cluster.Cluster;
+import ml.kit.cluster.Symbol;
 import ml.kit.cluster.impl.hdp.HDPClusterPool;
 import ml.kit.cluster.vocabulary.Vocabulary;
-import ml.kit.structs.item.Item;
+import ml.kit.structs.item.Stimulus;
 
 public class nHDPGroup<T> extends HDPGroup<T>{
 
-	private Map<Cluster<T>, nHDPGroup<T>> children;
+	private Map<Symbol<T>, nHDPGroup<T>> children;
 	private Map<nHDPGroup<T>, Thread> childrenThreads;
 	private Vocabulary<T> childVocabulary;
 	private int depth = 0;
@@ -27,8 +27,8 @@ public class nHDPGroup<T> extends HDPGroup<T>{
 	}
 
 	@Override
-	public Cluster<T> sampleGroupForCluster(Item<T> item, int populationSize, double totalAssignmentLikelihood) {
-		Cluster<T> ret = super.sampleGroupForCluster(item, populationSize, totalAssignmentLikelihood);
+	public Symbol<T> sampleGroupForCluster(Stimulus<T> item, int populationSize, double totalAssignmentLikelihood) {
+		Symbol<T> ret = super.sampleGroupForCluster(item, populationSize, totalAssignmentLikelihood);
 		if(ret != null && depth<MAX_DEPTH) {
 			nHDPGroup<T> child = children.get(ret);
 			if(child == null) {

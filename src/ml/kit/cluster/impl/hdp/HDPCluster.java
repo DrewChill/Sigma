@@ -1,10 +1,10 @@
 package ml.kit.cluster.impl.hdp;
 
-import ml.kit.cluster.Cluster;
+import ml.kit.cluster.Symbol;
 import ml.kit.cluster.indicator.IndicatorGenerator;
-import ml.kit.structs.item.Item;
+import ml.kit.structs.item.Stimulus;
 
-public class HDPCluster<T> extends Cluster<T>{
+public class HDPCluster<T> extends Symbol<T>{
 	
 	private double beta = 0.5;
 
@@ -23,7 +23,7 @@ public class HDPCluster<T> extends Cluster<T>{
 	}
 
 	@Override
-	public double calcAssignmentLikelihood(Item<T> item) {
+	public double calcAssignmentLikelihood(Stimulus<T> item) {
 		double vSize = (double)item.getSource().vocabularySize();
 		double vb = vSize * beta;
 		

@@ -6,30 +6,30 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import ml.kit.cluster.Cluster;
-import ml.kit.cluster.ClusterPool;
+import ml.kit.cluster.Symbol;
+import ml.kit.cluster.SymbolStructure;
 import ml.kit.cluster.indicator.HDPIndicatorGenerator;
-import ml.kit.structs.item.Item;
+import ml.kit.structs.item.Stimulus;
 
-public class HDPClusterPool<T> implements ClusterPool<T>{
+public class HDPClusterPool<T> implements SymbolStructure<T>{
 
-	Map<String, Cluster<T>> clusterMap = new HashMap<>();
+	Map<String, Symbol<T>> clusterMap = new HashMap<>();
 	private HDPIndicatorGenerator<T> deepIndicator = new HDPIndicatorGenerator<T>();
 	private double gamma = 1.5;
 	private Random r = new Random();
 	
 	@Override
-	public Cluster<T> addItemToClusterPool(Item<T> item) {
+	public Symbol<T> signalSymbolStructure(Stimulus<T> item) {
 		double vSize = (double)item.getSource().vocabularySize();
 		double fNew = gamma * vSize;
 		
 		//------------------------ likelihood function
-		for(Cluster<T> cluster : clusterMap.values()) {
+		for(Symbol<T> cluster : clusterMap.values()) {
 			fNew += cluster.calcAssignmentLikelihood(item);
 		}
 		//--------------------------
 		
-		Cluster<T> ret = item.getSource().sampleGroupForCluster(item, totalNumOfContributors(), fNew);
+		Symbol<T> ret = item.getSource().sampleGroupForCluster(item, totalNumOfContributors(), fNew);
 		if(ret == null) {
 			ret = sampleForCluster(item);
 		}
@@ -38,14 +38,14 @@ public class HDPClusterPool<T> implements ClusterPool<T>{
 		return ret;
 	}
 	
-	private Cluster<T> sampleForCluster(Item<T> item){
+	private Symbol<T> sampleForCluster(Stimulus<T> item){
 		double vSize = (double)item.getSource().vocabularySize();
 		double pSum = 0.0;
-		List<Cluster<T>> clusterList = new ArrayList<>();
+		List<Symbol<T>> clusterList = new ArrayList<>();
 		//------------------------ likelihood
 		double[] p = new double[clusterMap.size()+1];
 		int index = 0;
-		for(Cluster<T> cluster : clusterMap.values()) {
+		for(Symbol<T> cluster : clusterMap.values()) {
 			pSum += cluster.calcAssignmentLikelihood(item);
 			p[index] = pSum;
 			index++;
@@ -56,7 +56,7 @@ public class HDPClusterPool<T> implements ClusterPool<T>{
 		//--------------------------
 		
 		//-------------------------- select topic
-		Cluster<T> ret = null;
+		Symbol<T> ret = null;
 		double clusterSelector = r.nextDouble() * pSum;
 		for(int i=0; i<p.length-1; i++) {
 			if(clusterSelector < p[i]) {
@@ -71,7 +71,7 @@ public class HDPClusterPool<T> implements ClusterPool<T>{
 	
 	private int totalNumOfContributors() {
 		int count = 0;
-		for(Cluster<T> cluster : clusterMap.values()) {
+		for(Symbol<T> cluster : clusterMap.values()) {
 			count += cluster.numOfContributors();
 		}
 		return count;

@@ -10,19 +10,19 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import ml.kit.cluster.Cluster;
+import ml.kit.cluster.Symbol;
 import ml.kit.cluster.vocabulary.Vocabulary;
-import ml.kit.structs.item.Item;
+import ml.kit.structs.item.Stimulus;
 
-public abstract class Group<T> implements Runnable{
+public abstract class Synapse<T> implements Runnable{
 
-	protected Collection<Item<T>> items;
-	Set<Cluster<T>> contributions;
+	protected Collection<Stimulus<T>> items;
+	Set<Symbol<T>> contributions;
 	protected Vocabulary<T> vocabulary;
 	protected Pipe recvStream;
 	protected Queue<Integer> bytesWaiting = new ConcurrentLinkedQueue<>();
 	
-	public Group(Vocabulary<T> vocabulary) {
+	public Synapse(Vocabulary<T> vocabulary) {
 		items = new ArrayList<>();
 		contributions = new HashSet<>();
 		this.vocabulary = vocabulary;
@@ -32,13 +32,13 @@ public abstract class Group<T> implements Runnable{
 		return vocabulary.allClusters().size();
 	}
 	
-	public void signalContribution(Cluster<T> signaler) {
+	public void signalContribution(Symbol<T> signaler) {
 		synchronized(contributions) {
 			contributions.add(signaler);
 		}
 	}
 	
-	public void nullifyContribution(Cluster<T> signaler) {
+	public void nullifyContribution(Symbol<T> signaler) {
 		synchronized(contributions) {
 			contributions.remove(signaler);
 		}
@@ -48,7 +48,7 @@ public abstract class Group<T> implements Runnable{
 		return contributions.size();
 	}
 	
-	public Collection<Cluster<T>> getContributions(){
+	public Collection<Symbol<T>> getContributions(){
 		return contributions;
 	}
 	
@@ -72,10 +72,10 @@ public abstract class Group<T> implements Runnable{
 					encoded = ByteBuffer.allocate(bytesWaiting.poll());
 					recvStream.source().read(encoded);
 				}
-				Cluster<T> inCluster = vocabulary.decodeBytes(encoded.array());
-				Item<T> item = new Item<T>(inCluster.sampleItemFromCluster().getValue(), this);
+				Symbol<T> inCluster = vocabulary.decodeBytes(encoded.array());
+				Stimulus<T> item = new Stimulus<T>(inCluster.sampleItemFromCluster().getValue(), this);
 				if(vocabulary.getDerivedVocabulary() != null) {
-					vocabulary.getDerivedVocabulary().clusterItem(item);
+					vocabulary.getDerivedVocabulary().addItem(item);
 				}
 				items.add(item);
 			} catch (IOException e) {
@@ -84,7 +84,7 @@ public abstract class Group<T> implements Runnable{
 		}
 	}
 	
-	public abstract Cluster<T> sampleGroupForCluster(Item<T> item, int populationSize, double totalAssignmentLikelihood);
+	public abstract Symbol<T> sampleGroupForCluster(Stimulus<T> item, int populationSize, double totalAssignmentLikelihood);
 	
 	
 }

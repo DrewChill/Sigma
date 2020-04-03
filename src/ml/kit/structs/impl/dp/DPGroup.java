@@ -1,18 +1,18 @@
 package ml.kit.structs.impl.dp;
 
-import ml.kit.cluster.Cluster;
+import ml.kit.cluster.Symbol;
 import ml.kit.cluster.vocabulary.Vocabulary;
-import ml.kit.structs.group.Group;
-import ml.kit.structs.item.Item;
+import ml.kit.structs.group.Synapse;
+import ml.kit.structs.item.Stimulus;
 
-public class DPGroup<T> extends Group<T>{
+public class DPGroup<T> extends Synapse<T>{
 
 	public DPGroup(Vocabulary<T> vocabulary) {
 		super(vocabulary);
 	}
 
 	@Override
-	public Cluster<T> sampleGroupForCluster(Item<T> item, int populationSize, double totalAssignmentLikelihood) {
+	public Symbol<T> sampleGroupForCluster(Stimulus<T> item, int populationSize, double totalAssignmentLikelihood) {
 		return null;
 	}
 

@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import ml.kit.cluster.Cluster;
+import ml.kit.cluster.Symbol;
 import ml.kit.cluster.vocabulary.Vocabulary;
-import ml.kit.structs.group.Group;
-import ml.kit.structs.item.Item;
+import ml.kit.structs.group.Synapse;
+import ml.kit.structs.item.Stimulus;
 
-public class HDPGroup<T> extends Group<T>{
+public class HDPGroup<T> extends Synapse<T>{
 	
 	private double gamma = 1.5;
 	private double alpha = 1.5;
@@ -19,15 +19,15 @@ public class HDPGroup<T> extends Group<T>{
 	}
 
 	@Override
-	public Cluster<T> sampleGroupForCluster(Item<T> item, int populationSize, double totalAssignmentLikelihood) {
+	public Symbol<T> sampleGroupForCluster(Stimulus<T> item, int populationSize, double totalAssignmentLikelihood) {
 		//-------------------------- table find
 		double p[];
-		List<Cluster<T>> clusters = new ArrayList<>();
+		List<Symbol<T>> clusters = new ArrayList<>();
 		double pSum = 0.0;
 		synchronized(getContributions()) {
 			p = new double[getContributions().size() + 1];
 			int j = 0;
-			for(Cluster<T> cluster : getContributions()){
+			for(Symbol<T> cluster : getContributions()){
 				pSum += ((double)cluster.contributionsFromSource(this)) 
 						* cluster.calcAssignmentLikelihood(item);
 				p[j] = pSum;

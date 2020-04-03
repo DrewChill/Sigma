@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 import java.util.Collection;
 
 import ml.kit.structs.group.Context;
-import ml.kit.structs.group.Group;
+import ml.kit.structs.group.Synapse;
 
 public class HierarchalDirichletProcess<T> {
 	
@@ -15,7 +15,7 @@ public class HierarchalDirichletProcess<T> {
 	private double[] p;
 	private double[] f;
 	
-	private Collection<Group<?,T>> groups;
+	private Collection<Synapse<?,T>> groups;
 	private int[] numberOfTablesByTopic;
 	private int[] itemCountByTopic;
 	private int[] itemCountByTopicAndTerm;

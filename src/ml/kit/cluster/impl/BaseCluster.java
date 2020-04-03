@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import ml.kit.cluster.Cluster;
+import ml.kit.cluster.Symbol;
 import ml.kit.cluster.indicator.IndicatorGenerator;
-import ml.kit.structs.item.Item;
+import ml.kit.structs.item.Stimulus;
 
-public class BaseCluster<T extends Serializable> extends Cluster<T>{
+public class BaseCluster<T extends Serializable> extends Symbol<T>{
 
 	Map<T, Integer> wordCount = new HashMap<>();
 	
@@ -17,7 +17,7 @@ public class BaseCluster<T extends Serializable> extends Cluster<T>{
 	}
 	
 	@Override
-	public boolean addOrRejectItem(Item<T> item) {
+	public boolean addOrRejectItem(Stimulus<T> item) {
 		if(super.addOrRejectItem(item)) {
 			Integer count = wordCount.get(item.getValue());
 			if(count == null) {
@@ -44,7 +44,7 @@ public class BaseCluster<T extends Serializable> extends Cluster<T>{
 	}
 
 	@Override
-	public double calcAssignmentLikelihood(Item<T> item) {
+	public double calcAssignmentLikelihood(Stimulus<T> item) {
 		return (wordCount.size() > 0) ? 0.0 : 1.0;
 	}
 

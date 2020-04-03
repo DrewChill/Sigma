@@ -10,14 +10,12 @@ import java.util.Random;
 
 import ml.kit.cluster.indicator.IndicatorGenerator;
 import ml.kit.cluster.vocabulary.Vocabulary;
-import ml.kit.structs.group.Group;
-import ml.kit.structs.item.Item;
+import ml.kit.structs.group.Synapse;
+import ml.kit.structs.item.Stimulus;
 
-public abstract class Cluster<T> {
+public abstract class Symbol<T> {
 	
-	protected List<Item<T>> items;
-	protected Map<Group<T>, Integer> sourceContributions;
-	
+	protected List<Stimulus<T>> items;	
 	IndicatorGenerator<T> indicatorGenerator;
 	
 	byte[] clusterIndicator = null;
@@ -25,13 +23,15 @@ public abstract class Cluster<T> {
 	
 	private Random r = new Random();
 	
-	public Cluster(IndicatorGenerator<T> indicatorGenerator) {
+	public Symbol(IndicatorGenerator<T> indicatorGenerator) {
 		this.indicatorGenerator = indicatorGenerator;
 		items = new ArrayList<>();
 		sourceContributions = new HashMap<>();
 	}
 	
-	public boolean addOrRejectItem(Item<T> item) {
+	public abstract Stimulus<T> activate();
+	
+	public boolean addOrRejectItem(Stimulus<T> item) {
 		if(shouldAdd(item.getValue())) {
 			synchronized(items) {
 				items.add(item);
@@ -53,11 +53,11 @@ public abstract class Cluster<T> {
 	
 	protected abstract double calcAssignmentStrength();
 	
-	public abstract double calcAssignmentLikelihood(Item<T> item);
+	public abstract double calcAssignmentLikelihood(Stimulus<T> item);
 	
 	public byte[] getIndicator() { return clusterIndicator; };
 	
-	public void removeElement(Item<T> item) {
+	public void removeElement(Stimulus<T> item) {
 		synchronized(items) {
 			if(items.remove(item)) {
 				Integer count = sourceContributions.get(item.getSource());
@@ -78,13 +78,13 @@ public abstract class Cluster<T> {
 		return count;
 	}
 	
-	public Collection<Item<T>> itemList(){
+	public Collection<Stimulus<T>> itemList(){
 		return items;
 	}
 	
 	public int occurences(T value) {
 		int count = 0;
-		for(Item<T> item : items) {
+		for(Stimulus<T> item : items) {
 			if(item.getValue().equals(value))
 				count++;
 		}
@@ -95,11 +95,11 @@ public abstract class Cluster<T> {
 		return sourceContributions.keySet().size();
 	}
 	
-	public int contributionsFromSource(Group<T> source) {
+	public int contributionsFromSource(Synapse<T> source) {
 		return (sourceContributions.get(source) == null) ? 0 :sourceContributions.get(source); 
 	}
 	
-	public Item<T> sampleItemFromCluster(){
+	public Stimulus<T> sampleItemFromCluster(){
 		int sample = (int) Math.floor(r.nextDouble() * (double)items.size());
 		return items.get(sample);
 	}

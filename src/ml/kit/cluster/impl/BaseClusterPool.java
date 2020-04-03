@@ -4,17 +4,17 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import ml.kit.cluster.Cluster;
-import ml.kit.cluster.ClusterPool;
+import ml.kit.cluster.Symbol;
+import ml.kit.cluster.SymbolStructure;
 import ml.kit.cluster.indicator.BaseIndicatorGenerator;
-import ml.kit.structs.item.Item;
+import ml.kit.structs.item.Stimulus;
 
-public class BaseClusterPool<T extends Serializable> implements ClusterPool<T>{
+public class BaseClusterPool<T extends Serializable> implements SymbolStructure<T>{
 
 	Map<T, BaseCluster<T>> clusterMap = new HashMap<>();
 	
 	@Override
-	public Cluster<T> addItemToClusterPool(Item<T> item) {
+	public Symbol<T> signalSymbolStructure(Stimulus<T> item) {
 		BaseCluster<T> cluster = null;
 		synchronized(clusterMap) {
 			cluster = clusterMap.get(item.getValue());

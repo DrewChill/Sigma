@@ -5,19 +5,19 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-import ml.kit.cluster.Cluster;
+import ml.kit.cluster.Symbol;
 import ml.kit.cluster.vocabulary.Vocabulary;
-import ml.kit.structs.group.Group;
-import ml.kit.structs.item.Item;
+import ml.kit.structs.group.Synapse;
+import ml.kit.structs.item.Stimulus;
 
-public class BaseGroup<T extends Serializable> extends Group<T>{
+public class BaseGroup<T extends Serializable> extends Synapse<T>{
 
 	public BaseGroup(Vocabulary<T> vocabulary) {
 		super(vocabulary);
 	}
 
 	@Override
-	public Cluster<T> sampleGroupForCluster(Item<T> item, int populationSize,
+	public Symbol<T> sampleGroupForCluster(Stimulus<T> item, int populationSize,
 			double totalAssignmentLikelihood) {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		ObjectOutputStream oos;

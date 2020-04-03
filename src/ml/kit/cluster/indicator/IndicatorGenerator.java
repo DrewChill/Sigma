@@ -1,9 +1,9 @@
 package ml.kit.cluster.indicator;
 
-import ml.kit.cluster.Cluster;
+import ml.kit.cluster.Symbol;
 
 public interface IndicatorGenerator<T> {
 
-	public byte[] getLabelForCluster(Cluster<T> cluster);
+	public byte[] getLabelForCluster(Symbol<T> cluster);
 	
 }

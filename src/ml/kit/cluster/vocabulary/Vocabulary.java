@@ -2,57 +2,54 @@ package ml.kit.cluster.vocabulary;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
-import ml.kit.cluster.Cluster;
-import ml.kit.cluster.ClusterPool;
-import ml.kit.structs.item.Item;
+import ml.kit.cluster.Symbol;
+import ml.kit.cluster.SymbolStructure;
+import ml.kit.structs.item.Stimulus;
 
 public class Vocabulary<T> {
 
-	private ClusterPool<T> clusterPool;
-	private Map<byte[],Cluster<T>> clusterForIndicator;
-	private Vocabulary<T> derivedVocabulary;
+	private Map<byte[],Symbol<T>> clusterForIndicator = new HashMap<>();
+	private Vocabulary<T> inferredVocabulary = null;
+	private Set<Stimulus<T>> items = new HashSet<>();
 	
 	
-	public Vocabulary(ClusterPool<T> clusterPool) {
-		this.clusterPool = clusterPool;
-		this.clusterForIndicator = new HashMap<>();
-		this.derivedVocabulary = null;
+	public void addItem(Stimulus<T> item){
+		items.add(item);
 	}
 	
-	public Vocabulary(ClusterPool<T> inPool, ClusterPool<T> outPool) {
-		this(inPool);
-		this.derivedVocabulary = new Vocabulary<T>(outPool);
-	}
-	
-	public Cluster<T> clusterItem(Item<T> item){
-		Cluster<T> cluster = clusterPool.addItemToClusterPool(item);
-		item.setAssignment(cluster);
-		
-		synchronized(clusterForIndicator) {
-			if(!clusterForIndicator.containsKey(cluster.getIndicator()))
-				clusterForIndicator.put(cluster.getIndicator(), cluster);
-		}
+	public Vocabulary<T> clusterVocabulary(SymbolStructure<T> clusterPool){
+		for(Stimulus<T> item : items) {
+			Symbol<T> cluster = clusterPool.signalSymbolStructure(item);
+			item.setAssignment(cluster);
 			
-		return cluster;
+			synchronized(clusterForIndicator) {
+				if(!clusterForIndicator.containsKey(cluster.getIndicator()))
+					clusterForIndicator.put(cluster.getIndicator(), cluster);
+			}
+		}
+		
+		return clusterForIndicator;
 	}
 	
 	public int totalItemsContributed() {
 		int count = 0;
-		for(Cluster<T> cluster : clusterForIndicator.values()) {
+		for(Symbol<T> cluster : clusterForIndicator.values()) {
 			count += cluster.clusterSize();
 		}
 		return count;
 	}
 	
-	public Collection<Cluster<T>> allClusters(){
+	public Collection<Symbol<T>> allClusters(){
 		synchronized(clusterForIndicator) {
 			return clusterForIndicator.values();
 		}
 	}
 	
-	public Cluster<T> decodeBytes(byte[] encoded){
+	public Symbol<T> decodeBytes(byte[] encoded){
 		synchronized(clusterForIndicator) {
 			if(clusterForIndicator.containsKey(encoded)) {
 				return clusterForIndicator.get(encoded);
@@ -63,7 +60,7 @@ public class Vocabulary<T> {
 	}
 	
 	public Vocabulary<T> getDerivedVocabulary(){
-		return derivedVocabulary;
+		return inferredVocabulary;
 	}
 	
 }
