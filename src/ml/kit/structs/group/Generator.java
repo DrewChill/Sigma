@@ -1,6 +1,6 @@
 package ml.kit.structs.group;
 
-import ml.kit.cluster.Symbol;
+import ml.kit.symbol.Symbol;
 
 public interface Generator<T> {
 	

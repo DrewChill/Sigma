@@ -2,13 +2,13 @@ package ml.kit.structs.impl.dp;
 
 import java.io.InputStream;
 
-import ml.kit.cluster.vocabulary.Vocabulary;
 import ml.kit.structs.group.Context;
 import ml.kit.structs.group.Synapse;
+import ml.kit.symbol.generator.SymbolGenerator;
 
 public class DPContext<T> extends Context<T>{
 
-	public DPContext(Vocabulary<T> vocabulary) {
+	public DPContext(SymbolGenerator<T> vocabulary) {
 		super(vocabulary);
 	}
 

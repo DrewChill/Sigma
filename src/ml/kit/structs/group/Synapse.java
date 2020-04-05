@@ -10,19 +10,20 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import ml.kit.cluster.Symbol;
-import ml.kit.cluster.vocabulary.Vocabulary;
-import ml.kit.structs.item.Stimulus;
+import ml.kit.structs.asm.MLObject;
+import ml.kit.symbol.StochasticSymbol;
+import ml.kit.symbol.Symbol;
+import ml.kit.symbol.generator.SymbolGenerator;
 
-public abstract class Synapse<T> implements Runnable{
+public abstract class Synapse<T extends MLObject> implements Runnable{
 
-	protected Collection<Stimulus<T>> items;
+	protected Collection<T> items;
 	Set<Symbol<T>> contributions;
-	protected Vocabulary<T> vocabulary;
+	protected SymbolGenerator<T> vocabulary;
 	protected Pipe recvStream;
 	protected Queue<Integer> bytesWaiting = new ConcurrentLinkedQueue<>();
 	
-	public Synapse(Vocabulary<T> vocabulary) {
+	public Synapse(SymbolGenerator<T> vocabulary) {
 		items = new ArrayList<>();
 		contributions = new HashSet<>();
 		this.vocabulary = vocabulary;
@@ -73,10 +74,7 @@ public abstract class Synapse<T> implements Runnable{
 					recvStream.source().read(encoded);
 				}
 				Symbol<T> inCluster = vocabulary.decodeBytes(encoded.array());
-				Stimulus<T> item = new Stimulus<T>(inCluster.sampleItemFromCluster().getValue(), this);
-				if(vocabulary.getDerivedVocabulary() != null) {
-					vocabulary.getDerivedVocabulary().addItem(item);
-				}
+				T item = inCluster.sampleItemFromCluster();
 				items.add(item);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -84,7 +82,7 @@ public abstract class Synapse<T> implements Runnable{
 		}
 	}
 	
-	public abstract Symbol<T> sampleGroupForCluster(Stimulus<T> item, int populationSize, double totalAssignmentLikelihood);
+	public abstract StochasticSymbol<T> generateSymbol(T item, int populationSize, double totalAssignmentLikelihood);
 	
 	
 }

@@ -2,9 +2,9 @@ package ml.kit.structs.impl.dp;
 
 import java.io.InputStream;
 
-import ml.kit.cluster.Symbol;
 import ml.kit.structs.group.Context;
 import ml.kit.structs.group.Generator;
+import ml.kit.symbol.Symbol;
 
 public class DPGenerator<T> implements Generator<T>{
 

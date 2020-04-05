@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import ml.kit.cluster.Symbol;
-import ml.kit.cluster.vocabulary.Vocabulary;
 import ml.kit.structs.group.Synapse;
 import ml.kit.structs.item.Stimulus;
+import ml.kit.symbol.Symbol;
+import ml.kit.symbol.generator.SymbolGenerator;
 
 public class HDPGroup<T> extends Synapse<T>{
 	
 	private double gamma = 1.5;
 	private double alpha = 1.5;
 
-	public HDPGroup(Vocabulary<T> vocabulary) {
+	public HDPGroup(SymbolGenerator<T> vocabulary) {
 		super(vocabulary);
 	}
 

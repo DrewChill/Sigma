@@ -4,25 +4,25 @@ import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
-import ml.kit.cluster.Symbol;
-import ml.kit.cluster.impl.hdp.HDPClusterPool;
-import ml.kit.cluster.vocabulary.Vocabulary;
 import ml.kit.structs.item.Stimulus;
+import ml.kit.symbol.Symbol;
+import ml.kit.symbol.generator.SymbolGenerator;
+import ml.kit.symbol.structure.hdp.HDPSymbolStructure;
 
 public class nHDPGroup<T> extends HDPGroup<T>{
 
 	private Map<Symbol<T>, nHDPGroup<T>> children;
 	private Map<nHDPGroup<T>, Thread> childrenThreads;
-	private Vocabulary<T> childVocabulary;
+	private SymbolGenerator<T> childVocabulary;
 	private int depth = 0;
 	private static final int MAX_DEPTH = 7;
 	private boolean inheritDerivedVocabulary;
 
-	public nHDPGroup(Vocabulary<T> vocabulary, int depth, boolean inheritDerivedVocabulary) {
+	public nHDPGroup(SymbolGenerator<T> vocabulary, int depth, boolean inheritDerivedVocabulary) {
 		super(vocabulary);
 		this.inheritDerivedVocabulary = inheritDerivedVocabulary;
 		children = new HashMap<>();
-		childVocabulary = inheritDerivedVocabulary ? vocabulary.getDerivedVocabulary() : new Vocabulary<T>(new HDPClusterPool<T>());
+		childVocabulary = inheritDerivedVocabulary ? vocabulary.getNestedVocabulary() : new SymbolGenerator<T>(new HDPSymbolStructure<T>());
 		this.depth = depth;
 	}
 

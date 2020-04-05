@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import ml.kit.cluster.Symbol;
-import ml.kit.cluster.vocabulary.Vocabulary;
+import ml.kit.symbol.Symbol;
+import ml.kit.symbol.generator.SymbolGenerator;
 
 public abstract class Context<T> {
 	
-	protected Vocabulary<T> vocabulary;
+	protected SymbolGenerator<T> vocabulary;
 
-	public Context(Vocabulary<T> vocabulary) {
+	public Context(SymbolGenerator<T> vocabulary) {
 		this.vocabulary = vocabulary;
 	}
 	

@@ -2,9 +2,9 @@ package ml.kit.structs.impl.hdp;
 
 import java.io.InputStream;
 
-import ml.kit.cluster.Symbol;
 import ml.kit.structs.group.Context;
 import ml.kit.structs.group.Generator;
+import ml.kit.symbol.Symbol;
 
 public class HDPGenerator<T> implements Generator<T>{
 

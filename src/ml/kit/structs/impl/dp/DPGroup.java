@@ -1,13 +1,13 @@
 package ml.kit.structs.impl.dp;
 
-import ml.kit.cluster.Symbol;
-import ml.kit.cluster.vocabulary.Vocabulary;
 import ml.kit.structs.group.Synapse;
 import ml.kit.structs.item.Stimulus;
+import ml.kit.symbol.Symbol;
+import ml.kit.symbol.generator.SymbolGenerator;
 
 public class DPGroup<T> extends Synapse<T>{
 
-	public DPGroup(Vocabulary<T> vocabulary) {
+	public DPGroup(SymbolGenerator<T> vocabulary) {
 		super(vocabulary);
 	}
 

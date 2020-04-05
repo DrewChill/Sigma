@@ -2,13 +2,13 @@ package ml.kit.structs.impl.hdp;
 
 import java.io.InputStream;
 
-import ml.kit.cluster.vocabulary.Vocabulary;
 import ml.kit.structs.group.Context;
 import ml.kit.structs.group.Synapse;
+import ml.kit.symbol.generator.SymbolGenerator;
 
 public class HDPContext<T> extends Context<T> {
 		
-	public HDPContext(Vocabulary<T> vocabulary) {
+	public HDPContext(SymbolGenerator<T> vocabulary) {
 		super(vocabulary);
 	}
 

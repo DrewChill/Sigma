@@ -5,14 +5,14 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-import ml.kit.cluster.Symbol;
-import ml.kit.cluster.vocabulary.Vocabulary;
 import ml.kit.structs.group.Synapse;
 import ml.kit.structs.item.Stimulus;
+import ml.kit.symbol.Symbol;
+import ml.kit.symbol.generator.SymbolGenerator;
 
 public class BaseGroup<T extends Serializable> extends Synapse<T>{
 
-	public BaseGroup(Vocabulary<T> vocabulary) {
+	public BaseGroup(SymbolGenerator<T> vocabulary) {
 		super(vocabulary);
 	}
 
