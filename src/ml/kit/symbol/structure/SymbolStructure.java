@@ -2,14 +2,17 @@ package ml.kit.symbol.structure;
 
 import ml.kit.structs.asm.MLObject;
 import ml.kit.symbol.Symbol;
-import ml.kit.symbol.generator.inference.InferenceInfo;
 
 public abstract class SymbolStructure<T extends MLObject> {
 	
-	protected InferenceInfo behavior;
+	StructureInfo<T> behavior;
 	
-	public SymbolStructure(InferenceInfo behavior) {
+	public SymbolStructure(StructureInfo<T> behavior) {
 		this.behavior = behavior;
+	}
+	
+	public Symbol<T> createNewSymbol(){
+		return behavior.createNewSymbol();
 	}
 	
 	public abstract Symbol<T> excite(T item, double vSize, int capacity);

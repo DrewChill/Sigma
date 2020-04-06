@@ -8,7 +8,7 @@ import java.io.Serializable;
 import ml.kit.structs.group.Synapse;
 import ml.kit.structs.item.Stimulus;
 import ml.kit.symbol.Symbol;
-import ml.kit.symbol.generator.SymbolGenerator;
+import ml.kit.symbol.SymbolGenerator;
 
 public class BaseGroup<T extends Serializable> extends Synapse<T>{
 

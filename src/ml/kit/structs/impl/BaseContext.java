@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 import ml.kit.structs.group.Context;
 import ml.kit.structs.group.Synapse;
-import ml.kit.symbol.generator.SymbolGenerator;
+import ml.kit.symbol.SymbolGenerator;
 
 public class BaseContext<T extends Serializable> extends Context<T> {
 	

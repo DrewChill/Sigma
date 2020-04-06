@@ -3,7 +3,7 @@ package ml.kit.structs.impl.dp;
 import ml.kit.structs.group.Synapse;
 import ml.kit.structs.item.Stimulus;
 import ml.kit.symbol.Symbol;
-import ml.kit.symbol.generator.SymbolGenerator;
+import ml.kit.symbol.SymbolGenerator;
 
 public class DPGroup<T> extends Synapse<T>{
 

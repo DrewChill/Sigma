@@ -36,6 +36,7 @@ public class LocalEntropy<T> {
 				countForObject.put(addedObject, count);
 			}
 			count--;
+			size++;
 		}
 		return count.doubleValue();
 	}
@@ -50,6 +51,7 @@ public class LocalEntropy<T> {
 				countForObject.put(decayedObject, count);
 			}
 			count--;
+			size--;
 		}
 		return count.doubleValue();
 	}

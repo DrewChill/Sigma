@@ -4,7 +4,7 @@ import java.io.InputStream;
 
 import ml.kit.structs.group.Context;
 import ml.kit.structs.group.Synapse;
-import ml.kit.symbol.generator.SymbolGenerator;
+import ml.kit.symbol.SymbolGenerator;
 
 public class DPContext<T> extends Context<T>{
 

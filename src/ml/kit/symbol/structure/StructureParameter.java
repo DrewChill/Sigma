@@ -1,11 +1,11 @@
-package ml.kit.symbol.generator.inference;
+package ml.kit.symbol.structure;
 
-public class Parameter<T> {
+public class StructureParameter<T> {
 	
 	T value;
 	String name;
 	
-	public Parameter(T value, String name) {
+	public StructureParameter(T value, String name) {
 		this.value = value;
 		this.name = name;
 	}
