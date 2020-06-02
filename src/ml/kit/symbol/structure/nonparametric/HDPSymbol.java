@@ -1,4 +1,4 @@
-package ml.kit.symbol.structure.hdp;
+package ml.kit.symbol.structure.nonparametric;
 
 import ml.kit.structs.asm.MLObject;
 import ml.kit.symbol.Symbol;

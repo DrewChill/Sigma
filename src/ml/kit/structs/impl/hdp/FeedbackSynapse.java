@@ -7,7 +7,7 @@ import java.util.Random;
 
 import ml.kit.structs.asm.MLObject;
 import ml.kit.structs.group.Synapse;
-import ml.kit.symbol.StochasticSymbol;
+import ml.kit.symbol.ProbabilisticSymbol;
 import ml.kit.symbol.Symbol;
 import ml.kit.symbol.SymbolGenerator;
 import ml.kit.symbol.structure.StructureInfo;
@@ -17,28 +17,15 @@ import ml.kit.symbol.structure.StructureInfo.InferenceLocality;
 import ml.kit.symbol.structure.StructureInfo.InferenceStructure;
 
 public class FeedbackSynapse<T extends MLObject> extends Synapse<T> {
-
-	private static StructureInfo<T> defaultLearningInfo;
-
-	static {
-		StructureParameter<Double> alpha = new StructureParameter<Double>(1.5, "alpha");
-		StructureParameter<Double> gamma = new StructureParameter<Double>(1.5, "gamma");
-		defaultLearningInfo = new StructureInfo<T>(InferenceStructure.HDP, InferenceFlow.LINEAR, InferenceLocality.LOCAL, alpha,
-				gamma);
-	}
 	
 	//---------------------
-	
-	private StructureInfo localLearningInfo;
-
-	public FeedbackSynapse(SymbolGenerator<T> vocabulary) {
-		super(vocabulary);
-		localLearningInfo = defaultLearningInfo; //TODO: make copy
+	public FeedbackSynapse(SymbolGenerator<T> symbolGenerator) {
+		super(symbolGenerator);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public StochasticSymbol<T> generateSymbol(T item, int populationSize, double totalAssignmentLikelihood,
+	public ProbabilisticSymbol<T> generateSymbol(T item, int populationSize, double totalAssignmentLikelihood,
 			Map<Symbol<T>, Double> likelihoodForSymbol) {
 		StructureParameter<Double> alpha = (StructureParameter<Double>)localLearningInfo.getParameterValue("alpha");
 		StructureParameter<Double> gamma = (StructureParameter<Double>)localLearningInfo.getParameterValue("gamma");
@@ -77,7 +64,7 @@ public class FeedbackSynapse<T extends MLObject> extends Synapse<T> {
 		}
 		
 		double likelihood = likelihoodForSymbol.get(sampled);
-		return new StochasticSymbol<T>(sampled, likelihood);
+		return new ProbabilisticSymbol<T>(sampled, likelihood);
 	}
 
 }

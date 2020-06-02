@@ -1,14 +1,13 @@
-package ml.kit.symbol.structure.hdp;
+package ml.kit.symbol.structure.nonparametric;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import ml.kit.structs.asm.MLObject;
 import ml.kit.structs.group.Synapse;
-import ml.kit.symbol.StochasticSymbol;
+import ml.kit.symbol.ProbabilisticSymbol;
 import ml.kit.symbol.Symbol;
 import ml.kit.symbol.structure.StructureInfo;
-import ml.kit.symbol.structure.nonparametric.DPSymbolStructure;
 
 public class HDPSymbolStructure<T extends MLObject> extends DPSymbolStructure<T>{
 
@@ -27,7 +26,7 @@ public class HDPSymbolStructure<T extends MLObject> extends DPSymbolStructure<T>
 		//--------------------------
 		
 		Synapse<T> synapse = (Synapse<T>) item.getSynapseForStructureId(id);
-		StochasticSymbol<T> sampledSymbol = synapse.generateSymbol(item, capacity, totalAssignmentLikelihood, likelihoodForSymbol);
+		ProbabilisticSymbol<T> sampledSymbol = synapse.generateSymbol(item, capacity, totalAssignmentLikelihood, likelihoodForSymbol);
 		Symbol<T> ret = sampledSymbol.symbol;
 		if(ret == null) {
 			ret = sampleForCluster(item, vSize, likelihoodForSymbol, gamma);

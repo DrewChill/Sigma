@@ -10,7 +10,7 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import ml.kit.structs.asm.MLObject;
-import ml.kit.symbol.StochasticSymbol;
+import ml.kit.symbol.ProbabilisticSymbol;
 import ml.kit.symbol.Symbol;
 import ml.kit.symbol.SymbolGenerator;
 import ml.kit.symbol.entropy.LocalEntropy;
@@ -80,7 +80,7 @@ public abstract class Synapse<T extends MLObject> implements Runnable {
 		}
 	}
 
-	public abstract StochasticSymbol<T> generateSymbol(T item, int populationSize, double totalAssignmentLikelihood,
+	public abstract ProbabilisticSymbol<T> generateSymbol(T item, int populationSize, double totalAssignmentLikelihood,
 			Map<Symbol<T>, Double> likelihoodForSymbol);
 
 }

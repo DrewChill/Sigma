@@ -7,10 +7,10 @@ import ml.kit.structs.asm.MLObject;
 import ml.kit.symbol.Symbol;
 import ml.kit.symbol.entropy.LocalEntropy;
 import ml.kit.symbol.entropy.StructureEntropy;
-import ml.kit.symbol.structure.hdp.HDPSymbol;
-import ml.kit.symbol.structure.hdp.HDPSymbolStructure;
 import ml.kit.symbol.structure.nonparametric.DPSymbol;
 import ml.kit.symbol.structure.nonparametric.DPSymbolStructure;
+import ml.kit.symbol.structure.nonparametric.HDPSymbol;
+import ml.kit.symbol.structure.nonparametric.HDPSymbolStructure;
 
 public class StructureInfo<T extends MLObject> {
 
