@@ -1,5 +1,10 @@
 package ml.kit.symbol;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectOutputStream;
 import java.util.Map;
 import java.util.Random;
 
@@ -33,6 +38,27 @@ public abstract class Symbol<T extends MLObject> extends MLObject{
 			}
 		}
 		return null;
+	}
+	
+	public InputStream propagate() {
+		return propagate(1.0);
+	}
+	
+	public InputStream propagate(double weight) {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ObjectOutputStream oos;
+		try {
+			oos = new ObjectOutputStream(bos);
+			int objsToSample = (int)(localEntropy.size * weight);
+			for(int i=0; i<objsToSample; i++) {
+				oos.writeObject(sampleItemFromCluster());
+			}
+			oos.flush();
+			
+			return new ByteArrayInputStream(bos.toByteArray());
+		} catch (IOException e) {
+			return null;
+		}
 	}
 	
 	public abstract double calcAssignmentLikelihood(T item, double vSize, int dimension);

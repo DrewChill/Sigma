@@ -2,14 +2,15 @@ package ml.kit.structs.impl.hdp;
 
 import java.io.InputStream;
 
+import ml.kit.structs.asm.MLObject;
 import ml.kit.structs.group.Context;
 import ml.kit.structs.group.Synapse;
-import ml.kit.symbol.SymbolGenerator;
+import ml.kit.symbol.structure.StructureInfo;
 
-public class HDPContext<T> extends Context<T> {
+public class HDPContext<T extends MLObject> extends Context<T> {
 		
-	public HDPContext(SymbolGenerator<T> vocabulary) {
-		super(vocabulary);
+	public HDPContext(StructureInfo<T> contextStructure) {
+		super(contextStructure);
 	}
 
 	@Override
@@ -18,6 +19,12 @@ public class HDPContext<T> extends Context<T> {
 		Thread groupThread = new Thread(groupForInputStream);
 		groupThread.start();
 		return groupForInputStream;
+	}
+
+	@Override
+	protected Synapse<T> createGroup() {
+		// TODO Auto-generated method stub
+		return new FeedbackSynapse<T>(vocabulary);
 	}
 
 }

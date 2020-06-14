@@ -8,6 +8,7 @@ import java.util.Set;
 
 import ml.kit.structs.asm.MLObject;
 import ml.kit.structs.group.Context;
+import ml.kit.structs.group.Synapse;
 import ml.kit.symbol.entropy.LocalEntropy;
 import ml.kit.symbol.structure.StructureInfo;
 
@@ -27,8 +28,8 @@ public class SymbolGenerator<T extends MLObject> {
 		this.model = model;
 	}
 	
-	public LocalEntropy<Symbol<T>> registerSynapse(){
-		return model.createUpstreamConnection();
+	public LocalEntropy<Symbol<T>> registerSynapse(Synapse<T> synapse){
+		return model.createUpstreamConnection(synapse);
 	}
 
 	public void setContext(Context<T> context) {
@@ -51,8 +52,9 @@ public class SymbolGenerator<T extends MLObject> {
 		}
 		
 		for (T item : queueCopy) {
-			Symbol<T> symbol = model.getStructure().excite(item, totalObservationCount, currentContext.getContextSize());
+			Symbol<T> symbol = model.getStructure().stimulate(item, totalObservationCount, currentContext.getContextSize());
 			symbols.add(symbol);
+			item.getSynapseForStructureId(id).reuptake(symbol);
 
 			synchronized (clusterForIndicator) {
 				if (!clusterForIndicator.containsKey(symbol.clusterIndicator))

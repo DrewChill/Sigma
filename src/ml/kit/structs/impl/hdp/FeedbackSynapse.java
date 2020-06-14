@@ -12,9 +12,6 @@ import ml.kit.symbol.Symbol;
 import ml.kit.symbol.SymbolGenerator;
 import ml.kit.symbol.structure.StructureInfo;
 import ml.kit.symbol.structure.StructureParameter;
-import ml.kit.symbol.structure.StructureInfo.InferenceFlow;
-import ml.kit.symbol.structure.StructureInfo.InferenceLocality;
-import ml.kit.symbol.structure.StructureInfo.InferenceStructure;
 
 public class FeedbackSynapse<T extends MLObject> extends Synapse<T> {
 	
@@ -26,9 +23,9 @@ public class FeedbackSynapse<T extends MLObject> extends Synapse<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ProbabilisticSymbol<T> generateSymbol(T item, int populationSize, double totalAssignmentLikelihood,
-			Map<Symbol<T>, Double> likelihoodForSymbol) {
-		StructureParameter<Double> alpha = (StructureParameter<Double>)localLearningInfo.getParameterValue("alpha");
-		StructureParameter<Double> gamma = (StructureParameter<Double>)localLearningInfo.getParameterValue("gamma");
+			Map<Symbol<T>, Double> likelihoodForSymbol, StructureInfo<T> behavior) {
+		StructureParameter<Double> alpha = (StructureParameter<Double>)behavior.getParameterValue("alpha");
+		StructureParameter<Double> gamma = (StructureParameter<Double>)behavior.getParameterValue("gamma");
 		
 		// -------------------------- table find
 		double p[];

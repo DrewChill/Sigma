@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ml.kit.structs.asm.MLObject;
+import ml.kit.structs.group.Context;
+import ml.kit.structs.group.Synapse;
 import ml.kit.symbol.Symbol;
 import ml.kit.symbol.entropy.LocalEntropy;
 import ml.kit.symbol.entropy.StructureEntropy;
@@ -53,6 +55,7 @@ public class StructureInfo<T extends MLObject> {
 	
 	protected StructureEntropy<T, Symbol<T>> structureEntropy = new StructureEntropy<>();
 	private SymbolStructure<T> model;
+	private Context<Symbol<T>> next = null;
 
 	@SuppressWarnings("unchecked")
 	public StructureInfo(InferenceStructure modelType, InferenceFlow flow, InferenceLocality locality,
@@ -89,10 +92,6 @@ public class StructureInfo<T extends MLObject> {
 	public void addNext(StructureInfo<T> next) {
 		
 	}
-
-	public StructureInfo<T> getNext() {
-		return null;
-	}
 	
 	//TODO: throw exception for null
 	public StructureParameter<?> getParameterValue(String name){
@@ -117,8 +116,12 @@ public class StructureInfo<T extends MLObject> {
 		}
 	}
 	
-	public LocalEntropy<Symbol<T>> createUpstreamConnection(){
-		return structureEntropy.spawnSynapticEntropy();
+	public LocalEntropy<Symbol<T>> createUpstreamConnection(Synapse<T> synapse){
+		return structureEntropy.spawnSynapticEntropy(synapse);
+	}
+	
+	public Context<Symbol<T>> getNextContext(){
+		return next;
 	}
 
 }

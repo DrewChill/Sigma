@@ -3,11 +3,12 @@ package ml.kit.structs.impl;
 import java.io.InputStream;
 import java.io.Serializable;
 
+import ml.kit.structs.asm.MLObject;
 import ml.kit.structs.group.Context;
 import ml.kit.structs.group.Synapse;
 import ml.kit.symbol.SymbolGenerator;
 
-public class BaseContext<T extends Serializable> extends Context<T> {
+public class BaseContext<T extends MLObject> extends Context<T> {
 	
 	public BaseContext(SymbolGenerator<T> vocabulary) {
 		super(vocabulary);

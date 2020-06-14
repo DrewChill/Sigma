@@ -1,14 +1,17 @@
 package ml.kit.symbol.entropy;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import ml.kit.structs.asm.MLObject;
+import ml.kit.structs.group.Synapse;
 import ml.kit.symbol.Symbol;
 
 public class StructureEntropy<T extends MLObject, S extends Symbol<T>> {
 	
-	Set<LocalEntropy<S>> synapticEntropies = new HashSet<>();
+	Map<Synapse<T>, LocalEntropy<S>> synapticEntropies = new HashMap<>();
 	Set<LocalEntropy<T>> symbolicEntropies = new HashSet<>();
 	int id = 0;
 	
@@ -24,10 +27,14 @@ public class StructureEntropy<T extends MLObject, S extends Symbol<T>> {
 		return newEntropy;
 	}
 	
-	public LocalEntropy<S> spawnSynapticEntropy() {
+	public LocalEntropy<S> spawnSynapticEntropy(Synapse<T> synapse) {
 		LocalEntropy<S> newEntropy = new LocalEntropy<S>();
-		synapticEntropies.add(newEntropy);
+		synapticEntropies.put(synapse, newEntropy);
 		return newEntropy;
+	}
+	
+	public Set<Synapse<T>> getSynapses(){
+		return synapticEntropies.keySet();
 	}
 
 }
