@@ -66,9 +66,6 @@ public abstract class Synapse<T extends MLObject> implements Runnable {
 			e.printStackTrace();
 		}
 	}
-
-	public abstract ProbabilisticSymbol<T> generateSymbol(T item, int populationSize, double totalAssignmentLikelihood,
-			Map<Symbol<T>, Double> likelihoodForSymbol, StructureInfo<T> behavior);
 	
 	private Symbol<T> sample(){
 		Map<Symbol<T>, Double> stationaryDistribution = synapticEntropy.getStationaryDistribution();
@@ -99,6 +96,11 @@ public abstract class Synapse<T extends MLObject> implements Runnable {
 		}
 		return new byte[0];
 	}
+	
+	public abstract ProbabilisticSymbol<T> fuseSymbol(T item, int populationSize, double totalAssignmentLikelihood,
+			Map<Symbol<T>, Double> likelihoodForSymbol, StructureInfo<T> behavior);
+	
+	//------------------
 	
 	@Override
 	public void run() {

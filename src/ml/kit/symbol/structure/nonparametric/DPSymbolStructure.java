@@ -36,9 +36,11 @@ public class DPSymbolStructure<T extends MLObject> extends SymbolStructure<T> {
 		Map<Symbol<T>, Double> likelihoodForSymbol = getSymbolLikelihoods(item, vSize, capacity);
 		
 		Symbol<T> ret = sampleForCluster(item, vSize, likelihoodForSymbol, gamma);
-		Double likelihood = likelihoodForSymbol.get(ret);
-		likelihood = likelihood == null ? 0.0 : likelihood;
-		ret.updateWeight(item, likelihood * weightModifier);
+		if(ret != null) {
+			Double likelihood = likelihoodForSymbol.get(ret);
+			likelihood = likelihood == null ? 0.0 : likelihood;
+			ret.updateWeight(item, likelihood * weightModifier);
+		}
 		
 		return ret;
 	}

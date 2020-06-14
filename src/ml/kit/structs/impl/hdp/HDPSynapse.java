@@ -13,16 +13,16 @@ import ml.kit.symbol.SymbolGenerator;
 import ml.kit.symbol.structure.StructureInfo;
 import ml.kit.symbol.structure.StructureParameter;
 
-public class FeedbackSynapse<T extends MLObject> extends Synapse<T> {
+public class HDPSynapse<T extends MLObject> extends Synapse<T> {
 	
 	//---------------------
-	public FeedbackSynapse(SymbolGenerator<T> symbolGenerator) {
+	public HDPSynapse(SymbolGenerator<T> symbolGenerator) {
 		super(symbolGenerator);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ProbabilisticSymbol<T> generateSymbol(T item, int populationSize, double totalAssignmentLikelihood,
+	public ProbabilisticSymbol<T> fuseSymbol(T item, int populationSize, double totalAssignmentLikelihood,
 			Map<Symbol<T>, Double> likelihoodForSymbol, StructureInfo<T> behavior) {
 		StructureParameter<Double> alpha = (StructureParameter<Double>)behavior.getParameterValue("alpha");
 		StructureParameter<Double> gamma = (StructureParameter<Double>)behavior.getParameterValue("gamma");

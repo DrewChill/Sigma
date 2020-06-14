@@ -3,8 +3,10 @@ package ml.kit.structs.group;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
 
 import ml.kit.structs.asm.MLObject;
+import ml.kit.symbol.Symbol;
 import ml.kit.symbol.SymbolGenerator;
 import ml.kit.symbol.structure.StructureInfo;
 
@@ -34,6 +36,10 @@ public abstract class Context<T extends MLObject> {
 	
 	public int getContextSize() {
 		return inputs.size();
+	}
+	
+	public Set<Symbol<T>> generateSignals() {
+		return vocabulary.generate();
 	}
 	
 }

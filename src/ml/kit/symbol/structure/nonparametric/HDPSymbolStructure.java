@@ -26,15 +26,18 @@ public class HDPSymbolStructure<T extends MLObject> extends DPSymbolStructure<T>
 		//--------------------------
 		
 		Synapse<T> synapse = (Synapse<T>) item.getSynapseForStructureId(id);
-		ProbabilisticSymbol<T> sampledSymbol = synapse.generateSymbol(item, capacity, totalAssignmentLikelihood, likelihoodForSymbol, behavior);
+		ProbabilisticSymbol<T> sampledSymbol = synapse.fuseSymbol(item, capacity, totalAssignmentLikelihood, likelihoodForSymbol, behavior);
 		Symbol<T> ret = sampledSymbol.symbol;
 		if(ret == null) {
 			ret = sampleForCluster(item, vSize, likelihoodForSymbol, gamma);
 		}
 		
-		Double likelihood = likelihoodForSymbol.get(ret);
-		likelihood = likelihood == null ? 0.0 : likelihood;
-		ret.updateWeight(item, likelihood * weightModifier);
+		if(ret != null) {
+			Double likelihood = likelihoodForSymbol.get(ret);
+			likelihood = likelihood == null ? 0.0 : likelihood;
+			ret.updateWeight(item, likelihood * weightModifier);
+		}
+		
 		return ret;
 	}
 	

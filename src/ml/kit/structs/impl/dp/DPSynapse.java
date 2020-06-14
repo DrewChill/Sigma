@@ -1,4 +1,4 @@
-package ml.kit.structs.impl;
+package ml.kit.structs.impl.dp;
 
 import java.util.Map;
 
@@ -9,9 +9,9 @@ import ml.kit.symbol.Symbol;
 import ml.kit.symbol.SymbolGenerator;
 import ml.kit.symbol.structure.StructureInfo;
 
-public class BaseGroup<T extends MLObject> extends Synapse<T>{
+public class DPSynapse<T extends MLObject> extends Synapse<T>{
 
-	public BaseGroup(SymbolGenerator<T> vocabulary) {
+	public DPSynapse(SymbolGenerator<T> vocabulary) {
 		super(vocabulary);
 	}
 
@@ -20,5 +20,5 @@ public class BaseGroup<T extends MLObject> extends Synapse<T>{
 			Map<Symbol<T>, Double> likelihoodForSymbol, StructureInfo<T> behavior) {
 		return null;
 	}
-	
+
 }

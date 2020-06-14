@@ -1,17 +1,16 @@
 package ml.kit.structs.impl;
 
 import java.io.InputStream;
-import java.io.Serializable;
 
 import ml.kit.structs.asm.MLObject;
 import ml.kit.structs.group.Context;
 import ml.kit.structs.group.Synapse;
-import ml.kit.symbol.SymbolGenerator;
+import ml.kit.symbol.structure.StructureInfo;
 
 public class BaseContext<T extends MLObject> extends Context<T> {
 	
-	public BaseContext(SymbolGenerator<T> vocabulary) {
-		super(vocabulary);
+	public BaseContext(StructureInfo<T> contextStructure) {
+		super(contextStructure);
 	}
 
 	@Override
@@ -20,6 +19,12 @@ public class BaseContext<T extends MLObject> extends Context<T> {
 		Thread groupThread = new Thread(groupForInputStream);
 		groupThread.start();
 		return groupForInputStream;
+	}
+
+	@Override
+	protected Synapse<T> createGroup() {
+		// TODO Auto-generated method stub
+		return new BaseGroup<T>(vocabulary);
 	}
 
 }

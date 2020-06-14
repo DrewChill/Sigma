@@ -15,7 +15,7 @@ public class HDPContext<T extends MLObject> extends Context<T> {
 
 	@Override
 	public Synapse<T> createGroup(InputStream input) {
-		Synapse<T> groupForInputStream = new FeedbackSynapse<T>(vocabulary);
+		Synapse<T> groupForInputStream = new HDPSynapse<T>(vocabulary);
 		Thread groupThread = new Thread(groupForInputStream);
 		groupThread.start();
 		return groupForInputStream;
@@ -24,7 +24,7 @@ public class HDPContext<T extends MLObject> extends Context<T> {
 	@Override
 	protected Synapse<T> createGroup() {
 		// TODO Auto-generated method stub
-		return new FeedbackSynapse<T>(vocabulary);
+		return new HDPSynapse<T>(vocabulary);
 	}
 
 }
