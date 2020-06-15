@@ -1,14 +1,9 @@
 package ml.kit.structs.group;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.nio.ByteBuffer;
 import java.nio.channels.Pipe;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Random;
@@ -25,7 +20,7 @@ public abstract class Synapse<T extends MLObject> implements Runnable {
 
 	protected LocalEntropy<Symbol<T>> synapticEntropy;
 	protected SymbolGenerator<T> symbolGenerator;
-	protected Queue<ByteBuffer> bytesWaiting = new ConcurrentLinkedQueue<>();
+	protected Queue<T> bytesWaiting = new ConcurrentLinkedQueue<>();
 	protected Collection<T> items = new ArrayList<>();
 	private Random r = new Random();
 
@@ -34,7 +29,7 @@ public abstract class Synapse<T extends MLObject> implements Runnable {
 	public Synapse(SymbolGenerator<T> vocabulary) {
 		this.symbolGenerator = vocabulary;
 		this.synapticEntropy = vocabulary.registerSynapse(this);
-		new Thread(this).run();
+		new Thread(this).start();
 	}
 
 	public int vocabularySize() {
@@ -57,31 +52,17 @@ public abstract class Synapse<T extends MLObject> implements Runnable {
 		return synapticEntropy.getStationaryDistribution().keySet();
 	}
 
-	public void addData(ByteBuffer in) {
-		synchronized (bytesWaiting) {
-			bytesWaiting.add(in);
+	public void addData(T item) {
+		synchronized(bytesWaiting) {
+			bytesWaiting.add(item);
 			bytesWaiting.notify();
 		}
 	}
 
-	public void addData(T item) {
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		ObjectOutputStream oos;
-		try {
-			oos = new ObjectOutputStream(bos);
-			oos.writeObject(item);
-
-			oos.flush();
-
-			addData(ByteBuffer.wrap(bos.toByteArray()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public void addData(Collection<T> items) {
-		for (T item : items) {
-			addData(item);
+		synchronized(bytesWaiting) {
+			bytesWaiting.addAll(items);
+			bytesWaiting.notify();
 		}
 	}
 
@@ -96,23 +77,15 @@ public abstract class Synapse<T extends MLObject> implements Runnable {
 		return null;
 	}
 
-	public byte[] fire(double duration, double weight) {
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		ObjectOutputStream oos;
-		try {
-			oos = new ObjectOutputStream(bos);
-			double weightedSize = (double) synapticEntropy.size * weight;
-			int objsToSample = (int) (((weightedSize / duration)) * synapticEntropy.size);
-			for (int i = 0; i < objsToSample; i++) {
-				oos.writeObject(sample());
-			}
-			oos.flush();
-
-			return bos.toByteArray();
-		} catch (IOException e) {
-			e.printStackTrace();
+	public Collection<Symbol<T>> fire(double duration, double weight) {
+		List<Symbol<T>> ret = new ArrayList<>();
+		double weightedSize = (double) synapticEntropy.size * weight;
+		int objsToSample = (int) (((weightedSize / duration)) * synapticEntropy.size);
+		for (int i = 0; i < objsToSample; i++) {
+			ret.add(sample());
 		}
-		return new byte[0];
+
+		return ret;
 	}
 
 	public abstract ProbabilisticSymbol<T> fuseSymbol(T item, int populationSize, double totalAssignmentLikelihood,
@@ -123,29 +96,23 @@ public abstract class Synapse<T extends MLObject> implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-			try {
-				ByteBuffer encoded = null;
-				synchronized (bytesWaiting) {
-					if (bytesWaiting.isEmpty()) {
-						try {
-							bytesWaiting.wait();
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
+			T data = null;
+			synchronized (bytesWaiting) {
+				if (bytesWaiting.isEmpty()) {
+					try {
+						//System.out.println("waiting for data...");
+						bytesWaiting.wait();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
 					}
-					encoded = bytesWaiting.poll();
 				}
-				ByteArrayInputStream bis = new ByteArrayInputStream(encoded.array());
-				ObjectInputStream oois = new ObjectInputStream(bis);
-				T data = null;
-				while ((data = (T) oois.readObject()) != null) {
-					data.registerSynapseToSymbolGeneratorID(this, symbolGenerator.id);
-					symbolGenerator.queueMLObject(data);
-					items.add(data);
-				}
-			} catch (IOException | ClassNotFoundException e) {
-				e.printStackTrace();
+				//System.out.println("decoding data...");
+				data = bytesWaiting.poll();
 			}
+			data.registerSynapseToSymbolGeneratorID(this, symbolGenerator.id);
+			//System.out.println("queueing data...");
+			symbolGenerator.queueMLObject(data);
+			items.add(data);
 		}
 	}
 

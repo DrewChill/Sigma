@@ -11,7 +11,7 @@ public class LocalEntropy<T> {
 	private Map<T, Integer> countForObject = new HashMap<>();
 	public volatile int size = 0;
 	
-	private Map<T, Double> compressionCache = null;
+	private Map<T, Double> compressionCache = new HashMap<>();
 	private volatile double entropyCache = 0;
 	private volatile boolean dirtyFlag = true;
 	private double cost_max = 0.0;
@@ -37,10 +37,10 @@ public class LocalEntropy<T> {
 			count = countForObject.get(addedObject);
 			if(count == null) {
 				count = 0;
-				countForObject.put(addedObject, count);
 			}
-			count--;
+			count++;
 			size++;
+			countForObject.put(addedObject, count);
 		}
 		return count.doubleValue();
 	}
@@ -50,27 +50,33 @@ public class LocalEntropy<T> {
 		synchronized(countForObject) {
 			dirtyFlag = true;
 			count = countForObject.get(decayedObject);
-			if(count == null) {
-				count = 0;
-				countForObject.put(decayedObject, count);
+			if(count != null) {
+				count--;
+				size--;
+				if(count <= 0) {
+					countForObject.remove(decayedObject);
+				}else {
+					countForObject.put(decayedObject, count);
+				}
+				return count.doubleValue();
 			}
-			count--;
-			size--;
 		}
-		return count.doubleValue();
+		return 0.0;
 	}
 	
 	public Map<T, ByteBuffer> getCompressedInformation(){
 		Map<T, ByteBuffer> compressionMapping = new HashMap<>();
 		synchronized(countForObject) {
-			if(!dirtyFlag) {
+			if(dirtyFlag) {
 				double avgLength = 0.0;
 				for(T obj : countForObject.keySet()) {
 					double count = (double)countForObject.get(obj);
 					double p = count / (double)size;
 					double length = log2(p);
 					compressionCache.put(obj, length);
-					
+					if(length < 1.0) {
+						length = 1.0;
+					}
 					compressionMapping.put(obj, ByteBuffer.allocate((int)Math.ceil(length)));
 					avgLength += p*log2(p);
 				}
@@ -101,12 +107,10 @@ public class LocalEntropy<T> {
 	
 	public Map<T, Double> getStationaryDistribution() {
 		Map<T, Double> objects = new HashMap<>();
-		objects.putAll(compressionCache);
-		double total = 0.0;
-		for(T obj : objects.keySet()) {
-			double logLikelihood = objects.get(obj);
-			total += Math.pow(logLikelihood, 2.0);
-			objects.put(obj, total);
+		for(T obj : countForObject.keySet()) {
+			double count = (double)countForObject.get(obj);
+			double p = count / (double)size;
+			objects.put(obj, p);
 		}
 		return objects;
 	}

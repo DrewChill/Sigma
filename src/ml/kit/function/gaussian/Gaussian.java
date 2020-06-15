@@ -10,18 +10,18 @@ public abstract class Gaussian extends DensityFunction<DoubleType> {
 	protected double mean = Double.MIN_VALUE;
 	protected double stdDev = Double.MIN_VALUE;
 	
-	private double meanMin = Double.MIN_VALUE;
-	private double stdDevMin = Double.MIN_VALUE;
+	protected double meanMin = Double.MIN_VALUE;
+	protected double stdDevMin = Double.MIN_VALUE;
 	
-	private double meanMax = Double.MAX_VALUE;
-	private double stdDevMax = Double.MAX_VALUE;
+	protected double meanMax = Double.MAX_VALUE;
+	protected double stdDevMax = Double.MAX_VALUE;
 	
-	private final boolean isFixed;
+	protected final boolean isFixed;
 	
 	public Gaussian(double mean, double stdDev) {
 		isFixed = true;
-		this.mean = mean;
 		this.stdDev = stdDev;
+		this.mean = mean;
 	}
 	
 	public Gaussian(double meanMin, double meanMax, double stdDevMin, double stdDevMax) {
@@ -34,17 +34,17 @@ public abstract class Gaussian extends DensityFunction<DoubleType> {
 	
 	@Override
 	public void update(Map<DoubleType, Integer> dataMembers) {
+		double sum = 0.0;
+		double nPoints = 0.0;
+		for(Map.Entry<DoubleType, Integer> point : dataMembers.entrySet()) {
+			nPoints += point.getValue();
+			sum += point.getValue() * point.getKey().value;
+		}
+		mean = sum/nPoints;
+		mean = mean < meanMin ? meanMin : mean;
+		mean = mean > meanMax ? meanMax : mean;
+		
 		if(!isFixed) {
-			double sum = 0.0;
-			double nPoints = 0.0;
-			for(Map.Entry<DoubleType, Integer> point : dataMembers.entrySet()) {
-				nPoints += point.getValue();
-				sum += point.getValue() * point.getKey().value;
-			}
-			mean = sum/nPoints;
-			mean = mean < meanMin ? meanMin : mean;
-			mean = mean > meanMax ? meanMax : mean;
-			
 			double sdSum = 0.0;
 			for(Map.Entry<DoubleType, Integer> point : dataMembers.entrySet()) {
 				sdSum += point.getValue() * Math.pow(mean - point.getKey().value, 2);

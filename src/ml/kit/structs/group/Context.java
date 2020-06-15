@@ -12,11 +12,12 @@ import ml.kit.symbol.structure.StructureInfo;
 
 public abstract class Context<T extends MLObject> {
 	
-	protected SymbolGenerator<T> vocabulary;
+	public SymbolGenerator<T> vocabulary;
 	private Collection<Synapse<T>> inputs = new ArrayList<>();
 
 	public Context(StructureInfo<T> contextStructure) {
 		this.vocabulary = new SymbolGenerator<T>(contextStructure);
+		this.vocabulary.setContext(this);
 	}
 	
 	protected abstract Synapse<T> createGroup(InputStream input);

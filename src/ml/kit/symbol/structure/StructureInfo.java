@@ -103,18 +103,25 @@ public class StructureInfo<T extends MLObject> {
 
 	@SuppressWarnings("unchecked")
 	public Symbol<T> createNewSymbol() {
+		Symbol<T> ret = null;
 		switch (modelType) {
 		case DP:
-			return new DPSymbol<T>(structureEntropy.spawnSymbolicEntropy(), baseDistribution);
+			ret = new DPSymbol<T>(structureEntropy.spawnSymbolicEntropy(), baseDistribution);
+			break;
 		case HDP:
-			return new HDPSymbol<T>(structureEntropy.spawnSymbolicEntropy(), baseDistribution);
+			ret = new HDPSymbol<T>(structureEntropy.spawnSymbolicEntropy(), baseDistribution);
+			break;
 		case CUSTOM:
 		case NP_PAM:
 		case nDP:
 		case nHDP:
 		default:
-			return null;
+			ret = null;
 		}
+		
+		baseDistribution = baseDistribution.initNext();
+		
+		return ret;
 	}
 
 	public LocalEntropy<Symbol<T>> createUpstreamConnection(Synapse<T> synapse) {

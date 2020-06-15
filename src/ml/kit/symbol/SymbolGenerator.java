@@ -1,8 +1,10 @@
 package ml.kit.symbol;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,7 +16,7 @@ import ml.kit.symbol.structure.StructureInfo;
 
 public class SymbolGenerator<T extends MLObject> {
 
-	private Map<byte[], Symbol<T>> clusterForIndicator = new HashMap<>();
+	private List<Symbol<T>> allClusters = new ArrayList<>();
 	private SymbolGenerator<T> inferredVocabulary = null;
 	private Set<T> processQueue = new HashSet<>();
 	private StructureInfo<T> model;
@@ -44,6 +46,7 @@ public class SymbolGenerator<T extends MLObject> {
 	}
 
 	public Set<Symbol<T>> generate() {
+		System.out.println("processing...");
 		Set<Symbol<T>> symbols = new HashSet<>();
 		Set<T> queueCopy = new HashSet<T>();
 		synchronized (processQueue) {
@@ -58,45 +61,49 @@ public class SymbolGenerator<T extends MLObject> {
 			contributor.reuptake(symbol);
 			symbol.addContributor(contributor);
 
-			synchronized (clusterForIndicator) {
-				if (!clusterForIndicator.containsKey(symbol.clusterIndicator))
-					clusterForIndicator.put(symbol.clusterIndicator, symbol);
+			synchronized (allClusters) {
+				if (!allClusters.contains(symbol))
+					allClusters.add(symbol);
 			}
 		}
-
+		System.out.println("done...");
 		return symbols;
 	}
 	
 	public Collection<Symbol<T>> postProcess(int iterations) {
 		for(int i=0; i<iterations; i++) {
 			T removed = model.getStructure().decay(totalObservationCount, currentContext.getContextSize());
-			model.getStructure().stimulate(removed, totalObservationCount - 1, currentContext.getContextSize());
+			if(removed != null) {
+				Symbol<T> symbol = model.getStructure().stimulate(removed, totalObservationCount - 1, currentContext.getContextSize());
+				synchronized (allClusters) {
+					if (!allClusters.contains(symbol))
+						allClusters.add(symbol);
+				}
+			}
 		}
-		return clusterForIndicator.values();
+		return model.getStructure().allClusters;
+	}
+	
+	public Symbol<T> sample(T data){
+		return model.getStructure().stimulate(data, totalObservationCount, currentContext.getContextSize());
 	}
 
 	public int totalItemsContributed() {
 		int count = 0;
-		for (Symbol<T> cluster : clusterForIndicator.values()) {
+		for (Symbol<T> cluster : allClusters) {
 			count += cluster.clusterSize();
 		}
 		return count;
 	}
 
 	public Collection<Symbol<T>> allClusters() {
-		synchronized (clusterForIndicator) {
-			return clusterForIndicator.values();
+		synchronized (allClusters) {
+			return allClusters;
 		}
 	}
 
 	public Symbol<T> decodeBytes(byte[] encoded) {
-		synchronized (clusterForIndicator) {
-			if (clusterForIndicator.containsKey(encoded)) {
-				return clusterForIndicator.get(encoded);
-			} else {
-				return null;
-			}
-		}
+		return null;
 	}
 
 	public SymbolGenerator<T> getNestedVocabulary() {

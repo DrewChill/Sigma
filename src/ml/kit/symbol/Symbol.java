@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -18,9 +19,9 @@ import ml.kit.symbol.entropy.LocalEntropy;
 
 public abstract class Symbol<T extends MLObject> extends MLObject{
 	
-	protected LocalEntropy<T> localEntropy;
+	public LocalEntropy<T> localEntropy;
 	public byte[] clusterIndicator = null;
-	private Random r = new Random();
+	private static Random r = new Random(System.currentTimeMillis());
 	protected DensityFunction<T> fk;
 	protected Set<Synapse<T>> contributors = new HashSet<>();
 	
@@ -42,9 +43,18 @@ public abstract class Symbol<T extends MLObject> extends MLObject{
 	public T sampleItemFromCluster(){
 		Map<T, Double> stationaryDistribution = localEntropy.getStationaryDistribution();
 		double sample = r.nextDouble();
-		for(T obj : stationaryDistribution.keySet()) {
-			if(stationaryDistribution.get(obj) > sample) {
-				return obj;
+		double p[] = new double[stationaryDistribution.size()];
+		double pTotal = 0.0;
+		List<T> objs = new ArrayList<>();
+		objs.addAll(stationaryDistribution.keySet());
+		for(int i=0; i<stationaryDistribution.size(); i++) {
+			pTotal += stationaryDistribution.get(objs.get(i));
+			p[i] = pTotal;
+		}
+		
+		for(int i=0; i<stationaryDistribution.size(); i++) {
+			if(sample < p[i]) {
+				return objs.get(i);
 			}
 		}
 		return null;
@@ -73,6 +83,10 @@ public abstract class Symbol<T extends MLObject> extends MLObject{
 	
 	public void addContributor(Synapse<?> synapse) {
 		contributors.add((Synapse<T>) synapse);
+	}
+	
+	public String toString() {
+		return "size:"+this.clusterSize();
 	}
 	
 	public abstract double calcAssignmentLikelihood(T item, double vSize, int dimension);
