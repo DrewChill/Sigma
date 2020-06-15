@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class LocalEntropy<T> {
 	
-	private Map<T, Integer> countForObject= new HashMap<>();
+	private Map<T, Integer> countForObject = new HashMap<>();
 	public volatile int size = 0;
 	
 	private Map<T, Double> compressionCache = null;
@@ -18,6 +18,10 @@ public class LocalEntropy<T> {
 	
 	protected LocalEntropy() {
 		
+	}
+	
+	public Map<T, Integer> getObjsAndCount(){
+		return countForObject;
 	}
 	
 	public Integer observationCount(T obj) {

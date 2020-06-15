@@ -12,7 +12,7 @@ public class StableSymbol<T extends MLObject> extends Symbol<T>{
 	Map<T, Integer> wordCount = new HashMap<>();
 	
 	public StableSymbol(LocalEntropy<T> localEntropy) {
-		super(localEntropy);
+		super(localEntropy, null);
 	}
 
 	@Override

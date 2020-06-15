@@ -28,8 +28,17 @@ public class DPSymbolStructure<T extends MLObject> extends SymbolStructure<T> {
 	}
 
 	@Override
-	public Symbol<T> inhibit(T item, double vSize, int capacity) {
-		return sample(item, vSize, capacity, 1.0);
+	public T inhibit(double vSize, int capacity) {
+		return sampleAndRemove(vSize, capacity, -1.0);
+	}
+	
+	public T sampleAndRemove(double vSize, int capacity, double weightModifier) {
+		int clusterIndex = (int)Math.floor(r.nextDouble() * clusterMap.size());
+		Symbol<T> symbol = (Symbol<T>)clusterMap.values().toArray()[clusterIndex];
+		T ret = symbol.sampleItemFromCluster();
+		symbol.updateWeight(ret, weightModifier);
+		
+		return ret;
 	}
 
 	public Symbol<T> sample(T item, double vSize, int capacity, double weightModifier) {
@@ -59,7 +68,7 @@ public class DPSymbolStructure<T extends MLObject> extends SymbolStructure<T> {
 			p[index] = pSum;
 			index++;
 		}
-		pSum += gamma / vSize;
+		pSum += gamma / (vSize - 1 + gamma);
 		p[p.length - 1] = pSum;
 		// --------------------------
 
@@ -68,7 +77,11 @@ public class DPSymbolStructure<T extends MLObject> extends SymbolStructure<T> {
 		double clusterSelector = r.nextDouble() * pSum;
 		for (int i = 0; i < p.length - 1; i++) {
 			if (clusterSelector < p[i]) {
-				ret = clusters.get(i);
+				if(i == p.length - 1) {
+					ret = createNewSymbol();
+				}else {
+					ret = clusters.get(i);
+				}
 			}
 
 		}
@@ -82,6 +95,7 @@ public class DPSymbolStructure<T extends MLObject> extends SymbolStructure<T> {
 		Map<Symbol<T>, Double> likelihoodForSymbol = new HashMap<>();
 		for (Symbol<T> cluster : clusterMap.values()) {
 			double likelihood = cluster.calcAssignmentLikelihood(item, vSize, capacity);
+			likelihood = likelihood * (cluster.clusterSize() / (vSize - 1 + gamma));
 			likelihoodForSymbol.put(cluster, likelihood);
 		}
 		

@@ -3,6 +3,7 @@ package ml.kit.symbol.structure;
 import java.util.HashMap;
 import java.util.Map;
 
+import ml.kit.function.DensityFunction;
 import ml.kit.structs.asm.MLObject;
 import ml.kit.structs.group.Context;
 import ml.kit.structs.group.Synapse;
@@ -44,36 +45,38 @@ public class StructureInfo<T extends MLObject> {
 	public enum InferenceLocality {
 		GLOBAL, LOCAL
 	}
-	
-	//---------------
-	
+
+	// ---------------
+
 	InferenceStructure modelType;
 	InferenceFlow flow;
 	InferenceLocality locality;
-	
+
 	Map<String, StructureParameter<?>> parameters = new HashMap<>();
-	
+
 	protected StructureEntropy<T, Symbol<T>> structureEntropy = new StructureEntropy<>();
 	private SymbolStructure<T> model;
 	private Context<Symbol<T>> next = null;
+	private DensityFunction<T> baseDistribution;
 
 	@SuppressWarnings("unchecked")
 	public StructureInfo(InferenceStructure modelType, InferenceFlow flow, InferenceLocality locality,
-			StructureParameter<?>... parameters) {
-		for(StructureParameter<?> parameter : parameters) {
+			DensityFunction<T> baseDistribution, StructureParameter<?>... parameters) {
+		for (StructureParameter<?> parameter : parameters) {
 			this.parameters.put(parameter.getName(), parameter);
 		}
 		this.modelType = modelType;
 		this.flow = flow;
 		this.locality = locality;
-		
-		switch(modelType) {
+		this.baseDistribution = baseDistribution;
+
+		switch (modelType) {
 		case DP:
-			StructureParameter<Double> dpGamma = (StructureParameter<Double>)this.parameters.get("gamma");
+			StructureParameter<Double> dpGamma = (StructureParameter<Double>) this.parameters.get("gamma");
 			this.model = new DPSymbolStructure<T>(this, dpGamma.getValue());
 			break;
 		case HDP:
-			StructureParameter<Double> hdpGamma = (StructureParameter<Double>)this.parameters.get("gamma");
+			StructureParameter<Double> hdpGamma = (StructureParameter<Double>) this.parameters.get("gamma");
 			this.model = new HDPSymbolStructure<T>(this, hdpGamma.getValue());
 			break;
 		case CUSTOM:
@@ -84,29 +87,27 @@ public class StructureInfo<T extends MLObject> {
 			break;
 		}
 	}
-	
-	public SymbolStructure<T> getStructure(){
+
+	public SymbolStructure<T> getStructure() {
 		return model;
 	}
-	
+
 	public void addNext(StructureInfo<T> next) {
-		
+
 	}
-	
-	//TODO: throw exception for null
-	public StructureParameter<?> getParameterValue(String name){
+
+	// TODO: throw exception for null
+	public StructureParameter<?> getParameterValue(String name) {
 		return parameters.get(name);
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public Symbol<T> createNewSymbol(){
-		switch(modelType) {
+	public Symbol<T> createNewSymbol() {
+		switch (modelType) {
 		case DP:
-			StructureParameter<Double> dpBeta = (StructureParameter<Double>)parameters.get("beta");
-			return new DPSymbol<T>(structureEntropy.spawnSymbolicEntropy(), dpBeta.getValue());
+			return new DPSymbol<T>(structureEntropy.spawnSymbolicEntropy(), baseDistribution);
 		case HDP:
-			StructureParameter<Double> hdpBeta = (StructureParameter<Double>)parameters.get("beta");
-			return new HDPSymbol<T>(structureEntropy.spawnSymbolicEntropy(), hdpBeta.getValue());
+			return new HDPSymbol<T>(structureEntropy.spawnSymbolicEntropy(), baseDistribution);
 		case CUSTOM:
 		case NP_PAM:
 		case nDP:
@@ -115,12 +116,12 @@ public class StructureInfo<T extends MLObject> {
 			return null;
 		}
 	}
-	
-	public LocalEntropy<Symbol<T>> createUpstreamConnection(Synapse<T> synapse){
+
+	public LocalEntropy<Symbol<T>> createUpstreamConnection(Synapse<T> synapse) {
 		return structureEntropy.spawnSynapticEntropy(synapse);
 	}
-	
-	public Context<Symbol<T>> getNextContext(){
+
+	public Context<Symbol<T>> getNextContext() {
 		return next;
 	}
 

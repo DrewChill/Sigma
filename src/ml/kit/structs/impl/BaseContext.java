@@ -23,7 +23,6 @@ public class BaseContext<T extends MLObject> extends Context<T> {
 
 	@Override
 	protected Synapse<T> createGroup() {
-		// TODO Auto-generated method stub
 		return new BaseGroup<T>(vocabulary);
 	}
 

@@ -54,7 +54,9 @@ public class SymbolGenerator<T extends MLObject> {
 		for (T item : queueCopy) {
 			Symbol<T> symbol = model.getStructure().stimulate(item, totalObservationCount, currentContext.getContextSize());
 			symbols.add(symbol);
-			item.getSynapseForStructureId(id).reuptake(symbol);
+			Synapse<? extends MLObject> contributor = item.getSynapseForStructureId(id);
+			contributor.reuptake(symbol);
+			symbol.addContributor(contributor);
 
 			synchronized (clusterForIndicator) {
 				if (!clusterForIndicator.containsKey(symbol.clusterIndicator))
@@ -63,6 +65,14 @@ public class SymbolGenerator<T extends MLObject> {
 		}
 
 		return symbols;
+	}
+	
+	public Collection<Symbol<T>> postProcess(int iterations) {
+		for(int i=0; i<iterations; i++) {
+			T removed = model.getStructure().decay(totalObservationCount, currentContext.getContextSize());
+			model.getStructure().stimulate(removed, totalObservationCount - 1, currentContext.getContextSize());
+		}
+		return clusterForIndicator.values();
 	}
 
 	public int totalItemsContributed() {

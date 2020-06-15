@@ -28,14 +28,14 @@ public abstract class SymbolStructure<T extends MLObject> {
 		return excite(item, vSize, capacity);
 	}
 	
-	public Symbol<T> decay(T item, double vSize, int capacity){
+	public T decay(double vSize, int capacity){
 		size--;
-		return inhibit(item, vSize, capacity);
+		return inhibit(vSize, capacity);
 	}
 	
 	protected abstract Symbol<T> excite(T item, double vSize, int capacity);
 	
-	protected abstract Symbol<T> inhibit(T item, double vSize, int capacity);
+	protected abstract T inhibit(double vSize, int capacity);
 	
 	public ByteBuffer generateSymbolStream(double weight) {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();

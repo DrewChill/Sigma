@@ -25,15 +25,16 @@ public abstract class Synapse<T extends MLObject> implements Runnable {
 
 	protected LocalEntropy<Symbol<T>> synapticEntropy;
 	protected SymbolGenerator<T> symbolGenerator;
-	protected Queue<Integer> bytesWaiting = new ConcurrentLinkedQueue<>();
+	protected Queue<ByteBuffer> bytesWaiting = new ConcurrentLinkedQueue<>();
 	protected Collection<T> items = new ArrayList<>();
 	private Random r = new Random();
-	
-	protected Pipe recvStream; //TODO
+
+	protected Pipe recvStream; // TODO
 
 	public Synapse(SymbolGenerator<T> vocabulary) {
 		this.symbolGenerator = vocabulary;
 		this.synapticEntropy = vocabulary.registerSynapse(this);
+		new Thread(this).run();
 	}
 
 	public int vocabularySize() {
@@ -57,64 +58,87 @@ public abstract class Synapse<T extends MLObject> implements Runnable {
 	}
 
 	public void addData(ByteBuffer in) {
+		synchronized (bytesWaiting) {
+			bytesWaiting.add(in);
+			bytesWaiting.notify();
+		}
+	}
+
+	public void addData(T item) {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ObjectOutputStream oos;
 		try {
-			synchronized (bytesWaiting) {
-				bytesWaiting.add(in.capacity());
-				recvStream.sink().write(in);
-			}
+			oos = new ObjectOutputStream(bos);
+			oos.writeObject(item);
+
+			oos.flush();
+
+			addData(ByteBuffer.wrap(bos.toByteArray()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	private Symbol<T> sample(){
+
+	public void addData(Collection<T> items) {
+		for (T item : items) {
+			addData(item);
+		}
+	}
+
+	private Symbol<T> sample() {
 		Map<Symbol<T>, Double> stationaryDistribution = synapticEntropy.getStationaryDistribution();
 		double sample = r.nextDouble();
-		for(Symbol<T> obj : stationaryDistribution.keySet()) {
-			if(stationaryDistribution.get(obj) > sample) {
+		for (Symbol<T> obj : stationaryDistribution.keySet()) {
+			if (stationaryDistribution.get(obj) > sample) {
 				return obj;
 			}
 		}
 		return null;
 	}
-	
+
 	public byte[] fire(double duration, double weight) {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		ObjectOutputStream oos;
 		try {
 			oos = new ObjectOutputStream(bos);
-			double weightedSize = (double)synapticEntropy.size * weight;
-			int objsToSample = (int)(((weightedSize/duration)) * synapticEntropy.size);
-			for(int i=0; i<objsToSample; i++) {
+			double weightedSize = (double) synapticEntropy.size * weight;
+			int objsToSample = (int) (((weightedSize / duration)) * synapticEntropy.size);
+			for (int i = 0; i < objsToSample; i++) {
 				oos.writeObject(sample());
 			}
 			oos.flush();
-			
+
 			return bos.toByteArray();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return new byte[0];
 	}
-	
+
 	public abstract ProbabilisticSymbol<T> fuseSymbol(T item, int populationSize, double totalAssignmentLikelihood,
 			Map<Symbol<T>, Double> likelihoodForSymbol, StructureInfo<T> behavior);
-	
-	//------------------
-	
+
+	// ------------------
+
 	@Override
 	public void run() {
 		while (true) {
 			try {
 				ByteBuffer encoded = null;
 				synchronized (bytesWaiting) {
-					encoded = ByteBuffer.allocate(bytesWaiting.poll());
-					recvStream.source().read(encoded);
+					if (bytesWaiting.isEmpty()) {
+						try {
+							bytesWaiting.wait();
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+					encoded = bytesWaiting.poll();
 				}
 				ByteArrayInputStream bis = new ByteArrayInputStream(encoded.array());
 				ObjectInputStream oois = new ObjectInputStream(bis);
 				T data = null;
-				while((data = (T)oois.readObject()) != null) {
+				while ((data = (T) oois.readObject()) != null) {
 					data.registerSynapseToSymbolGeneratorID(this, symbolGenerator.id);
 					symbolGenerator.queueMLObject(data);
 					items.add(data);

@@ -1,25 +1,20 @@
 package ml.kit.symbol.structure.nonparametric;
 
+import ml.kit.function.DensityFunction;
 import ml.kit.structs.asm.MLObject;
 import ml.kit.symbol.Symbol;
 import ml.kit.symbol.entropy.LocalEntropy;
 
 public class DPSymbol<T extends MLObject> extends Symbol<T>{
 
-	private double beta = 0.5;
 	
-	public DPSymbol(LocalEntropy<T> localEntropy, double beta) {
-		super(localEntropy);
-		this.beta = beta;
+	public DPSymbol(LocalEntropy<T> localEntropy, DensityFunction<T> fk) {
+		super(localEntropy, fk);
 	}
 
 	@Override
 	public double calcAssignmentLikelihood(T item, double vSize, int dimension) {
-		double vb = vSize * beta;
-		
-		double fk =  (localEntropy.observationCount(item) + beta) / 
-		             (((double)clusterSize()) + vb);
-		return       fk;
+		return  fk.calculate(item);
 	}
 
 }

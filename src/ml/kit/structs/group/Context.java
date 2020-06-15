@@ -38,7 +38,11 @@ public abstract class Context<T extends MLObject> {
 		return inputs.size();
 	}
 	
-	public Set<Symbol<T>> generateSignals() {
+	public Collection<Symbol<T>> digestInformation(int iterations){
+		return vocabulary.postProcess(iterations);
+	}
+	
+	public Set<Symbol<T>> processQueue() {
 		return vocabulary.generate();
 	}
 	
