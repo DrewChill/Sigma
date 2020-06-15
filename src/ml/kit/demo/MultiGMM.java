@@ -44,15 +44,22 @@ public class MultiGMM {
 		g1.addNested(g2);
 		GaussianGenerator g3 = new GaussianGenerator("3", range * r.nextDouble(), 3.0);
 		g1.addNested(g3);
+		GaussianGenerator g9 = new GaussianGenerator("3", range * r.nextDouble(), 3.0);
+		g1.addNested(g9);
 
 		GaussianGenerator g4 = new GaussianGenerator("4", range * r.nextDouble(), 5.0);
 		GaussianGenerator g5 = new GaussianGenerator("5", range * r.nextDouble(), 3.0);
 		GaussianGenerator g6 = new GaussianGenerator("6", range * r.nextDouble(), 3.0);
 		g4.addNested(g5);
 		g4.addNested(g6);
+		
+		GaussianGenerator g7 = new GaussianGenerator("7", range * r.nextDouble(), 5.0);
+		GaussianGenerator g8 = new GaussianGenerator("8", range * r.nextDouble(), 3.0);
+		g7.addNested(g8);
 
 		mono.addData(g1.generateValues(600));
 		mono.addData(g4.generateValues(300));
+		mono.addData(g7.generateValues(400));
 
 		try {
 			Thread.sleep(2000);
@@ -198,6 +205,7 @@ public class MultiGMM {
 		System.out.println("\n\n");
 		g1.print(0);
 		g4.print(0);
+		g7.print(0);
 	}
 
 }
