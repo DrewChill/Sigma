@@ -10,7 +10,7 @@ import ml.kit.types.DoubleType;
 
 public class DoubleTie extends DensityFunction<Symbol<DoubleType>>{
 	
-	Map<Symbol<DoubleType>, Double> joint = new HashMap<>();
+	public Map<Symbol<DoubleType>, Double> joint = new HashMap<>();
 	Map<Symbol<DoubleType>, Integer> pCount = new HashMap<>();
 	public static SymbolGenerator<DoubleType> pGen = null;
 

@@ -47,5 +47,27 @@ public class GaussianGenerator {
 	public void addNested(GaussianGenerator g2) {
 		nested.add(g2);
 	}
+	
+	public void print(int tabs) {
+		for(int i=0;i<tabs;i++) {
+			System.out.print(" ");
+		}
+		System.out.println("Generator #"+name+":");
+		for(int i=0;i<tabs;i++) {
+			System.out.print(" ");
+		}
+		System.out.println("     Top level mean:");
+		System.out.println("                     "+mean);
+		if(!nested.isEmpty()) {
+			for(int i=0;i<tabs;i++) {
+				System.out.print(" ");
+			}
+			System.out.println("     Second level mean:");
+			for(GaussianGenerator nest : nested) {
+				nest.print(tabs + 10);
+			}
+		}
+		
+	}
 
 }

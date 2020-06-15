@@ -22,7 +22,7 @@ public abstract class Symbol<T extends MLObject> extends MLObject{
 	public LocalEntropy<T> localEntropy;
 	public byte[] clusterIndicator = null;
 	private static Random r = new Random(System.currentTimeMillis());
-	protected DensityFunction<T> fk;
+	public DensityFunction<T> fk;
 	protected Set<Synapse<T>> contributors = new HashSet<>();
 	
 	public Symbol(LocalEntropy<T> localEntropy, DensityFunction<T> fk) {

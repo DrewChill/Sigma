@@ -148,7 +148,8 @@ public class MultiGMM {
 		Context<Symbol<DoubleType>> gmm3 = new DPContext<Symbol<DoubleType>>(mixtureModel3);
 		Synapse<Symbol<DoubleType>> mono3 = gmm3.addInputStream();
 		for (Symbol<DoubleType> symbol : symbols4) {
-			mono3.addData(symbol);
+			if(symbol.clusterSize() > 1)
+				mono3.addData(symbol);
 		}
 
 		try {
@@ -177,6 +178,26 @@ public class MultiGMM {
 		}
 
 		System.out.println("total6: " + total6);
+		int k=1;
+		for(Symbol<Symbol<DoubleType>> symbol : symbols6) {
+			System.out.println("Generator #"+k+":");
+			System.out.println("     Top level mean probabilities:");
+			DoubleTie dt = (DoubleTie)symbol.fk;
+			for(Symbol<DoubleType> p : dt.joint.keySet()) {
+				Double prob = dt.joint.get(p);
+				double mean = ((GaussianDensity)p.fk).mean;
+				System.out.println("                     "+mean+" -> "+prob);
+			}
+			System.out.println("     Second level mean probabilities:");
+			for(Map.Entry<Symbol<DoubleType>, Double> entry : symbol.localEntropy.getStationaryDistribution().entrySet()) {
+				double mean = ((GaussianDensity)entry.getKey().fk).mean;
+				System.out.println("                     "+mean+" -> "+entry.getValue());
+			}
+			k++;
+		}
+		System.out.println("\n\n");
+		g1.print(0);
+		g4.print(0);
 	}
 
 }

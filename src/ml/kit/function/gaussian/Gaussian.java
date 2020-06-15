@@ -7,7 +7,7 @@ import ml.kit.types.DoubleType;
 
 public abstract class Gaussian extends DensityFunction<DoubleType> {
 	
-	protected double mean = Double.MIN_VALUE;
+	public double mean = Double.MIN_VALUE;
 	protected double stdDev = Double.MIN_VALUE;
 	
 	protected double meanMin = Double.MIN_VALUE;
