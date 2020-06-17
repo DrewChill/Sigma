@@ -8,7 +8,7 @@ import ml.kit.types.DoubleType;
 public abstract class Gaussian extends DensityFunction<DoubleType> {
 	
 	public double mean = Double.MIN_VALUE;
-	protected double stdDev = Double.MIN_VALUE;
+	public double stdDev = Double.MIN_VALUE;
 	
 	protected double meanMin = Double.MIN_VALUE;
 	protected double stdDevMin = Double.MIN_VALUE;
@@ -52,7 +52,7 @@ public abstract class Gaussian extends DensityFunction<DoubleType> {
 			double sdMean = sdSum/nPoints;
 			stdDev = Math.sqrt(sdMean);
 			stdDev = stdDev < stdDevMin ? stdDevMin : stdDev;
-			stdDev = stdDev < stdDevMax ? stdDevMax : stdDev;
+			stdDev = stdDev > stdDevMax ? stdDevMax : stdDev;
 		}
 	}
 

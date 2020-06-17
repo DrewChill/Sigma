@@ -56,13 +56,16 @@ public class GaussianGenerator {
 		for(int i=0;i<tabs;i++) {
 			System.out.print(" ");
 		}
-		System.out.println("     Top level mean:");
-		System.out.println("                     "+mean);
+		System.out.println("     Top level stdDev/mean:");
+		for(int i=0;i<tabs;i++) {
+			System.out.print(" ");
+		}
+		System.out.println("                     (s:"+stdDev+")->("+mean+")");
 		if(!nested.isEmpty()) {
 			for(int i=0;i<tabs;i++) {
 				System.out.print(" ");
 			}
-			System.out.println("     Second level mean:");
+			System.out.println("     Second level stdDev/mean:");
 			for(GaussianGenerator nest : nested) {
 				nest.print(tabs + 10);
 			}

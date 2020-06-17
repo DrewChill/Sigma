@@ -3,6 +3,7 @@ package ml.kit.structs.group;
 import java.nio.channels.Pipe;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -40,8 +41,8 @@ public abstract class Synapse<T extends MLObject> implements Runnable {
 		synapticEntropy.addObservation((Symbol<T>) signaler);
 	}
 
-	public void degenerate(Symbol<T> signaler) {
-		synapticEntropy.decayObservation(signaler);
+	public void degenerate(Symbol<?> signaler) {
+		synapticEntropy.decayObservation((Symbol<T>) signaler);
 	}
 
 	public int getConnectionDimension() {
@@ -76,6 +77,43 @@ public abstract class Synapse<T extends MLObject> implements Runnable {
 		}
 		return null;
 	}
+	
+//	public Symbol<T> sample(T data) {
+//		Map<Symbol<T>, Double> stationaryDistribution = synapticEntropy.getStationaryDistribution();
+//		List<Symbol<T>> clusters = new ArrayList<>();
+//		clusters.addAll(stationaryDistribution.keySet());
+//		
+//		Map<Symbol<T>, Double> likelihoodForSymbol = new HashMap<>();
+//		for (Symbol<T> cluster : stationaryDistribution.keySet()) {
+//			double likelihood = cluster.calcAssignmentLikelihood(data, 0, 0);
+//			likelihoodForSymbol.put(cluster, likelihood);
+//		}
+//		
+//		double pSum = 0.0;
+//		double[] p = new double[clusters.size()];
+//		int index = 0;
+//
+//		for (Symbol<T> cluster : clusters) {
+//			Double likelihood = likelihoodForSymbol.get(cluster);
+//			likelihood = likelihood == null ? 0.0 : likelihood;
+//			pSum += likelihood;
+//			p[index] = pSum;
+//			index++;
+//		}
+//		p[p.length - 1] = pSum;
+//		
+//		Symbol<T> ret = null;
+//		double clusterSelector = r.nextDouble() * pSum;
+//		for (int i = 0; i < p.length; i++) {
+//			System.out.print(p[i]+",");
+//			if (clusterSelector < p[i]) {
+//				ret = clusters.get(i);
+//				break;
+//			}
+//		}
+//		System.out.println(" ----> "+ret);
+//		return ret;
+//	}
 
 	public Collection<Symbol<T>> fire(double duration, double weight) {
 		List<Symbol<T>> ret = new ArrayList<>();
