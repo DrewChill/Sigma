@@ -1,11 +1,11 @@
-package ml.kit.symbol.structure;
+package ml.kit.observer;
 
-public class StructureParameter<T> {
+public class ObserverBasis<T> {
 	
 	T value;
 	String name;
 	
-	public StructureParameter(T value, String name) {
+	public ObserverBasis(T value, String name) {
 		this.value = value;
 		this.name = name;
 	}

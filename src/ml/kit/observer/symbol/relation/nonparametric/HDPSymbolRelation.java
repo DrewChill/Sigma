@@ -1,20 +1,20 @@
-package ml.kit.symbol.structure.nonparametric;
+package ml.kit.observer.symbol.relation.nonparametric;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import ml.kit.structs.asm.MLObject;
-import ml.kit.structs.group.Synapse;
-import ml.kit.symbol.ProbabilisticSymbol;
-import ml.kit.symbol.Symbol;
-import ml.kit.symbol.structure.StructureInfo;
+import ml.kit.structs.group.Intraface;
+import archive.ProbabilisticSymbol;
+import ml.kit.observer.symbol.Symbol;
+import ml.kit.observer.Observer;
 
-public class HDPSymbolStructure<T extends MLObject> extends DPSymbolStructure<T>{
+public class HDPSymbolRelation<T extends MLObject> extends DPSymbolRelation<T> {
 
 	Map<byte[], Symbol<T>> clusterMap = new HashMap<>();
 	private int id;
 	
-	public HDPSymbolStructure(StructureInfo<T> behavior, double gamma) {
+	public HDPSymbolRelation(Observer<T> behavior, double gamma) {
 		super(behavior, gamma);
 	}
 	
@@ -25,8 +25,8 @@ public class HDPSymbolStructure<T extends MLObject> extends DPSymbolStructure<T>
 		double totalAssignmentLikelihood = totalAssignmentLikelihood(likelihoodForSymbol, gamma, vSize);
 		//--------------------------
 		
-		Synapse<T> synapse = (Synapse<T>) item.getSynapseForStructureId(id);
-		ProbabilisticSymbol<T> sampledSymbol = synapse.fuseSymbol(item, capacity, totalAssignmentLikelihood, likelihoodForSymbol, behavior);
+		Intraface<T> intraface = (Intraface<T>) item.getSynapseForStructureId(id);
+		ProbabilisticSymbol<T> sampledSymbol = intraface.fuseSymbol(item, capacity, totalAssignmentLikelihood, likelihoodForSymbol, behavior);
 		Symbol<T> ret = sampledSymbol.symbol;
 		if(ret == null) {
 			ret = sampleForCluster(item, vSize, likelihoodForSymbol, gamma);

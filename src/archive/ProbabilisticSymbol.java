@@ -1,5 +1,6 @@
-package ml.kit.symbol;
+package archive;
 
+import ml.kit.observer.symbol.Symbol;
 import ml.kit.structs.asm.MLObject;
 
 public class ProbabilisticSymbol<T extends MLObject>{

@@ -6,31 +6,31 @@ import java.util.Collection;
 import java.util.Set;
 
 import ml.kit.structs.asm.MLObject;
-import ml.kit.symbol.Symbol;
-import ml.kit.symbol.SymbolGenerator;
-import ml.kit.symbol.structure.StructureInfo;
+import ml.kit.observer.symbol.Symbol;
+import ml.kit.observer.symbol.SymbolGenerator;
+import ml.kit.observer.Observer;
 
 public abstract class Context<T extends MLObject> {
 	
 	public SymbolGenerator<T> vocabulary;
-	private Collection<Synapse<T>> inputs = new ArrayList<>();
+	private Collection<Intraface<T>> inputs = new ArrayList<>();
 
-	public Context(StructureInfo<T> contextStructure) {
+	public Context(Observer<T> contextStructure) {
 		this.vocabulary = new SymbolGenerator<T>(contextStructure);
 		this.vocabulary.setContext(this);
 	}
 	
-	protected abstract Synapse<T> createGroup(InputStream input);
-	protected abstract Synapse<T> createGroup();
+	protected abstract Intraface<T> createGroup(InputStream input);
+	protected abstract Intraface<T> createGroup();
 	
-	public Synapse<T> addInputStream(InputStream input){
-		Synapse<T> syn = createGroup(input);
+	public Intraface<T> addInputStream(InputStream input){
+		Intraface<T> syn = createGroup(input);
 		inputs.add(syn);
 		return syn;
 	}
 	
-	public Synapse<T> addInputStream(){
-		Synapse<T> syn = createGroup();
+	public Intraface<T> addInputStream(){
+		Intraface<T> syn = createGroup();
 		inputs.add(syn);
 		return syn;
 	}

@@ -6,26 +6,26 @@ import java.util.Map;
 import java.util.Random;
 
 import ml.kit.structs.asm.MLObject;
-import ml.kit.structs.group.Synapse;
-import ml.kit.symbol.ProbabilisticSymbol;
-import ml.kit.symbol.Symbol;
-import ml.kit.symbol.SymbolGenerator;
-import ml.kit.symbol.structure.StructureInfo;
-import ml.kit.symbol.structure.StructureParameter;
+import ml.kit.structs.group.Intraface;
+import archive.ProbabilisticSymbol;
+import ml.kit.observer.symbol.Symbol;
+import ml.kit.observer.symbol.SymbolGenerator;
+import ml.kit.observer.Observer;
+import ml.kit.observer.ObserverBasis;
 
-public class HDPSynapse<T extends MLObject> extends Synapse<T> {
+public class HDPIntraface<T extends MLObject> extends Intraface<T> {
 	
 	//---------------------
-	public HDPSynapse(SymbolGenerator<T> symbolGenerator) {
+	public HDPIntraface(SymbolGenerator<T> symbolGenerator) {
 		super(symbolGenerator);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public ProbabilisticSymbol<T> fuseSymbol(T item, int populationSize, double totalAssignmentLikelihood,
-			Map<Symbol<T>, Double> densityForSymbol, StructureInfo<T> behavior) {
-		StructureParameter<Double> alpha = (StructureParameter<Double>)behavior.getParameterValue("alpha");
-		StructureParameter<Double> gamma = (StructureParameter<Double>)behavior.getParameterValue("gamma");
+			Map<Symbol<T>, Double> densityForSymbol, Observer<T> behavior) {
+		ObserverBasis<Double> alpha = (ObserverBasis<Double>)behavior.getParameterValue("alpha");
+		ObserverBasis<Double> gamma = (ObserverBasis<Double>)behavior.getParameterValue("gamma");
 		
 		// -------------------------- table find
 		double p[];

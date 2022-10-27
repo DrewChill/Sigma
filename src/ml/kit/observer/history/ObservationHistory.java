@@ -1,24 +1,18 @@
-package ml.kit.symbol.entropy;
+package ml.kit.observer.history;
 
-import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class LocalEntropy<T> {
+public class ObservationHistory<T> {
 	
 	private Map<T, Integer> countForObject = new HashMap<>();
 	public volatile int size = 0;
 	
 	private Map<T, Double> compressionCache = new HashMap<>();
 	private volatile double entropyCache = 0;
-	private volatile boolean dirtyFlag = true;
 	private double cost_max = 0.0;
-	
-	protected LocalEntropy() {
-		
-	}
 	
 	public Map<T, Integer> getObjsAndCount(){
 		return countForObject;
@@ -33,7 +27,6 @@ public class LocalEntropy<T> {
 	public double addObservation(T addedObject) {
 		Integer count = null;
 		synchronized(countForObject) {
-			dirtyFlag = true;
 			count = countForObject.get(addedObject);
 			if(count == null) {
 				count = 0;
@@ -48,7 +41,6 @@ public class LocalEntropy<T> {
 	public double decayObservation(T decayedObject) {
 		Integer count = null;
 		synchronized(countForObject) {
-			dirtyFlag = true;
 			count = countForObject.get(decayedObject);
 			if(count != null) {
 				count--;
@@ -64,30 +56,7 @@ public class LocalEntropy<T> {
 		return 0.0;
 	}
 	
-	public Map<T, ByteBuffer> getCompressedInformation(){
-		Map<T, ByteBuffer> compressionMapping = new HashMap<>();
-		synchronized(countForObject) {
-			if(dirtyFlag) {
-				double avgLength = 0.0;
-				for(T obj : countForObject.keySet()) {
-					double count = (double)countForObject.get(obj);
-					double p = count / (double)size;
-					double length = log2(p);
-					compressionCache.put(obj, length);
-					if(length < 1.0) {
-						length = 1.0;
-					}
-					compressionMapping.put(obj, ByteBuffer.allocate((int)Math.ceil(length)));
-					avgLength += p*log2(p);
-				}
-				entropyCache = avgLength;
-				dirtyFlag = false;
-			}
-		}
-		return compressionMapping;
-	}
-	
-	public double getCrossEntropy(LocalEntropy<T> compare) {
+	public double getCrossEntropy(ObservationHistory<T> compare) {
 		Set<T> objects = new HashSet<>();
 		objects.addAll(countForObject.keySet());
 		double crossEntropy = 0.0;
@@ -115,7 +84,7 @@ public class LocalEntropy<T> {
 		return objects;
 	}
 	
-	public double getKLDivergence(LocalEntropy<T> compare) {
+	public double getKLDivergence(ObservationHistory<T> compare) {
 		return getCrossEntropy(compare) - entropyCache;
 	}
 	

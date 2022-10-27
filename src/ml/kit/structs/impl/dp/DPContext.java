@@ -4,26 +4,26 @@ import java.io.InputStream;
 
 import ml.kit.structs.asm.MLObject;
 import ml.kit.structs.group.Context;
-import ml.kit.structs.group.Synapse;
-import ml.kit.symbol.structure.StructureInfo;
+import ml.kit.structs.group.Intraface;
+import ml.kit.observer.Observer;
 
 public class DPContext<T extends MLObject> extends Context<T>{
 
-	public DPContext(StructureInfo<T> contextStructure) {
+	public DPContext(Observer<T> contextStructure) {
 		super(contextStructure);
 	}
 
 	@Override
-	public Synapse<T> createGroup(InputStream input) {
-		Synapse<T> groupForInputStream = new DPSynapse<T>(vocabulary);
+	public Intraface<T> createGroup(InputStream input) {
+		Intraface<T> groupForInputStream = new DPIntraface<T>(vocabulary);
 		Thread groupThread = new Thread(groupForInputStream);
 		groupThread.start();
 		return groupForInputStream;
 	}
 
 	@Override
-	protected Synapse<T> createGroup() {
-		return new DPSynapse<T>(vocabulary);
+	protected Intraface<T> createGroup() {
+		return new DPIntraface<T>(vocabulary);
 	}
 
 }

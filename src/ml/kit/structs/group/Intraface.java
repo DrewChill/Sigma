@@ -3,7 +3,6 @@ package ml.kit.structs.group;
 import java.nio.channels.Pipe;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -11,15 +10,15 @@ import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import ml.kit.structs.asm.MLObject;
-import ml.kit.symbol.ProbabilisticSymbol;
-import ml.kit.symbol.Symbol;
-import ml.kit.symbol.SymbolGenerator;
-import ml.kit.symbol.entropy.LocalEntropy;
-import ml.kit.symbol.structure.StructureInfo;
+import archive.ProbabilisticSymbol;
+import ml.kit.observer.symbol.Symbol;
+import ml.kit.observer.symbol.SymbolGenerator;
+import ml.kit.observer.history.ObservationHistory;
+import ml.kit.observer.Observer;
 
-public abstract class Synapse<T extends MLObject> implements Runnable {
+public abstract class Intraface<T extends MLObject> implements Runnable {
 
-	protected LocalEntropy<Symbol<T>> synapticEntropy;
+	protected ObservationHistory<Symbol<T>> synapticEntropy;
 	protected SymbolGenerator<T> symbolGenerator;
 	protected Queue<T> bytesWaiting = new ConcurrentLinkedQueue<>();
 	protected Collection<T> items = new ArrayList<>();
@@ -27,7 +26,7 @@ public abstract class Synapse<T extends MLObject> implements Runnable {
 
 	protected Pipe recvStream; // TODO
 
-	public Synapse(SymbolGenerator<T> vocabulary) {
+	public Intraface(SymbolGenerator<T> vocabulary) {
 		this.symbolGenerator = vocabulary;
 		this.synapticEntropy = vocabulary.registerSynapse(this);
 		new Thread(this).start();
@@ -77,43 +76,6 @@ public abstract class Synapse<T extends MLObject> implements Runnable {
 		}
 		return null;
 	}
-	
-//	public Symbol<T> sample(T data) {
-//		Map<Symbol<T>, Double> stationaryDistribution = synapticEntropy.getStationaryDistribution();
-//		List<Symbol<T>> clusters = new ArrayList<>();
-//		clusters.addAll(stationaryDistribution.keySet());
-//		
-//		Map<Symbol<T>, Double> likelihoodForSymbol = new HashMap<>();
-//		for (Symbol<T> cluster : stationaryDistribution.keySet()) {
-//			double likelihood = cluster.calcAssignmentLikelihood(data, 0, 0);
-//			likelihoodForSymbol.put(cluster, likelihood);
-//		}
-//		
-//		double pSum = 0.0;
-//		double[] p = new double[clusters.size()];
-//		int index = 0;
-//
-//		for (Symbol<T> cluster : clusters) {
-//			Double likelihood = likelihoodForSymbol.get(cluster);
-//			likelihood = likelihood == null ? 0.0 : likelihood;
-//			pSum += likelihood;
-//			p[index] = pSum;
-//			index++;
-//		}
-//		p[p.length - 1] = pSum;
-//		
-//		Symbol<T> ret = null;
-//		double clusterSelector = r.nextDouble() * pSum;
-//		for (int i = 0; i < p.length; i++) {
-//			System.out.print(p[i]+",");
-//			if (clusterSelector < p[i]) {
-//				ret = clusters.get(i);
-//				break;
-//			}
-//		}
-//		System.out.println(" ----> "+ret);
-//		return ret;
-//	}
 
 	public Collection<Symbol<T>> fire(double duration, double weight) {
 		List<Symbol<T>> ret = new ArrayList<>();
@@ -127,7 +89,7 @@ public abstract class Synapse<T extends MLObject> implements Runnable {
 	}
 
 	public abstract ProbabilisticSymbol<T> fuseSymbol(T item, int populationSize, double totalAssignmentLikelihood,
-			Map<Symbol<T>, Double> likelihoodForSymbol, StructureInfo<T> behavior);
+			Map<Symbol<T>, Double> likelihoodForSymbol, Observer<T> behavior);
 
 	// ------------------
 

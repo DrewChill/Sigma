@@ -1,4 +1,4 @@
-package ml.kit.symbol.structure;
+package ml.kit.observer.symbol.relation;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,17 +6,18 @@ import java.util.List;
 import java.util.Set;
 
 import ml.kit.structs.asm.MLObject;
-import ml.kit.structs.group.Synapse;
-import ml.kit.symbol.Symbol;
+import ml.kit.structs.group.Intraface;
+import ml.kit.observer.Observer;
+import ml.kit.observer.symbol.Symbol;
 
-public abstract class SymbolStructure<T extends MLObject> {
+public abstract class SymbolRelation<T extends MLObject> {
 
-	protected StructureInfo<T> behavior;
-	private Synapse<Symbol<T>> downstream = null;
+	protected Observer<T> behavior;
+	private Intraface<Symbol<T>> downstream = null;
 	private volatile int size = 0;
 	public List<Symbol<T>> allClusters = new ArrayList<>();
 
-	public SymbolStructure(StructureInfo<T> behavior) {
+	public SymbolRelation(Observer<T> behavior) {
 		this.behavior = behavior;
 	}
 
@@ -34,16 +35,18 @@ public abstract class SymbolStructure<T extends MLObject> {
 		return inhibit(vSize, capacity);
 	}
 
+	public abstract RelationShape globalShape();
+
 	protected abstract Symbol<T> excite(T item, double vSize, int capacity);
 
 	protected abstract T inhibit(double vSize, int capacity);
 
 	public Collection<Symbol<T>> generateSymbolStream(double weight) {
 		List<Symbol<T>> stream = new ArrayList<>();
-		Set<Synapse<T>> synapses = behavior.structureEntropy.getSynapses();
+		Set<Intraface<T>> synaps = behavior.relationHistory.getSynapses();
 
-		for (Synapse<T> synapse : synapses) {
-			stream.addAll(synapse.fire((double) size * weight, weight));
+		for (Intraface<T> intraface : synaps) {
+			stream.addAll(intraface.fire((double) size * weight, weight));
 		}
 
 		return stream;

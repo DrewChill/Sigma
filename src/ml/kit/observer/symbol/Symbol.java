@@ -1,4 +1,4 @@
-package ml.kit.symbol;
+package ml.kit.observer.symbol;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -12,36 +12,36 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import ml.kit.function.DensityFunction;
+import ml.kit.function.SymbolFunction;
 import ml.kit.structs.asm.MLObject;
-import ml.kit.structs.group.Synapse;
-import ml.kit.symbol.entropy.LocalEntropy;
+import ml.kit.structs.group.Intraface;
+import ml.kit.observer.history.ObservationHistory;
 
 public abstract class Symbol<T extends MLObject> extends MLObject{
 	
-	public LocalEntropy<T> localEntropy;
+	public ObservationHistory<T> observationHistory;
 	public byte[] clusterIndicator = null;
 	private static Random r = new Random(System.currentTimeMillis());
-	public DensityFunction<T> fk;
-	protected Set<Synapse<T>> contributors = new HashSet<>();
+	public SymbolFunction<T> fk;
+	protected Set<Intraface<T>> contributors = new HashSet<>();
 	
-	public Symbol(LocalEntropy<T> localEntropy, DensityFunction<T> fk) {
-		this.localEntropy = localEntropy;
+	public Symbol(ObservationHistory<T> observationHistory, SymbolFunction<T> fk) {
+		this.observationHistory = observationHistory;
 		this.fk = fk;
 	}
 		
 	public synchronized double updateWeight(T obj, double update) {
-		double ret = (update > 0) ? localEntropy.addObservation(obj) : localEntropy.decayObservation(obj);
-		fk.update(localEntropy.getObjsAndCount());
+		double ret = (update > 0) ? observationHistory.addObservation(obj) : observationHistory.decayObservation(obj);
+		fk.update(observationHistory.getObjsAndCount());
 		return ret;
 	}
 	
 	public int clusterSize() {
-		return localEntropy.size;
+		return observationHistory.size;
 	}
 	
 	public T sampleItemFromCluster(){
-		Map<T, Double> stationaryDistribution = localEntropy.getStationaryDistribution();
+		Map<T, Double> stationaryDistribution = observationHistory.getStationaryDistribution();
 		double sample = r.nextDouble();
 		double p[] = new double[stationaryDistribution.size()];
 		double pTotal = 0.0;
@@ -69,7 +69,7 @@ public abstract class Symbol<T extends MLObject> extends MLObject{
 		ObjectOutputStream oos;
 		try {
 			oos = new ObjectOutputStream(bos);
-			int objsToSample = (int)(localEntropy.size * weight);
+			int objsToSample = (int)(observationHistory.size * weight);
 			for(int i=0; i<objsToSample; i++) {
 				oos.writeObject(sampleItemFromCluster());
 			}
@@ -81,8 +81,8 @@ public abstract class Symbol<T extends MLObject> extends MLObject{
 		}
 	}
 	
-	public void addContributor(Synapse<?> synapse) {
-		contributors.add((Synapse<T>) synapse);
+	public void addContributor(Intraface<?> intraface) {
+		contributors.add((Intraface<T>) intraface);
 	}
 	
 	public String toString() {

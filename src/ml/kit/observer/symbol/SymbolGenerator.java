@@ -1,37 +1,35 @@
-package ml.kit.symbol;
+package ml.kit.observer.symbol;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
+import ml.kit.observer.Observer;
 import ml.kit.structs.asm.MLObject;
 import ml.kit.structs.group.Context;
-import ml.kit.structs.group.Synapse;
-import ml.kit.symbol.entropy.LocalEntropy;
-import ml.kit.symbol.structure.StructureInfo;
+import ml.kit.structs.group.Intraface;
+import ml.kit.observer.history.ObservationHistory;
 
 public class SymbolGenerator<T extends MLObject> {
 
 	private List<Symbol<T>> allClusters = new ArrayList<>();
 	private SymbolGenerator<T> inferredVocabulary = null;
 	private Set<T> processQueue = new HashSet<>();
-	private StructureInfo<T> model;
+	private Observer<T> model;
 	private volatile int totalObservationCount = 0;
 	private Context<T> currentContext = null;
 	public volatile int id = 0;
 	public volatile static int num = 0;
 
-	public SymbolGenerator(StructureInfo<T> model) {
+	public SymbolGenerator(Observer<T> model) {
 		this.id = num++;
 		this.model = model;
 	}
 	
-	public LocalEntropy<Symbol<T>> registerSynapse(Synapse<T> synapse){
-		return model.createUpstreamConnection(synapse);
+	public ObservationHistory<Symbol<T>> registerSynapse(Intraface<T> intraface){
+		return model.createUpstreamConnection(intraface);
 	}
 
 	public void setContext(Context<T> context) {
@@ -57,7 +55,7 @@ public class SymbolGenerator<T extends MLObject> {
 		for (T item : queueCopy) {
 			Symbol<T> symbol = model.getStructure().stimulate(item, totalObservationCount, currentContext.getContextSize());
 			symbols.add(symbol);
-			Synapse<? extends MLObject> contributor = item.getSynapseForStructureId(id);
+			Intraface<? extends MLObject> contributor = item.getSynapseForStructureId(id);
 			contributor.reuptake(symbol);
 			symbol.addContributor(contributor);
 

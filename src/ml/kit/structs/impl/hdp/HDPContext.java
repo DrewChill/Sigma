@@ -4,27 +4,27 @@ import java.io.InputStream;
 
 import ml.kit.structs.asm.MLObject;
 import ml.kit.structs.group.Context;
-import ml.kit.structs.group.Synapse;
-import ml.kit.symbol.structure.StructureInfo;
+import ml.kit.structs.group.Intraface;
+import ml.kit.observer.Observer;
 
 public class HDPContext<T extends MLObject> extends Context<T> {
 		
-	public HDPContext(StructureInfo<T> contextStructure) {
+	public HDPContext(Observer<T> contextStructure) {
 		super(contextStructure);
 	}
 
 	@Override
-	public Synapse<T> createGroup(InputStream input) {
-		Synapse<T> groupForInputStream = new HDPSynapse<T>(vocabulary);
+	public Intraface<T> createGroup(InputStream input) {
+		Intraface<T> groupForInputStream = new HDPIntraface<T>(vocabulary);
 		Thread groupThread = new Thread(groupForInputStream);
 		groupThread.start();
 		return groupForInputStream;
 	}
 
 	@Override
-	protected Synapse<T> createGroup() {
+	protected Intraface<T> createGroup() {
 		// TODO Auto-generated method stub
-		return new HDPSynapse<T>(vocabulary);
+		return new HDPIntraface<T>(vocabulary);
 	}
 
 }

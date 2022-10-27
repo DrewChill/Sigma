@@ -1,4 +1,4 @@
-package ml.kit.symbol.structure.nonparametric;
+package ml.kit.observer.symbol.relation.nonparametric;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,16 +7,16 @@ import java.util.Map;
 import java.util.Random;
 
 import ml.kit.structs.asm.MLObject;
-import ml.kit.symbol.Symbol;
-import ml.kit.symbol.structure.StructureInfo;
-import ml.kit.symbol.structure.SymbolStructure;
+import ml.kit.observer.symbol.Symbol;
+import ml.kit.observer.Observer;
+import ml.kit.observer.symbol.relation.SymbolRelation;
 
-public class DPSymbolStructure<T extends MLObject> extends SymbolStructure<T> {
+public class DPSymbolRelation<T extends MLObject> extends SymbolRelation<T> {
 
 	private Random r = new Random(System.currentTimeMillis());
 	protected double gamma = 0.0;
 	
-	public DPSymbolStructure(StructureInfo<T> behavior, double gamma) {
+	public DPSymbolRelation(Observer<T> behavior, double gamma) {
 		super(behavior);
 		this.gamma = gamma;
 	}

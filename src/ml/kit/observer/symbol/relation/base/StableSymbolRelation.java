@@ -1,19 +1,19 @@
-package ml.kit.symbol.structure.base;
+package ml.kit.observer.symbol.relation.base;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
 import ml.kit.structs.asm.MLObject;
-import ml.kit.symbol.Symbol;
-import ml.kit.symbol.structure.StructureInfo;
-import ml.kit.symbol.structure.SymbolStructure;
+import ml.kit.observer.symbol.Symbol;
+import ml.kit.observer.Observer;
+import ml.kit.observer.symbol.relation.SymbolRelation;
 
-public class StableSymbolStructure<T extends MLObject> extends SymbolStructure<T>{
+public class StableSymbolRelation<T extends MLObject> extends SymbolRelation<T> {
 	
 	private Random r = new Random();
 
-	public StableSymbolStructure(StructureInfo<T> behavior) {
+	public StableSymbolRelation(Observer<T> behavior) {
 		super(behavior);
 	}
 

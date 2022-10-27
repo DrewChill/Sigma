@@ -1,4 +1,4 @@
-package ml.kit.symbol;
+package archive;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

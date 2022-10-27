@@ -10,17 +10,17 @@ import java.util.Random;
 import org.apache.commons.math3.distribution.GammaDistribution;
 
 import ml.kit.function.demo.DoubleTie;
-import ml.kit.function.gaussian.GaussianDensity;
+import ml.kit.function.gaussian.GaussianSymbol;
 import ml.kit.generators.GaussianGenerator;
 import ml.kit.structs.group.Context;
-import ml.kit.structs.group.Synapse;
+import ml.kit.structs.group.Intraface;
 import ml.kit.structs.impl.dp.DPContext;
-import ml.kit.symbol.Symbol;
-import ml.kit.symbol.structure.StructureInfo;
-import ml.kit.symbol.structure.StructureInfo.InferenceFlow;
-import ml.kit.symbol.structure.StructureInfo.InferenceLocality;
-import ml.kit.symbol.structure.StructureInfo.InferenceStructure;
-import ml.kit.symbol.structure.StructureParameter;
+import ml.kit.observer.symbol.Symbol;
+import ml.kit.observer.Observer;
+import ml.kit.observer.symbol.SymbolFilter;
+import ml.kit.observer.ObserverLocality;
+import ml.kit.observer.symbol.relation.RelationShape;
+import ml.kit.observer.ObserverBasis;
 import ml.kit.types.DoubleType;
 
 public class MultiGMM {
@@ -28,15 +28,15 @@ public class MultiGMM {
 	public static void main(String[] args) {
 		double range = 2000.0;
 		// GaussianDensity pdf = new GaussianDensity(5.0, range);
-		GaussianDensity pdf = new GaussianDensity(Double.MIN_VALUE, Double.MAX_VALUE, 2.0, 2000.0, range);
+		GaussianSymbol pdf = new GaussianSymbol(Double.MIN_VALUE, Double.MAX_VALUE, 2.0, 2000.0, range);
 		// GaussianDistance pdf = new GaussianDistance(5.0, range);
 		double gamma = new GammaDistribution(1, 1).sample();
-		StructureParameter<Double> gammaParam = new StructureParameter<Double>(gamma, "gamma");
-		StructureInfo<DoubleType> mixtureModel = new StructureInfo<DoubleType>(InferenceStructure.DP,
-				InferenceFlow.LINEAR, InferenceLocality.GLOBAL, pdf, gammaParam);
+		ObserverBasis<Double> gammaParam = new ObserverBasis<Double>(gamma, "gamma");
+		Observer<DoubleType> mixtureModel = new Observer<DoubleType>(RelationShape.DP,
+				SymbolFilter.LINEAR, ObserverLocality.GLOBAL, pdf, gammaParam);
 
 		Context<DoubleType> gmm = new DPContext<DoubleType>(mixtureModel);
-		Synapse<DoubleType> mono = gmm.addInputStream();
+		Intraface<DoubleType> mono = gmm.addInputStream();
 		Random r = new Random(System.currentTimeMillis());
 
 		// -------------1---------------
@@ -112,18 +112,18 @@ public class MultiGMM {
 		// -----------------------------------------
 
 		double range2 = 1000.0;
-		GaussianDensity pdf2 = new GaussianDensity(3.0, range2);
+		GaussianSymbol pdf2 = new GaussianSymbol(3.0, range2);
 		// GaussianDensity pdf = new
 		// GaussianDensity(Double.MIN_VALUE,Double.MAX_VALUE,Double.MIN_VALUE,Double.MAX_VALUE,
 		// range);
 		// GaussianDistance pdf = new GaussianDistance(5.0, range);
 		double gamma2 = new GammaDistribution(1, 1).sample();
-		StructureParameter<Double> gammaParam2 = new StructureParameter<Double>(gamma2, "gamma");
-		StructureInfo<DoubleType> mixtureModel2 = new StructureInfo<DoubleType>(InferenceStructure.DP,
-				InferenceFlow.LINEAR, InferenceLocality.GLOBAL, pdf2, gammaParam2);
+		ObserverBasis<Double> gammaParam2 = new ObserverBasis<Double>(gamma2, "gamma");
+		Observer<DoubleType> mixtureModel2 = new Observer<DoubleType>(RelationShape.DP,
+				SymbolFilter.LINEAR, ObserverLocality.GLOBAL, pdf2, gammaParam2);
 
 		Context<DoubleType> gmm2 = new DPContext<DoubleType>(mixtureModel2);
-		Synapse<DoubleType> mono2 = gmm2.addInputStream();
+		Intraface<DoubleType> mono2 = gmm2.addInputStream();
 		for (Symbol<DoubleType> symbol : symbols) {
 			for (int i = 0; i < symbol.clusterSize(); i++) {
 				DoubleType dt = symbol.sampleItemFromCluster();
@@ -176,12 +176,12 @@ public class MultiGMM {
 		// range);
 		// GaussianDistance pdf = new GaussianDistance(5.0, range);
 		double gamma3 = new GammaDistribution(1, 1).sample();
-		StructureParameter<Double> gammaParam3 = new StructureParameter<Double>(gamma3, "gamma");
-		StructureInfo<Symbol<DoubleType>> mixtureModel3 = new StructureInfo<Symbol<DoubleType>>(InferenceStructure.DP,
-				InferenceFlow.LINEAR, InferenceLocality.GLOBAL, pdf3, gammaParam3);
+		ObserverBasis<Double> gammaParam3 = new ObserverBasis<Double>(gamma3, "gamma");
+		Observer<Symbol<DoubleType>> mixtureModel3 = new Observer<Symbol<DoubleType>>(RelationShape.DP,
+				SymbolFilter.LINEAR, ObserverLocality.GLOBAL, pdf3, gammaParam3);
 
 		Context<Symbol<DoubleType>> gmm3 = new DPContext<Symbol<DoubleType>>(mixtureModel3);
-		Synapse<Symbol<DoubleType>> mono3 = gmm3.addInputStream();
+		Intraface<Symbol<DoubleType>> mono3 = gmm3.addInputStream();
 		for (Symbol<DoubleType> symbol : symbols4) {
 //			for(int i=1; i < symbol.clusterSize(); i++) {
 //				mono3.addData(symbol);
@@ -225,15 +225,15 @@ public class MultiGMM {
 			DoubleTie dt = (DoubleTie) symbol.fk;
 			for (Symbol<DoubleType> p : dt.joint.keySet()) {
 				Double prob = dt.joint.get(p);
-				double mean = ((GaussianDensity) p.fk).mean;
-				double stdDev = ((GaussianDensity) p.fk).stdDev;
+				double mean = ((GaussianSymbol) p.fk).mean;
+				double stdDev = ((GaussianSymbol) p.fk).stdDev;
 				System.out.println("                     (s:" + stdDev + ")->(" + mean + ") -> " + prob);
 			}
 			System.out.println("     Second level mean probabilities:");
-			for (Map.Entry<Symbol<DoubleType>, Double> entry : symbol.localEntropy.getStationaryDistribution()
+			for (Map.Entry<Symbol<DoubleType>, Double> entry : symbol.observationHistory.getStationaryDistribution()
 					.entrySet()) {
-				double mean = ((GaussianDensity) entry.getKey().fk).mean;
-				double stdDev = ((GaussianDensity) entry.getKey().fk).stdDev;
+				double mean = ((GaussianSymbol) entry.getKey().fk).mean;
+				double stdDev = ((GaussianSymbol) entry.getKey().fk).stdDev;
 				System.out.println("                     (s:" + stdDev + ")->(" + mean + ") -> " + entry.getValue());
 			}
 			k++;

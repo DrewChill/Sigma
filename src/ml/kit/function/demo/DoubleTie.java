@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import ml.kit.function.DensityFunction;
-import ml.kit.symbol.Symbol;
+import ml.kit.function.SymbolFunction;
+import ml.kit.observer.symbol.Symbol;
 import ml.kit.types.DoubleType;
 
-public class DoubleTie extends DensityFunction<Symbol<DoubleType>>{
+public class DoubleTie extends SymbolFunction<Symbol<DoubleType>> {
 	
 	public Map<Symbol<DoubleType>, Double> joint = new HashMap<>();
 	Map<Symbol<DoubleType>, Integer> pCount = new HashMap<>();
@@ -90,7 +90,7 @@ public class DoubleTie extends DensityFunction<Symbol<DoubleType>>{
 	}
 
 	@Override
-	public DensityFunction<Symbol<DoubleType>> initNext() {
+	public SymbolFunction<Symbol<DoubleType>> initNext() {
 		// TODO Auto-generated method stub
 		return new DoubleTie();
 	}

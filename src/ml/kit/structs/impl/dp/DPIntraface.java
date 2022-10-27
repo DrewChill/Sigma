@@ -1,4 +1,4 @@
-package ml.kit.structs.impl;
+package ml.kit.structs.impl.dp;
 
 import java.util.Map;
 
@@ -9,9 +9,9 @@ import ml.kit.observer.symbol.Symbol;
 import ml.kit.observer.symbol.SymbolGenerator;
 import ml.kit.observer.Observer;
 
-public class BaseGroup<T extends MLObject> extends Intraface<T> {
+public class DPIntraface<T extends MLObject> extends Intraface<T> {
 
-	public BaseGroup(SymbolGenerator<T> vocabulary) {
+	public DPIntraface(SymbolGenerator<T> vocabulary) {
 		super(vocabulary);
 	}
 
@@ -20,5 +20,5 @@ public class BaseGroup<T extends MLObject> extends Intraface<T> {
 			Map<Symbol<T>, Double> likelihoodForSymbol, Observer<T> behavior) {
 		return null;
 	}
-	
+
 }
