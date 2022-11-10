@@ -6,23 +6,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import ml.kit.structs.asm.MLObject;
-import ml.kit.observer.symbol.Symbol;
-import ml.kit.observer.Observer;
+import ml.kit.structs.asm.Observable;
+import archive.StochasticSymbol;
+import ml.kit.observer.AbstractObserver;
 import ml.kit.observer.symbol.relation.SymbolRelation;
 
-public class DPSymbolRelation<T extends MLObject> extends SymbolRelation<T> {
+public class DPSymbolRelation<T extends Observable> extends SymbolRelation<T> {
 
 	private Random r = new Random(System.currentTimeMillis());
 	protected double gamma = 0.0;
 	
-	public DPSymbolRelation(Observer<T> behavior, double gamma) {
+	public DPSymbolRelation(AbstractObserver<T> behavior, double gamma) {
 		super(behavior);
 		this.gamma = gamma;
 	}
 
 	@Override
-	public Symbol<T> excite(T item, double vSize, int capacity) {
+	public StochasticSymbol<T> excite(T item, double vSize, int capacity) {
 		return sample(item, vSize, capacity, 1.0);
 	}
 
@@ -33,8 +33,8 @@ public class DPSymbolRelation<T extends MLObject> extends SymbolRelation<T> {
 	
 	public T sampleAndRemove(double vSize, int capacity, double weightModifier) {
 		int clusterIndex = (int)Math.floor(r.nextDouble() * allClusters.size());
-		Symbol<T> symbol = (Symbol<T>)allClusters.toArray()[clusterIndex];
-		T ret = symbol.sampleItemFromCluster();
+		StochasticSymbol<T> symbol = (StochasticSymbol<T>)allClusters.toArray()[clusterIndex];
+		T ret = symbol.sample();
 		if(ret != null) {
 			symbol.updateWeight(ret, weightModifier);
 			if(symbol.clusterSize() < 1) {
@@ -47,10 +47,10 @@ public class DPSymbolRelation<T extends MLObject> extends SymbolRelation<T> {
 		return ret;
 	}
 
-	public Symbol<T> sample(T item, double vSize, int capacity, double weightModifier) {
-		Map<Symbol<T>, Double> likelihoodForSymbol = getSymbolLikelihoods(item, vSize, capacity);
+	public StochasticSymbol<T> sample(T item, double vSize, int capacity, double weightModifier) {
+		Map<StochasticSymbol<T>, Double> likelihoodForSymbol = getSymbolLikelihoods(item, vSize, capacity);
 		
-		Symbol<T> ret = sampleForCluster(item, vSize, likelihoodForSymbol, gamma);
+		StochasticSymbol<T> ret = sampleForCluster(item, vSize, likelihoodForSymbol, gamma);
 		if(ret != null) {
 			Double likelihood = likelihoodForSymbol.get(ret);
 			likelihood = likelihood == null ? 0.0 : likelihood;
@@ -60,14 +60,14 @@ public class DPSymbolRelation<T extends MLObject> extends SymbolRelation<T> {
 		return ret;
 	}
 
-	protected Symbol<T> sampleForCluster(T item, double vSize, Map<Symbol<T>, Double> likelihoodForSymbol, double gamma) {
+	protected StochasticSymbol<T> sampleForCluster(T item, double vSize, Map<StochasticSymbol<T>, Double> likelihoodForSymbol, double gamma) {
 		double pSum = 0.0;
-		List<Symbol<T>> clusters = new ArrayList<>();
+		List<StochasticSymbol<T>> clusters = new ArrayList<>();
 		clusters.addAll(allClusters);
 		double[] p = new double[clusters.size() + 1];
 		int index = 0;
 
-		for (Symbol<T> cluster : clusters) {
+		for (StochasticSymbol<T> cluster : clusters) {
 			Double likelihood = likelihoodForSymbol.get(cluster);
 			likelihood = likelihood == null ? 0.0 : likelihood;
 			pSum += likelihood;
@@ -79,7 +79,7 @@ public class DPSymbolRelation<T extends MLObject> extends SymbolRelation<T> {
 		// --------------------------
 
 		// -------------------------- select topic
-		Symbol<T> ret = null;
+		StochasticSymbol<T> ret = null;
 		double clusterSelector = r.nextDouble() * pSum;
 		for (int i = 0; i < p.length; i++) {
 			if (clusterSelector < p[i]) {
@@ -97,10 +97,10 @@ public class DPSymbolRelation<T extends MLObject> extends SymbolRelation<T> {
 		// --------------------------
 	}
 	
-	public Map<Symbol<T>, Double> getSymbolLikelihoods(T item, double vSize, int capacity) {
+	public Map<StochasticSymbol<T>, Double> getSymbolLikelihoods(T item, double vSize, int capacity) {
 		// ------------------------ likelihood function
-		Map<Symbol<T>, Double> likelihoodForSymbol = new HashMap<>();
-		for (Symbol<T> cluster : allClusters) {
+		Map<StochasticSymbol<T>, Double> likelihoodForSymbol = new HashMap<>();
+		for (StochasticSymbol<T> cluster : allClusters) {
 			double likelihood = cluster.calcAssignmentLikelihood(item, vSize, capacity);
 			likelihood = likelihood * (cluster.clusterSize() / (vSize - 1 + gamma));
 			likelihoodForSymbol.put(cluster, likelihood);

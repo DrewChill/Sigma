@@ -2,12 +2,12 @@ package ml.kit.function;
 
 import java.util.Map;
 
-public abstract class SymbolFunction<T> {
+public abstract class SymbolShape<T> {
 	
 	public abstract double calculate(T data);
 	
 	public abstract void update(Map<T, Integer> dataMembers);
 	
-	public abstract SymbolFunction<T> initNext();
+	public abstract SymbolShape<T> initNext();
 
 }

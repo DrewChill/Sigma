@@ -5,41 +5,41 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import ml.kit.function.SymbolFunction;
-import ml.kit.observer.symbol.Symbol;
+import ml.kit.function.SymbolShape;
+import archive.StochasticSymbol;
 import ml.kit.types.DoubleType;
 
-public class DoubleTie extends SymbolFunction<Symbol<DoubleType>> {
+public class DoubleTie extends SymbolShape<StochasticSymbol<DoubleType>> {
 	
-	public Map<Symbol<DoubleType>, Double> joint = new HashMap<>();
-	Map<Symbol<DoubleType>, Integer> pCount = new HashMap<>();
-	public static List<Symbol<DoubleType>> clusters = null;
+	public Map<StochasticSymbol<DoubleType>, Double> joint = new HashMap<>();
+	Map<StochasticSymbol<DoubleType>, Integer> pCount = new HashMap<>();
+	public static List<StochasticSymbol<DoubleType>> clusters = null;
 	Random r = new Random(System.currentTimeMillis());
 
 	@Override
-	public double calculate(Symbol<DoubleType> data) {
+	public double calculate(StochasticSymbol<DoubleType> data) {
 		// TODO Auto-generated method stub
-		DoubleType dt = data.sampleItemFromCluster();
-		Symbol<DoubleType> p = sampleP(dt.parent);
+		DoubleType dt = data.sample();
+		StochasticSymbol<DoubleType> p = sampleP(dt.parent);
 		Integer c = pCount.get(p);
 		return joint.get(p) == null ? 0.0 : c.doubleValue()*joint.get(p);
 	}
 
 	@Override
-	public void update(Map<Symbol<DoubleType>, Integer> dataMembers) {
+	public void update(Map<StochasticSymbol<DoubleType>, Integer> dataMembers) {
 		int total = 0;
-		for(Symbol<DoubleType> symbol : dataMembers.keySet()) {
+		for(StochasticSymbol<DoubleType> symbol : dataMembers.keySet()) {
 			Integer count = dataMembers.get(symbol);
 			total += (count*symbol.clusterSize());
 		}
 		
 		joint = new HashMap<>();
 		pCount = new HashMap<>();
-		for(Symbol<DoubleType> symbol : dataMembers.keySet()) {
+		for(StochasticSymbol<DoubleType> symbol : dataMembers.keySet()) {
 			Integer count = dataMembers.get(symbol)*symbol.clusterSize();
 			for(int i=0;i<count;i++) {
-				DoubleType parent = symbol.sampleItemFromCluster().parent;
-				Symbol<DoubleType> p = sampleP(parent);
+				DoubleType parent = symbol.sample().parent;
+				StochasticSymbol<DoubleType> p = sampleP(parent);
 				//System.out.println(parent.value);
 				Integer c = pCount.get(p);
 				if(c == null) {
@@ -50,15 +50,15 @@ public class DoubleTie extends SymbolFunction<Symbol<DoubleType>> {
 			}
 		}
 		
-		for(Symbol<DoubleType> parent : pCount.keySet()) {
+		for(StochasticSymbol<DoubleType> parent : pCount.keySet()) {
 			Integer count = pCount.get(parent);
 			joint.put(parent, count.doubleValue()/(double)total);
 		}
 	}
 	
-	private Symbol<DoubleType> sampleP(DoubleType item){		
-		Map<Symbol<DoubleType>, Double> likelihoodForSymbol = new HashMap<>();
-		for (Symbol<DoubleType> cluster : clusters) {
+	private StochasticSymbol<DoubleType> sampleP(DoubleType item){
+		Map<StochasticSymbol<DoubleType>, Double> likelihoodForSymbol = new HashMap<>();
+		for (StochasticSymbol<DoubleType> cluster : clusters) {
 			double likelihood = cluster.calcAssignmentLikelihood(item, 0, 0);
 			likelihoodForSymbol.put(cluster, likelihood);
 		}
@@ -67,7 +67,7 @@ public class DoubleTie extends SymbolFunction<Symbol<DoubleType>> {
 		double[] p = new double[clusters.size()];
 		int index = 0;
 
-		for (Symbol<DoubleType> cluster : clusters) {
+		for (StochasticSymbol<DoubleType> cluster : clusters) {
 			Double likelihood = likelihoodForSymbol.get(cluster);
 			likelihood = likelihood == null ? 0.0 : likelihood;
 			pSum += likelihood;
@@ -76,7 +76,7 @@ public class DoubleTie extends SymbolFunction<Symbol<DoubleType>> {
 		}
 		p[p.length - 1] = pSum;
 		
-		Symbol<DoubleType> ret = null;
+		StochasticSymbol<DoubleType> ret = null;
 		double clusterSelector = r.nextDouble() * pSum;
 		for (int i = 0; i < p.length; i++) {
 			//System.out.print(p[i]+",");
@@ -90,7 +90,7 @@ public class DoubleTie extends SymbolFunction<Symbol<DoubleType>> {
 	}
 
 	@Override
-	public SymbolFunction<Symbol<DoubleType>> initNext() {
+	public SymbolShape<StochasticSymbol<DoubleType>> initNext() {
 		// TODO Auto-generated method stub
 		return new DoubleTie();
 	}

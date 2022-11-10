@@ -5,36 +5,36 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import ml.kit.structs.asm.MLObject;
-import ml.kit.structs.group.Intraface;
+import ml.kit.structs.asm.Observable;
+import archive.AbstractEmitter;
 import archive.ProbabilisticSymbol;
-import ml.kit.observer.symbol.Symbol;
+import archive.StochasticSymbol;
 import ml.kit.observer.symbol.SymbolGenerator;
-import ml.kit.observer.Observer;
+import ml.kit.observer.AbstractObserver;
 import ml.kit.observer.ObserverBasis;
 
-public class HDPIntraface<T extends MLObject> extends Intraface<T> {
+public class HDPEmitter<T extends Observable> extends AbstractEmitter<T> {
 	
 	//---------------------
-	public HDPIntraface(SymbolGenerator<T> symbolGenerator) {
+	public HDPEmitter(SymbolGenerator<T> symbolGenerator) {
 		super(symbolGenerator);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public ProbabilisticSymbol<T> fuseSymbol(T item, int populationSize, double totalAssignmentLikelihood,
-			Map<Symbol<T>, Double> densityForSymbol, Observer<T> behavior) {
+			Map<StochasticSymbol<T>, Double> densityForSymbol, AbstractObserver<T> behavior) {
 		ObserverBasis<Double> alpha = (ObserverBasis<Double>)behavior.getParameterValue("alpha");
 		ObserverBasis<Double> gamma = (ObserverBasis<Double>)behavior.getParameterValue("gamma");
 		
 		// -------------------------- table find
 		double p[];
-		List<Symbol<T>> clusters = new ArrayList<>();
+		List<StochasticSymbol<T>> clusters = new ArrayList<>();
 		double pSum = 0.0;
 		synchronized (getConnections()) {
 			p = new double[getConnections().size() + 1];
 			int j = 0;
-			for (Symbol<T> cluster : getConnections()) {
+			for (StochasticSymbol<T> cluster : getConnections()) {
 				pSum += ((double) synapticEntropy.observationCount(cluster) * densityForSymbol.get(cluster));
 				p[j] = pSum;
 				clusters.add(cluster);
@@ -56,7 +56,7 @@ public class HDPIntraface<T extends MLObject> extends Intraface<T> {
 		}
 		// ---------------------------
 
-		Symbol<T> sampled = clusters.get(clusterNumber);
+		StochasticSymbol<T> sampled = clusters.get(clusterNumber);
 		if(sampled == null) {
 			return null;
 		}

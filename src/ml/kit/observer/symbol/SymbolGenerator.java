@@ -6,29 +6,32 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import archive.StochasticSymbol;
+import ml.kit.observer.AbstractObserver;
 import ml.kit.observer.Observer;
-import ml.kit.structs.asm.MLObject;
-import ml.kit.structs.group.Context;
-import ml.kit.structs.group.Intraface;
-import ml.kit.observer.history.ObservationHistory;
+import ml.kit.structs.asm.Observable;
+import archive.Context;
+import archive.AbstractEmitter;
+import archive.ObservationHistory;
+import ml.kit.structs.vector.VectorVariable;
 
-public class SymbolGenerator<T extends MLObject> {
+public class SymbolGenerator<T> extends Observer<T,VectorVariable<T>> {
 
-	private List<Symbol<T>> allClusters = new ArrayList<>();
+	private List<StochasticSymbol<T>> allClusters = new ArrayList<>();
 	private SymbolGenerator<T> inferredVocabulary = null;
 	private Set<T> processQueue = new HashSet<>();
-	private Observer<T> model;
+	private AbstractObserver<T> model;
 	private volatile int totalObservationCount = 0;
 	private Context<T> currentContext = null;
 	public volatile int id = 0;
 	public volatile static int num = 0;
 
-	public SymbolGenerator(Observer<T> model) {
+	public SymbolGenerator(AbstractObserver<T> model) {
 		this.id = num++;
 		this.model = model;
 	}
 	
-	public ObservationHistory<Symbol<T>> registerSynapse(Intraface<T> intraface){
+	public ObservationHistory<StochasticSymbol<T>> registerSynapse(AbstractEmitter<T> intraface){
 		return model.createUpstreamConnection(intraface);
 	}
 
@@ -43,9 +46,9 @@ public class SymbolGenerator<T extends MLObject> {
 		}
 	}
 
-	public Set<Symbol<T>> generate() {
+	public Set<StochasticSymbol<T>> generate() {
 		System.out.println("processing...");
-		Set<Symbol<T>> symbols = new HashSet<>();
+		Set<StochasticSymbol<T>> symbols = new HashSet<>();
 		Set<T> queueCopy = new HashSet<T>();
 		synchronized (processQueue) {
 			queueCopy.addAll(processQueue);
@@ -53,9 +56,9 @@ public class SymbolGenerator<T extends MLObject> {
 		}
 		
 		for (T item : queueCopy) {
-			Symbol<T> symbol = model.getStructure().stimulate(item, totalObservationCount, currentContext.getContextSize());
+			StochasticSymbol<T> symbol = model.getStructure().stimulate(item, totalObservationCount, currentContext.getContextSize());
 			symbols.add(symbol);
-			Intraface<? extends MLObject> contributor = item.getSynapseForStructureId(id);
+			AbstractEmitter<? extends Observable> contributor = item.getSynapseForStructureId(id);
 			contributor.reuptake(symbol);
 			symbol.addContributor(contributor);
 
@@ -68,11 +71,11 @@ public class SymbolGenerator<T extends MLObject> {
 		return symbols;
 	}
 	
-	public Collection<Symbol<T>> postProcess(int iterations) {
+	public Collection<StochasticSymbol<T>> postProcess(int iterations) {
 		for(int i=0; i<iterations; i++) {
 			T removed = model.getStructure().decay(totalObservationCount, currentContext.getContextSize());
 			if(removed != null) {
-				Symbol<T> symbol = model.getStructure().stimulate(removed, totalObservationCount - 1, currentContext.getContextSize());
+				StochasticSymbol<T> symbol = model.getStructure().stimulate(removed, totalObservationCount - 1, currentContext.getContextSize());
 				synchronized (allClusters) {
 					if (!allClusters.contains(symbol))
 						allClusters.add(symbol);
@@ -82,25 +85,25 @@ public class SymbolGenerator<T extends MLObject> {
 		return model.getStructure().allClusters;
 	}
 	
-	public Symbol<T> sample(T data){
+	public StochasticSymbol<T> sample(T data){
 		return model.getStructure().stimulate(data, totalObservationCount, currentContext.getContextSize());
 	}
 
 	public int totalItemsContributed() {
 		int count = 0;
-		for (Symbol<T> cluster : allClusters) {
+		for (StochasticSymbol<T> cluster : allClusters) {
 			count += cluster.clusterSize();
 		}
 		return count;
 	}
 
-	public Collection<Symbol<T>> allClusters() {
+	public Collection<StochasticSymbol<T>> allClusters() {
 		synchronized (allClusters) {
 			return allClusters;
 		}
 	}
 
-	public Symbol<T> decodeBytes(byte[] encoded) {
+	public StochasticSymbol<T> decodeBytes(byte[] encoded) {
 		return null;
 	}
 

@@ -1,4 +1,4 @@
-package ml.kit.observer.symbol;
+package archive;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -12,20 +12,17 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import ml.kit.function.SymbolFunction;
-import ml.kit.structs.asm.MLObject;
-import ml.kit.structs.group.Intraface;
-import ml.kit.observer.history.ObservationHistory;
+import ml.kit.function.SymbolShape;
 
-public abstract class Symbol<T extends MLObject> extends MLObject{
+public abstract class StochasticSymbol<T> {
 	
 	public ObservationHistory<T> observationHistory;
 	public byte[] clusterIndicator = null;
 	private static Random r = new Random(System.currentTimeMillis());
-	public SymbolFunction<T> fk;
-	protected Set<Intraface<T>> contributors = new HashSet<>();
+	public SymbolShape<T> fk;
+	protected Set<AbstractEmitter<T>> contributors = new HashSet<>();
 	
-	public Symbol(ObservationHistory<T> observationHistory, SymbolFunction<T> fk) {
+	public StochasticSymbol(ObservationHistory<T> observationHistory, SymbolShape<T> fk) {
 		this.observationHistory = observationHistory;
 		this.fk = fk;
 	}
@@ -39,8 +36,8 @@ public abstract class Symbol<T extends MLObject> extends MLObject{
 	public int clusterSize() {
 		return observationHistory.size;
 	}
-	
-	public T sampleItemFromCluster(){
+
+	public T sample(){
 		Map<T, Double> stationaryDistribution = observationHistory.getStationaryDistribution();
 		double sample = r.nextDouble();
 		double p[] = new double[stationaryDistribution.size()];
@@ -71,7 +68,7 @@ public abstract class Symbol<T extends MLObject> extends MLObject{
 			oos = new ObjectOutputStream(bos);
 			int objsToSample = (int)(observationHistory.size * weight);
 			for(int i=0; i<objsToSample; i++) {
-				oos.writeObject(sampleItemFromCluster());
+				oos.writeObject(sample());
 			}
 			oos.flush();
 			
@@ -80,9 +77,9 @@ public abstract class Symbol<T extends MLObject> extends MLObject{
 			return null;
 		}
 	}
-	
-	public void addContributor(Intraface<?> intraface) {
-		contributors.add((Intraface<T>) intraface);
+
+	public void addContributor(AbstractEmitter<?> intraface) {
+		contributors.add((AbstractEmitter<T>) intraface);
 	}
 	
 	public String toString() {

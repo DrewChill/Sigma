@@ -1,14 +1,13 @@
 package archive;
 
-import ml.kit.observer.symbol.Symbol;
-import ml.kit.structs.asm.MLObject;
+import ml.kit.structs.asm.Observable;
 
-public class ProbabilisticSymbol<T extends MLObject>{
+public class ProbabilisticSymbol<T extends Observable>{
 
-	public Symbol<T> symbol;
+	public StochasticSymbol<T> symbol;
 	public double likelihood;
 	
-	public ProbabilisticSymbol(Symbol<T> symbol, double likelihood) {
+	public ProbabilisticSymbol(StochasticSymbol<T> symbol, double likelihood) {
 		this.likelihood = likelihood;
 	}
 	

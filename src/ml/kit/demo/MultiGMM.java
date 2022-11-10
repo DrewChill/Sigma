@@ -12,11 +12,11 @@ import org.apache.commons.math3.distribution.GammaDistribution;
 import ml.kit.function.demo.DoubleTie;
 import ml.kit.function.gaussian.GaussianSymbol;
 import ml.kit.generators.GaussianGenerator;
-import ml.kit.structs.group.Context;
-import ml.kit.structs.group.Intraface;
+import archive.Context;
+import archive.AbstractEmitter;
 import ml.kit.structs.impl.dp.DPContext;
-import ml.kit.observer.symbol.Symbol;
-import ml.kit.observer.Observer;
+import archive.StochasticSymbol;
+import ml.kit.observer.AbstractObserver;
 import ml.kit.observer.symbol.SymbolFilter;
 import ml.kit.observer.ObserverLocality;
 import ml.kit.observer.symbol.relation.RelationShape;
@@ -32,11 +32,11 @@ public class MultiGMM {
 		// GaussianDistance pdf = new GaussianDistance(5.0, range);
 		double gamma = new GammaDistribution(1, 1).sample();
 		ObserverBasis<Double> gammaParam = new ObserverBasis<Double>(gamma, "gamma");
-		Observer<DoubleType> mixtureModel = new Observer<DoubleType>(RelationShape.DP,
+		AbstractObserver<DoubleType> mixtureModel = new AbstractObserver<DoubleType>(RelationShape.DP,
 				SymbolFilter.LINEAR, ObserverLocality.GLOBAL, pdf, gammaParam);
 
 		Context<DoubleType> gmm = new DPContext<DoubleType>(mixtureModel);
-		Intraface<DoubleType> mono = gmm.addInputStream();
+		AbstractEmitter<DoubleType> mono = gmm.addInputStream();
 		Random r = new Random(System.currentTimeMillis());
 
 		// -------------1---------------
@@ -89,18 +89,18 @@ public class MultiGMM {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Collection<Symbol<DoubleType>> symbols2 = gmm.processQueue();
+		Collection<StochasticSymbol<DoubleType>> symbols2 = gmm.processQueue();
 		int total2 = 0;
-		for (Symbol<DoubleType> symbol : symbols2) {
+		for (StochasticSymbol<DoubleType> symbol : symbols2) {
 			if (symbol.clusterSize() > 0) {
 				// System.out.println("size: "+symbol.clusterSize());
 				total2 += symbol.clusterSize();
 			}
 		}
 		// System.out.println("total: "+total2);
-		Collection<Symbol<DoubleType>> symbols = gmm.digestInformation(200000);
+		Collection<StochasticSymbol<DoubleType>> symbols = gmm.digestInformation(200000);
 		int total = 0;
-		for (Symbol<DoubleType> symbol : symbols) {
+		for (StochasticSymbol<DoubleType> symbol : symbols) {
 			if (symbol.clusterSize() > 0) {
 				System.out.println("size: " + symbol.clusterSize());
 				total += symbol.clusterSize();
@@ -119,14 +119,14 @@ public class MultiGMM {
 		// GaussianDistance pdf = new GaussianDistance(5.0, range);
 		double gamma2 = new GammaDistribution(1, 1).sample();
 		ObserverBasis<Double> gammaParam2 = new ObserverBasis<Double>(gamma2, "gamma");
-		Observer<DoubleType> mixtureModel2 = new Observer<DoubleType>(RelationShape.DP,
+		AbstractObserver<DoubleType> mixtureModel2 = new AbstractObserver<DoubleType>(RelationShape.DP,
 				SymbolFilter.LINEAR, ObserverLocality.GLOBAL, pdf2, gammaParam2);
 
 		Context<DoubleType> gmm2 = new DPContext<DoubleType>(mixtureModel2);
-		Intraface<DoubleType> mono2 = gmm2.addInputStream();
-		for (Symbol<DoubleType> symbol : symbols) {
+		AbstractEmitter<DoubleType> mono2 = gmm2.addInputStream();
+		for (StochasticSymbol<DoubleType> symbol : symbols) {
 			for (int i = 0; i < symbol.clusterSize(); i++) {
-				DoubleType dt = symbol.sampleItemFromCluster();
+				DoubleType dt = symbol.sample();
 				if (dt.children.size() > 1) {
 					// System.out.println("tied");
 				}
@@ -141,19 +141,19 @@ public class MultiGMM {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Collection<Symbol<DoubleType>> symbols3 = gmm2.processQueue();
+		Collection<StochasticSymbol<DoubleType>> symbols3 = gmm2.processQueue();
 		int total3 = 0;
-		for (Symbol<DoubleType> symbol : symbols3) {
+		for (StochasticSymbol<DoubleType> symbol : symbols3) {
 			if (symbol.clusterSize() > 0) {
 				// .out.println("size3: "+symbol.clusterSize());
 				total3 += symbol.clusterSize();
 			}
 		}
 		System.out.println("total3: " + total3);
-		Collection<Symbol<DoubleType>> symbols4 = gmm2.digestInformation(40000);
+		Collection<StochasticSymbol<DoubleType>> symbols4 = gmm2.digestInformation(40000);
 		int total4 = 0;
 		Map<String, Integer> counts = new HashMap<>();
-		for (Symbol<DoubleType> symbol : symbols4) {
+		for (StochasticSymbol<DoubleType> symbol : symbols4) {
 			if (symbol.clusterSize() > 0) {
 				System.out.println("size4: " + symbol.clusterSize());
 				total4 += symbol.clusterSize();
@@ -163,8 +163,8 @@ public class MultiGMM {
 		System.out.println("total4: " + total4);
 
 		// -----------------------------------------
-		List<Symbol<DoubleType>> clusters = new ArrayList<>();
-		for (Symbol<DoubleType> cluster : symbols) {
+		List<StochasticSymbol<DoubleType>> clusters = new ArrayList<>();
+		for (StochasticSymbol<DoubleType> cluster : symbols) {
 			if (cluster.clusterSize() > 1) {
 				clusters.add(cluster);
 			}
@@ -177,12 +177,12 @@ public class MultiGMM {
 		// GaussianDistance pdf = new GaussianDistance(5.0, range);
 		double gamma3 = new GammaDistribution(1, 1).sample();
 		ObserverBasis<Double> gammaParam3 = new ObserverBasis<Double>(gamma3, "gamma");
-		Observer<Symbol<DoubleType>> mixtureModel3 = new Observer<Symbol<DoubleType>>(RelationShape.DP,
+		AbstractObserver<StochasticSymbol<DoubleType>> mixtureModel3 = new AbstractObserver<StochasticSymbol<DoubleType>>(RelationShape.DP,
 				SymbolFilter.LINEAR, ObserverLocality.GLOBAL, pdf3, gammaParam3);
 
-		Context<Symbol<DoubleType>> gmm3 = new DPContext<Symbol<DoubleType>>(mixtureModel3);
-		Intraface<Symbol<DoubleType>> mono3 = gmm3.addInputStream();
-		for (Symbol<DoubleType> symbol : symbols4) {
+		Context<StochasticSymbol<DoubleType>> gmm3 = new DPContext<StochasticSymbol<DoubleType>>(mixtureModel3);
+		AbstractEmitter<StochasticSymbol<DoubleType>> mono3 = gmm3.addInputStream();
+		for (StochasticSymbol<DoubleType> symbol : symbols4) {
 //			for(int i=1; i < symbol.clusterSize(); i++) {
 //				mono3.addData(symbol);
 //			}
@@ -196,19 +196,19 @@ public class MultiGMM {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Collection<Symbol<Symbol<DoubleType>>> symbols5 = gmm3.processQueue();
+		Collection<StochasticSymbol<StochasticSymbol<DoubleType>>> symbols5 = gmm3.processQueue();
 		int total5 = 0;
-		for (Symbol<Symbol<DoubleType>> symbol : symbols5) {
+		for (StochasticSymbol<StochasticSymbol<DoubleType>> symbol : symbols5) {
 			if (symbol.clusterSize() > 0) {
 				// .out.println("size3: "+symbol.clusterSize());
 				total5 += symbol.clusterSize();
 			}
 		}
 		System.out.println("total5: " + total5);
-		Collection<Symbol<Symbol<DoubleType>>> symbols6 = gmm3.digestInformation(20);
+		Collection<StochasticSymbol<StochasticSymbol<DoubleType>>> symbols6 = gmm3.digestInformation(20);
 		int total6 = 0;
 		// Map<String, Integer> counts = new HashMap<>();
-		for (Symbol<Symbol<DoubleType>> symbol : symbols6) {
+		for (StochasticSymbol<StochasticSymbol<DoubleType>> symbol : symbols6) {
 			if (symbol.clusterSize() > 0) {
 				System.out.println("size6: " + symbol.clusterSize());
 				total6 += symbol.clusterSize();
@@ -219,18 +219,18 @@ public class MultiGMM {
 		int k = 1;
 		// ------FULLY FORMED STRUCTURES-------
 		System.out.println("--------ESTIMATED MIXTURE STRUCTURES-------");
-		for (Symbol<Symbol<DoubleType>> symbol : symbols6) {
+		for (StochasticSymbol<StochasticSymbol<DoubleType>> symbol : symbols6) {
 			System.out.println("Generator #" + k + ":");
 			System.out.println("     Top level stdDev/mean probabilities:");
 			DoubleTie dt = (DoubleTie) symbol.fk;
-			for (Symbol<DoubleType> p : dt.joint.keySet()) {
+			for (StochasticSymbol<DoubleType> p : dt.joint.keySet()) {
 				Double prob = dt.joint.get(p);
 				double mean = ((GaussianSymbol) p.fk).mean;
 				double stdDev = ((GaussianSymbol) p.fk).stdDev;
 				System.out.println("                     (s:" + stdDev + ")->(" + mean + ") -> " + prob);
 			}
 			System.out.println("     Second level mean probabilities:");
-			for (Map.Entry<Symbol<DoubleType>, Double> entry : symbol.observationHistory.getStationaryDistribution()
+			for (Map.Entry<StochasticSymbol<DoubleType>, Double> entry : symbol.observationHistory.getStationaryDistribution()
 					.entrySet()) {
 				double mean = ((GaussianSymbol) entry.getKey().fk).mean;
 				double stdDev = ((GaussianSymbol) entry.getKey().fk).stdDev;

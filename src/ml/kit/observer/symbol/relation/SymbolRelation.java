@@ -5,27 +5,27 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import ml.kit.structs.asm.MLObject;
-import ml.kit.structs.group.Intraface;
-import ml.kit.observer.Observer;
-import ml.kit.observer.symbol.Symbol;
+import ml.kit.structs.asm.Observable;
+import archive.AbstractEmitter;
+import ml.kit.observer.AbstractObserver;
+import archive.StochasticSymbol;
 
-public abstract class SymbolRelation<T extends MLObject> {
+public abstract class SymbolRelation<T extends Observable> {
 
-	protected Observer<T> behavior;
-	private Intraface<Symbol<T>> downstream = null;
+	protected AbstractObserver<T> behavior;
+	private AbstractEmitter<StochasticSymbol<T>> downstream = null;
 	private volatile int size = 0;
-	public List<Symbol<T>> allClusters = new ArrayList<>();
+	public List<StochasticSymbol<T>> allClusters = new ArrayList<>();
 
-	public SymbolRelation(Observer<T> behavior) {
+	public SymbolRelation(AbstractObserver<T> behavior) {
 		this.behavior = behavior;
 	}
 
-	public Symbol<T> createNewSymbol() {
+	public StochasticSymbol<T> createNewSymbol() {
 		return behavior.createNewSymbol();
 	}
 
-	public Symbol<T> stimulate(T item, double vSize, int capacity) {
+	public StochasticSymbol<T> stimulate(T item, double vSize, int capacity) {
 		size++;
 		return excite(item, vSize, capacity);
 	}
@@ -37,15 +37,15 @@ public abstract class SymbolRelation<T extends MLObject> {
 
 	public abstract RelationShape globalShape();
 
-	protected abstract Symbol<T> excite(T item, double vSize, int capacity);
+	protected abstract StochasticSymbol<T> excite(T item, double vSize, int capacity);
 
 	protected abstract T inhibit(double vSize, int capacity);
 
-	public Collection<Symbol<T>> generateSymbolStream(double weight) {
-		List<Symbol<T>> stream = new ArrayList<>();
-		Set<Intraface<T>> synaps = behavior.relationHistory.getSynapses();
+	public Collection<StochasticSymbol<T>> generateSymbolStream(double weight) {
+		List<StochasticSymbol<T>> stream = new ArrayList<>();
+		Set<AbstractEmitter<T>> synaps = behavior.relationHistory.getSynapses();
 
-		for (Intraface<T> intraface : synaps) {
+		for (AbstractEmitter<T> intraface : synaps) {
 			stream.addAll(intraface.fire((double) size * weight, weight));
 		}
 
@@ -56,7 +56,7 @@ public abstract class SymbolRelation<T extends MLObject> {
 		propagate(1.0);
 	}
 
-	public void propagate(double weight) {
+	private void propagate(double weight) {
 		if (downstream == null) {
 			downstream = behavior.getNextContext().addInputStream();
 		}

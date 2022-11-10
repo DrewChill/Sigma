@@ -2,7 +2,7 @@ package ml.kit.function.gaussian;
 
 import java.util.Random;
 
-import ml.kit.function.SymbolFunction;
+import ml.kit.function.SymbolShape;
 import ml.kit.types.DoubleType;
 
 public class GaussianDistance extends Gaussian {
@@ -28,7 +28,7 @@ public class GaussianDistance extends Gaussian {
 	}
 	
 	@Override
-	public SymbolFunction<DoubleType> initNext(){
+	public SymbolShape<DoubleType> initNext(){
 		if(isFixed) {
 			return new GaussianDistance(stdDev, dataRange);
 		}else {

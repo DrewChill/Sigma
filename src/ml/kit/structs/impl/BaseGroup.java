@@ -2,14 +2,14 @@ package ml.kit.structs.impl;
 
 import java.util.Map;
 
-import ml.kit.structs.asm.MLObject;
-import ml.kit.structs.group.Intraface;
+import ml.kit.structs.asm.Observable;
+import archive.AbstractEmitter;
 import archive.ProbabilisticSymbol;
-import ml.kit.observer.symbol.Symbol;
+import archive.StochasticSymbol;
 import ml.kit.observer.symbol.SymbolGenerator;
-import ml.kit.observer.Observer;
+import ml.kit.observer.AbstractObserver;
 
-public class BaseGroup<T extends MLObject> extends Intraface<T> {
+public class BaseGroup<T extends Observable> extends AbstractEmitter<T> {
 
 	public BaseGroup(SymbolGenerator<T> vocabulary) {
 		super(vocabulary);
@@ -17,7 +17,7 @@ public class BaseGroup<T extends MLObject> extends Intraface<T> {
 
 	@Override
 	public ProbabilisticSymbol<T> fuseSymbol(T item, int populationSize, double totalAssignmentLikelihood,
-			Map<Symbol<T>, Double> likelihoodForSymbol, Observer<T> behavior) {
+			Map<StochasticSymbol<T>, Double> likelihoodForSymbol, AbstractObserver<T> behavior) {
 		return null;
 	}
 	

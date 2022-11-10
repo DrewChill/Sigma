@@ -3,9 +3,9 @@ package ml.kit.types;
 import java.util.ArrayList;
 import java.util.List;
 
-import ml.kit.structs.asm.MLObject;
+import ml.kit.structs.asm.Observable;
 
-public class DoubleType extends MLObject{
+public class DoubleType extends Observable {
 
 	public final double value;
 	public String truth = "";

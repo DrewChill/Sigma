@@ -2,10 +2,10 @@ package ml.kit.function.gaussian;
 
 import java.util.Map;
 
-import ml.kit.function.SymbolFunction;
+import ml.kit.function.SymbolShape;
 import ml.kit.types.DoubleType;
 
-public abstract class Gaussian extends SymbolFunction<DoubleType> {
+public abstract class Gaussian extends SymbolShape<DoubleType> {
 	
 	public double mean = Double.MIN_VALUE;
 	public double stdDev = Double.MIN_VALUE;

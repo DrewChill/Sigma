@@ -3,31 +3,31 @@ package ml.kit.observer.symbol.relation.nonparametric;
 import java.util.HashMap;
 import java.util.Map;
 
-import ml.kit.structs.asm.MLObject;
-import ml.kit.structs.group.Intraface;
+import ml.kit.structs.asm.Observable;
+import archive.AbstractEmitter;
 import archive.ProbabilisticSymbol;
-import ml.kit.observer.symbol.Symbol;
-import ml.kit.observer.Observer;
+import archive.StochasticSymbol;
+import ml.kit.observer.AbstractObserver;
 
-public class HDPSymbolRelation<T extends MLObject> extends DPSymbolRelation<T> {
+public class HDPSymbolRelation<T extends Observable> extends DPSymbolRelation<T> {
 
-	Map<byte[], Symbol<T>> clusterMap = new HashMap<>();
+	Map<byte[],StochasticSymbol<T>> clusterMap = new HashMap<>();
 	private int id;
 	
-	public HDPSymbolRelation(Observer<T> behavior, double gamma) {
+	public HDPSymbolRelation(AbstractObserver<T> behavior, double gamma) {
 		super(behavior, gamma);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Symbol<T> sample(T item, double vSize, int capacity, double weightModifier) {		
+	public StochasticSymbol<T> sample(T item, double vSize, int capacity, double weightModifier) {
 		//------------------------ likelihood function
-		Map<Symbol<T>, Double> likelihoodForSymbol = getSymbolLikelihoods(item, vSize, capacity);
+		Map<StochasticSymbol<T>, Double> likelihoodForSymbol = getSymbolLikelihoods(item, vSize, capacity);
 		double totalAssignmentLikelihood = totalAssignmentLikelihood(likelihoodForSymbol, gamma, vSize);
 		//--------------------------
 		
-		Intraface<T> intraface = (Intraface<T>) item.getSynapseForStructureId(id);
+		AbstractEmitter<T> intraface = (AbstractEmitter<T>) item.getSynapseForStructureId(id);
 		ProbabilisticSymbol<T> sampledSymbol = intraface.fuseSymbol(item, capacity, totalAssignmentLikelihood, likelihoodForSymbol, behavior);
-		Symbol<T> ret = sampledSymbol.symbol;
+		StochasticSymbol<T> ret = sampledSymbol.symbol;
 		if(ret == null) {
 			ret = sampleForCluster(item, vSize, likelihoodForSymbol, gamma);
 		}
@@ -41,7 +41,7 @@ public class HDPSymbolRelation<T extends MLObject> extends DPSymbolRelation<T> {
 		return ret;
 	}
 	
-	private double totalAssignmentLikelihood(Map<Symbol<T>, Double> likelihoodForSymbol, double gamma, double vSize) {
+	private double totalAssignmentLikelihood(Map<StochasticSymbol<T>, Double> likelihoodForSymbol, double gamma, double vSize) {
 		double totalAssignmentLikelihood = 0.0;
 		for(Double likelihood : likelihoodForSymbol.values()) {
 			totalAssignmentLikelihood += likelihood;

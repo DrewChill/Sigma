@@ -7,11 +7,11 @@ import org.apache.commons.math3.distribution.GammaDistribution;
 
 import ml.kit.function.gaussian.GaussianSymbol;
 import ml.kit.generators.GaussianGenerator;
-import ml.kit.structs.group.Context;
-import ml.kit.structs.group.Intraface;
+import archive.Context;
+import archive.AbstractEmitter;
 import ml.kit.structs.impl.dp.DPContext;
-import ml.kit.observer.symbol.Symbol;
-import ml.kit.observer.Observer;
+import archive.StochasticSymbol;
+import ml.kit.observer.AbstractObserver;
 import ml.kit.observer.symbol.SymbolFilter;
 import ml.kit.observer.ObserverLocality;
 import ml.kit.observer.symbol.relation.RelationShape;
@@ -27,11 +27,11 @@ public class GMM {
 		//GaussianDistance pdf = new GaussianDistance(5.0, range);
 		double gamma = new GammaDistribution(1, 1).sample();
 		ObserverBasis<Double> gammaParam = new ObserverBasis<Double>(gamma, "gamma");
-		Observer<DoubleType> mixtureModel = new Observer<DoubleType>(RelationShape.DP,
+		AbstractObserver<DoubleType> mixtureModel = new AbstractObserver<DoubleType>(RelationShape.DP,
 				SymbolFilter.LINEAR, ObserverLocality.GLOBAL, pdf, gammaParam);
 		
 		Context<DoubleType> gmm = new DPContext<DoubleType>(mixtureModel);
-		Intraface<DoubleType> mono = gmm.addInputStream();
+		AbstractEmitter<DoubleType> mono = gmm.addInputStream();
 		Random r = new Random(System.currentTimeMillis());
 		GaussianGenerator g1 = new GaussianGenerator("1", range * r.nextDouble(), 5.0);
 		GaussianGenerator g2 = new GaussianGenerator("2", range * r.nextDouble(), 5.0);
@@ -49,18 +49,18 @@ public class GMM {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Collection<Symbol<DoubleType>> symbols2 = gmm.processQueue();
+		Collection<StochasticSymbol<DoubleType>> symbols2 = gmm.processQueue();
 		int total2 = 0;
-		for(Symbol<DoubleType> symbol : symbols2) {
+		for(StochasticSymbol<DoubleType> symbol : symbols2) {
 			if(symbol.clusterSize() > 0) {
 				//System.out.println("size: "+symbol.clusterSize());
 				total2 += symbol.clusterSize();
 			}
 		}
 		//System.out.println("total: "+total2);
-		Collection<Symbol<DoubleType>> symbols = gmm.digestInformation(20000);
+		Collection<StochasticSymbol<DoubleType>> symbols = gmm.digestInformation(20000);
 		int total = 0;
-		for(Symbol<DoubleType> symbol : symbols) {
+		for(StochasticSymbol<DoubleType> symbol : symbols) {
 			if(symbol.clusterSize() > 0) {
 				System.out.println("size: "+symbol.clusterSize());
 				total += symbol.clusterSize();

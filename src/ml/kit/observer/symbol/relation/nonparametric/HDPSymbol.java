@@ -1,13 +1,13 @@
 package ml.kit.observer.symbol.relation.nonparametric;
 
-import ml.kit.function.SymbolFunction;
-import ml.kit.structs.asm.MLObject;
-import ml.kit.observer.symbol.Symbol;
-import ml.kit.observer.history.ObservationHistory;
+import ml.kit.function.SymbolShape;
+import ml.kit.structs.asm.Observable;
+import archive.StochasticSymbol;
+import archive.ObservationHistory;
 
-public class HDPSymbol<T extends MLObject> extends Symbol<T>{
+public class HDPSymbol<T extends Observable> extends StochasticSymbol<T> {
 		
-	public HDPSymbol(ObservationHistory<T> observationHistory, SymbolFunction<T> fk) {
+	public HDPSymbol(ObservationHistory<T> observationHistory, SymbolShape<T> fk) {
 		super(observationHistory, fk);
 	}
 

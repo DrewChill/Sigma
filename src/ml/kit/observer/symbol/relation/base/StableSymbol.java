@@ -3,11 +3,11 @@ package ml.kit.observer.symbol.relation.base;
 import java.util.HashMap;
 import java.util.Map;
 
-import ml.kit.structs.asm.MLObject;
-import ml.kit.observer.symbol.Symbol;
-import ml.kit.observer.history.ObservationHistory;
+import ml.kit.structs.asm.Observable;
+import archive.StochasticSymbol;
+import archive.ObservationHistory;
 
-public class StableSymbol<T extends MLObject> extends Symbol<T>{
+public class StableSymbol<T extends Observable> extends StochasticSymbol<T> {
 
 	Map<T, Integer> wordCount = new HashMap<>();
 	
