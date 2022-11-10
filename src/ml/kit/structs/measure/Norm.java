@@ -1,6 +1,6 @@
 package ml.kit.structs.measure;
 
-public interface Norm<T,M extends Number> extends Metric<T,M> {
+public interface Norm<T,d extends Number> extends Metric<T,d> {
 
 	T center();
 
