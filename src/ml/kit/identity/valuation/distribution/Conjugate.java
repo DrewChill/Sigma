@@ -6,7 +6,7 @@ public interface Conjugate<T,d extends Number>
 		extends Entry<
 		T,
 		Distribution<
-				T,
+				? extends T,
 				? extends d,
 				? extends Conjugate<T,? extends d>>> {
 

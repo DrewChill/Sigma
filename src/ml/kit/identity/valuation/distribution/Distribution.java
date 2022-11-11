@@ -15,7 +15,7 @@ public abstract class Distribution<T,d extends Number,C extends Conjugate<T,d>>
 		Dictionary<
 				T,
 				Distribution<
-						T,
+						? extends T,
 						? extends d,
 						? extends Conjugate<T,? extends d>>,
 				C> {
@@ -50,10 +50,10 @@ public abstract class Distribution<T,d extends Number,C extends Conjugate<T,d>>
 			? extends Conjugate<T,? extends d>>> dec(T observation);
 	//------------------
 	//------------------
+	public abstract T orbit();
+
 	@Override
-	public T center() {
-		return center;
-	}
+	public abstract T stabilizer();
 
 	public d density(){
 		return distance(center,cover);
