@@ -4,12 +4,20 @@ import ml.kit.structs.dictionary.Dictionary;
 import ml.kit.structs.measure.Norm;
 import ml.kit.structs.num.Rational;
 
-public abstract class Distribution<T,d extends Number>
+import java.util.Set;
+
+public abstract class Distribution<T,d extends Number,C extends Conjugate<T,d>>
 		extends
 		Rational
 		implements
 		Norm<T,d>,
-		Dictionary<T,Distribution<T,? extends d>,Conjugate<T,d>> {
+		Dictionary<
+				T,
+				Distribution<
+						T,
+						? extends d,
+						? extends Conjugate<T,? extends d>>,
+				C> {
 
 	/* Note: will eventually want to update when new equivalents are added so that new cover
 	         would be the sum of all equivalents (and be reflected in the number values)
@@ -30,9 +38,15 @@ public abstract class Distribution<T,d extends Number>
 	}
 
 	//------------------
-	public abstract Distribution<T,? extends d> inc(T observation);
+	public abstract Set<? extends Distribution<
+			T,
+			? extends d,
+			? extends Conjugate<T,? extends d>>> inc(T observation);
 
-	public abstract Distribution<T,? extends d> dec(T observation);
+	public abstract Set<? extends Distribution<
+			T,
+			? extends d,
+			? extends Conjugate<T,? extends d>>> dec(T observation);
 	//------------------
 	//------------------
 	@Override

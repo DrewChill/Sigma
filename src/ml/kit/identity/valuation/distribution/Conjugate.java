@@ -2,7 +2,13 @@ package ml.kit.identity.valuation.distribution;
 
 import ml.kit.structs.dictionary.Entry;
 
-public interface Conjugate<T,d extends Number> extends Entry<T,Distribution<T,? extends d>> {
+public interface Conjugate<T,d extends Number>
+		extends Entry<
+		T,
+		Distribution<
+				T,
+				? extends d,
+				? extends Conjugate<T,? extends d>>> {
 
 	d distance();
 
