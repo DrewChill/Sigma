@@ -1,12 +1,12 @@
 package ml.kit.observer.emitter;
 
-import ml.kit.identity.Identity;
+import ml.kit.identity.Code;
 import ml.kit.observer.collector.Collector;
 
 import java.util.Collection;
 import java.util.Queue;
 
-public interface Emitter<Unknown,E> extends Identity<Unknown, E, Collector<? super E,?>> {
+public interface Emitter<Unknown,E> extends Code<Unknown, E, Collector<? super E,?>> {
 
 	Queue<E> dataBuffer();
 

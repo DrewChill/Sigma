@@ -1,8 +1,8 @@
 package ml.kit.identity.valuation;
 
-import ml.kit.identity.Identity;
+import ml.kit.identity.Code;
 
-public interface Valuation<In,T,V,Out> extends Identity<In,T,Out> {
+public interface Valuation<In,T,V,Out> extends Code<In,T,Out> {
 
 	V value();
 

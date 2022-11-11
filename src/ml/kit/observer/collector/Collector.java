@@ -1,9 +1,9 @@
 package ml.kit.observer.collector;
 
-import ml.kit.identity.Identity;
+import ml.kit.identity.Code;
 import ml.kit.observer.emitter.Emitter;
 
-public interface Collector<C,Unknown> extends Identity<Emitter<?,? extends C>, C, Unknown> {
+public interface Collector<C,Unknown> extends Code<Emitter<?,? extends C>, C, Unknown> {
 
 	void onNext(C c);
 

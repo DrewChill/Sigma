@@ -1,5 +1,5 @@
 package archive.idk;
 
-import ml.kit.identity.Identity;
+import ml.kit.identity.Code;
 
-public interface Ideal<In,T,Unknown> extends Identity<In,T,Unknown> { }
+public interface Ideal<In,T,Unknown> extends Code<In,T,Unknown> { }

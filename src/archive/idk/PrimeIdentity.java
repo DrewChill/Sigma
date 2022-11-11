@@ -1,11 +1,11 @@
 package archive.idk;
 
-import ml.kit.identity.Identity;
+import ml.kit.identity.Code;
 
 import java.util.Collection;
 import java.util.List;
 
-public class PrimeIdentity implements Identity<Object,Object> {
+public class PrimeIdentity implements Code<Object,Object> {
 
 	private final Number value;
 

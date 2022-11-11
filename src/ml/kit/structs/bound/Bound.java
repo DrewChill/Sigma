@@ -1,10 +1,10 @@
 package ml.kit.structs.bound;
 
-import ml.kit.identity.Identity;
+import ml.kit.identity.Code;
 
 public interface Bound<T> {
 
-	Identity identity();
+	Code identity();
 
 	T lower();
 	default boolean hasLower(){
