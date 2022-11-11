@@ -3,7 +3,7 @@ package ml.kit.types;
 import java.util.ArrayList;
 import java.util.List;
 
-import ml.kit.structs.asm.Observable;
+import archive.asm.Observable;
 
 public class DoubleType extends Observable {
 

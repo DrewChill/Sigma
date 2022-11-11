@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
 
-import ml.kit.structs.asm.Observable;
+import archive.asm.Observable;
 import ml.kit.observer.symbol.SymbolGenerator;
 import ml.kit.observer.AbstractObserver;
 

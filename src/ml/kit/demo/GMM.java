@@ -9,7 +9,7 @@ import ml.kit.function.gaussian.GaussianSymbol;
 import ml.kit.generators.GaussianGenerator;
 import archive.Context;
 import archive.AbstractEmitter;
-import ml.kit.structs.impl.dp.DPContext;
+import archive.grpcontext.dp.DPContext;
 import archive.StochasticSymbol;
 import ml.kit.observer.AbstractObserver;
 import ml.kit.observer.symbol.SymbolFilter;

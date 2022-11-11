@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import ml.kit.structs.asm.Observable;
+import archive.asm.Observable;
 import archive.AbstractEmitter;
 import ml.kit.observer.AbstractObserver;
 import archive.StochasticSymbol;

@@ -1,6 +1,6 @@
 package archive;
 
-import ml.kit.structs.asm.Observable;
+import archive.asm.Observable;
 
 public class ProbabilisticSymbol<T extends Observable>{
 

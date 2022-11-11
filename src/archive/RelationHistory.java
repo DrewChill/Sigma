@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import ml.kit.structs.asm.Observable;
+import archive.asm.Observable;
 
 public class RelationHistory<T extends Observable, S extends StochasticSymbol<T>> {
 	

@@ -5,7 +5,7 @@ import java.util.*;
 import ml.kit.function.SymbolShape;
 import archive.StochasticSymbol;
 import ml.kit.observer.symbol.SymbolGenerator;
-import ml.kit.structs.asm.Observable;
+import archive.asm.Observable;
 import archive.AbstractEmitter;
 import archive.ObservationHistory;
 import archive.RelationHistory;

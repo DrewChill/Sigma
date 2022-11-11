@@ -1,6 +1,6 @@
 package archive.idk;
 
-import ml.kit.identity.Code;
+import ml.kit.code.Code;
 
 import java.util.Collection;
 import java.util.List;

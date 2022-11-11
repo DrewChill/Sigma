@@ -1,6 +1,6 @@
 package ml.kit.observer.emitter;
 
-import ml.kit.identity.Code;
+import ml.kit.code.Code;
 import ml.kit.observer.collector.Collector;
 
 import java.util.Collection;

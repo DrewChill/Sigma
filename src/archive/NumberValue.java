@@ -1,6 +1,6 @@
 package archive;
 
-import ml.kit.identity.valuation.Valuation;
+import archive.valuation.Valuation;
 
 public interface NumberValue<In,T,Out> extends Valuation
 		<In,

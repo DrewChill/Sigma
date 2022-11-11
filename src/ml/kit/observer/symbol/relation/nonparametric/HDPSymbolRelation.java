@@ -3,7 +3,7 @@ package ml.kit.observer.symbol.relation.nonparametric;
 import java.util.HashMap;
 import java.util.Map;
 
-import ml.kit.structs.asm.Observable;
+import archive.asm.Observable;
 import archive.AbstractEmitter;
 import archive.ProbabilisticSymbol;
 import archive.StochasticSymbol;

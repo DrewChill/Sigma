@@ -9,11 +9,11 @@ import java.util.Set;
 import archive.StochasticSymbol;
 import ml.kit.observer.AbstractObserver;
 import ml.kit.observer.Observer;
-import ml.kit.structs.asm.Observable;
+import archive.asm.Observable;
 import archive.Context;
 import archive.AbstractEmitter;
 import archive.ObservationHistory;
-import ml.kit.structs.vector.VectorVariable;
+import ml.kit.primitive.vector.VectorVariable;
 
 public class SymbolGenerator<T> extends Observer<T,VectorVariable<T>> {
 

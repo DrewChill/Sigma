@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import ml.kit.structs.asm.Observable;
+import archive.asm.Observable;
 import archive.StochasticSymbol;
 import ml.kit.observer.AbstractObserver;
 import ml.kit.observer.symbol.relation.SymbolRelation;

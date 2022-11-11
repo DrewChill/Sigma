@@ -1,7 +1,7 @@
 package ml.kit.observer.symbol.relation.nonparametric;
 
 import ml.kit.function.SymbolShape;
-import ml.kit.structs.asm.Observable;
+import archive.asm.Observable;
 import archive.StochasticSymbol;
 import archive.ObservationHistory;
 

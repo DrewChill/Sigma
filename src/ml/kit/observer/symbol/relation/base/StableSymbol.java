@@ -3,7 +3,7 @@ package ml.kit.observer.symbol.relation.base;
 import java.util.HashMap;
 import java.util.Map;
 
-import ml.kit.structs.asm.Observable;
+import archive.asm.Observable;
 import archive.StochasticSymbol;
 import archive.ObservationHistory;
 
