@@ -6,6 +6,7 @@ import ml.kit.structs.num.Rational;
 
 import java.util.Set;
 
+//I'm gonna throw up
 public abstract class Distribution<T,d extends Number,C extends Conjugate<T,d>>
 		extends
 		Rational
