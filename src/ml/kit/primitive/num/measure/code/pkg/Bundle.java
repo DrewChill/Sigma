@@ -4,8 +4,8 @@ import ml.kit.primitive.num.measure.code.Code;
 
 import java.util.Set;
 
-public interface Bundle<K,V,E extends Fiber<K,V>> extends Code<K,E,V> {
+public interface Bundle<P,D,F extends Fiber<P,? super D>> extends Code<P,F,D> {
 
-	Set<E> fibersFromKey(K key);
+	Set<F> fibersFromKey(P key);
 
 }

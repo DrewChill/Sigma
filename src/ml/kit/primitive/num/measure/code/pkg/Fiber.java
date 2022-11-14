@@ -2,10 +2,10 @@ package ml.kit.primitive.num.measure.code.pkg;
 
 import ml.kit.primitive.num.Rational;
 
-public interface Fiber<K,V> extends Rational {
+public interface Fiber<P,D> extends Rational {
 
-	K getKey();
+	P getPoint();
 
-	V getValue();
+	D getDomain();
 
 }

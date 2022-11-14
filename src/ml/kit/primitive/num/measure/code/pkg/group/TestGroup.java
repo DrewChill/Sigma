@@ -49,11 +49,6 @@ public class TestGroup<g,s extends Rational,A extends Action<g,s>> implements Gr
 	}
 
 	@Override
-	public A orbit() {
-		return null;
-	}
-
-	@Override
 	public Number value() {
 		return null;
 	}
