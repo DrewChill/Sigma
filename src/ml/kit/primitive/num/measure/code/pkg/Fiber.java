@@ -1,4 +1,4 @@
-package ml.kit.code.pkg;
+package ml.kit.primitive.num.measure.code.pkg;
 
 import ml.kit.primitive.num.Rational;
 

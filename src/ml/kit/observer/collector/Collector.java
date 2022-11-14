@@ -1,6 +1,6 @@
 package ml.kit.observer.collector;
 
-import ml.kit.code.Code;
+import ml.kit.primitive.num.measure.code.Code;
 import ml.kit.observer.emitter.Emitter;
 
 public interface Collector<C,Unknown> extends Code<Emitter<?,? extends C>, C, Unknown> {

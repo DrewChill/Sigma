@@ -1,4 +1,4 @@
-package ml.kit.code;
+package ml.kit.primitive.num.measure.code;
 
 import ml.kit.primitive.num.measure.Metric;
 import java.util.Collection;

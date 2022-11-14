@@ -1,7 +1,7 @@
 package ml.kit.primitive.num;
 
-import ml.kit.code.pkg.group.Action;
-import ml.kit.code.pkg.group.Group;
+import ml.kit.primitive.num.measure.code.pkg.group.Action;
+import ml.kit.primitive.num.measure.code.pkg.group.Group;
 
 import java.util.Collection;
 import java.util.Iterator;

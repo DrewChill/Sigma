@@ -1,7 +1,7 @@
-package ml.kit.code.pkg.group;
+package ml.kit.primitive.num.measure.code.pkg.group;
 
-import ml.kit.code.Code;
-import ml.kit.code.pkg.Bundle;
+import ml.kit.primitive.num.measure.code.Code;
+import ml.kit.primitive.num.measure.code.pkg.Bundle;
 import ml.kit.primitive.num.Rational;
 
 import java.util.Set;
@@ -13,8 +13,8 @@ public interface Group<g,s extends Rational,A extends Action<g,s>>
 				g,
 				Group<
 						? extends g,
-						? extends s,
-						? extends Action<? extends g,? extends s>>,
+						?,
+						? extends Action<? extends g,?>>,
 				A> {
 
 
@@ -22,16 +22,16 @@ public interface Group<g,s extends Rational,A extends Action<g,s>>
 	A orbit(); //the sum(/convolution?) of the tangent groups (the action from the origin to the sum of supergroups)
 
 	Set<? extends Group<
-			g,
-			? extends s,
-			? extends Action<g,? extends s>>> include(g observation);
+			? extends g,
+			?,
+			? extends Action<? extends g,?>>> include(g observation);
 
 	Set<? extends Group<
-			g,
-			? extends s,
-			? extends Action<g,? extends s>>> exclude(g observation);
+			? extends g,
+			?,
+			? extends Action<? extends g,?>>> exclude(g observation);
 
-	default Code<g,A,Group<? extends g,? extends s,? extends Action<? extends g,? extends s>>> density() {
+	default Code<g,A,Group<? extends g,?,? extends Action<? extends g,?>>> density() {
 		return length(orbit());
 	}
 	//------------------

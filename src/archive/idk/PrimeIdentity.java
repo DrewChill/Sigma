@@ -1,6 +1,6 @@
 package archive.idk;
 
-import ml.kit.code.Code;
+import ml.kit.primitive.num.measure.code.Code;
 
 import java.util.Collection;
 import java.util.List;

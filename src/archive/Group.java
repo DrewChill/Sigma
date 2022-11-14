@@ -1,6 +1,6 @@
 package archive;
 
-import ml.kit.code.Code;
+import ml.kit.primitive.num.measure.code.Code;
 import archive.bound.BoundCollection;
 
 public interface Group<T> {
