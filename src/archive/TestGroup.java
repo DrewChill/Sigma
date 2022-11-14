@@ -1,13 +1,15 @@
-package ml.kit.primitive.num.measure.code.pkg.group;
+package archive;
 
 import ml.kit.primitive.num.measure.code.Code;
 import ml.kit.primitive.num.AbstractNumber;
 import ml.kit.primitive.num.Rational;
+import ml.kit.primitive.num.measure.code.pkg.group.Action;
+import ml.kit.primitive.num.measure.code.pkg.group.Group;
 
 import java.util.Collection;
 import java.util.Set;
 
-public class TestGroup<g,s extends Rational,A extends Action<g,s>> implements Group<g,s,A> {
+public class TestGroup<g,s extends Rational,A extends Action<g,s>> implements ml.kit.primitive.num.measure.code.pkg.group.Group<g,s,A> {
 	@Override
 	public Collection<? extends g> sources() {
 		return null;
@@ -19,17 +21,17 @@ public class TestGroup<g,s extends Rational,A extends Action<g,s>> implements Gr
 	}
 
 	@Override
-	public Collection<? extends Group<? extends g,?,? extends Action<? extends g,?>>> targets() {
+	public Collection<? extends ml.kit.primitive.num.measure.code.pkg.group.Group<? extends g,?,? extends Action<? extends g,?>>> targets() {
 		return null;
 	}
 
 	@Override
-	public Set<? extends Group<? extends g,?,? extends Action<? extends g,?>>> include(g observation) {
+	public Set<? extends ml.kit.primitive.num.measure.code.pkg.group.Group<? extends g,?,? extends Action<? extends g,?>>> include(g observation) {
 		return null;
 	}
 
 	@Override
-	public Set<? extends Group<? extends g,?,? extends Action<? extends g,?>>> exclude(g observation) {
+	public Set<? extends ml.kit.primitive.num.measure.code.pkg.group.Group<? extends g,?,? extends Action<? extends g,?>>> exclude(g observation) {
 		return null;
 	}
 
