@@ -8,10 +8,10 @@ import ml.kit.primitive.num.measure.code.pkg.group.Group;
 import java.util.Collection;
 import java.util.Set;
 
-public class Counter<point,domain extends Rational>
+public class SomethingWeird<point,domain extends Rational>
 		implements
 		Action<point,domain>,
-		Group<point,domain,Counter<point,domain>>{
+		Group<point,domain,SomethingWeird<point,domain>>{
 
 
 
@@ -45,11 +45,11 @@ public class Counter<point,domain extends Rational>
 	}
 	//-------
 	@Override
-	public Collection<? extends Counter<point,domain>> encoding() {
+	public Collection<? extends SomethingWeird<point,domain>> encoding() {
 		return null;
 	}
 	@Override
-	public Counter<point,domain> origin() {
+	public SomethingWeird<point,domain> origin() {
 		return null;
 	}
 	@Override
@@ -58,30 +58,11 @@ public class Counter<point,domain extends Rational>
 	}
 	//-------
 	@Override
-	public Collection<? extends Counter<point,domain>> targets() {
+	public Collection<? extends SomethingWeird<point,domain>> targets() {
 		return null;
 	}
 	@Override
-	public Counter<point,domain> getDomain() {
-		return null;
-	}
-	//--------------------
-
-
-
-	//--------------------
-	@Override
-	public Set<Counter<point,domain>> include(point observation) {
-		return null;
-	}
-
-	@Override
-	public Set<Counter<point,domain>> exclude(point observation) {
-		return null;
-	}
-
-	@Override
-	public Set<Counter<point,domain>> fibersFromKey(point key) {
+	public SomethingWeird<point,domain> getDomain() {
 		return null;
 	}
 	//--------------------
@@ -90,12 +71,31 @@ public class Counter<point,domain extends Rational>
 
 	//--------------------
 	@Override
-	public Counter<point,domain> distance(Counter<point,domain> from, Counter<point,domain> to) {
+	public Set<SomethingWeird<point,domain>> include(point observation) {
 		return null;
 	}
 
 	@Override
-	public Counter<point,domain> length(Counter<point,domain> object) {
+	public Set<SomethingWeird<point,domain>> exclude(point observation) {
+		return null;
+	}
+
+	@Override
+	public Set<SomethingWeird<point,domain>> fibersFromKey(point key) {
+		return null;
+	}
+	//--------------------
+
+
+
+	//--------------------
+	@Override
+	public SomethingWeird<point,domain> distance(SomethingWeird<point,domain> from, SomethingWeird<point,domain> to) {
+		return null;
+	}
+
+	@Override
+	public SomethingWeird<point,domain> length(SomethingWeird<point,domain> object) {
 		return null;
 	}
 	//--------------------
