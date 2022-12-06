@@ -1,13 +1,12 @@
 package ml.kit.primitive.num.measure.code.pkg.group;
 
-import ml.kit.primitive.num.measure.code.Code;
 import ml.kit.primitive.num.measure.code.pkg.Bundle;
 import ml.kit.primitive.num.Rational;
 
 import java.util.Set;
 
 //I'm gonna throw up
-public interface Group<g,s extends Rational,A extends Action<g,? super s>>
+public interface Group<g,s extends Rational,A extends Action<g,s>>
 		extends
 		Bundle<
 				g,
