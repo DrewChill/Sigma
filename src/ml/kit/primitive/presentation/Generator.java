@@ -1,11 +1,10 @@
 package ml.kit.primitive.presentation;
 
-import ml.kit.primitive.num.Num;
+import ml.kit.primitive.str.Reader;
+import ml.kit.primitive.str.string;
 
-public interface Generator<g> extends Num {
+public interface Generator<g,rg extends Reader<g>> extends string<g,rg,g,rg> {
 
-	g letter();
-
-	Generator<g> complex();
+	Generator<g,rg> complex();
 
 }

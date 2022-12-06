@@ -1,4 +1,4 @@
-package ml.kit.primitive;
+package ml.kit.primitive.commutative;
 
 import ml.kit.primitive.presentation.Generator;
 

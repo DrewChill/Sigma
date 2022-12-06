@@ -1,7 +1,7 @@
 package ml.kit.primitive.num;
 
-public interface Rational extends Num {
+public interface Rational extends number {
 
-	Num denominator();
+	number denominator();
 
 }

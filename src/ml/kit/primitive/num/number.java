@@ -1,8 +1,8 @@
 package ml.kit.primitive.num;
 
-public interface Num {
+public interface number {
 
-	Num complex();
+	number complex();
 
 	Number real();
 

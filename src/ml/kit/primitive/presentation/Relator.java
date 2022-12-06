@@ -1,11 +1,12 @@
 package ml.kit.primitive.presentation;
 
-import ml.kit.primitive.num.Rational;
+import ml.kit.primitive.str.Enumerator;
+import ml.kit.primitive.str.strand;
 
-public interface Relator<g> extends Rational {
+public interface Relator<g,ge extends Enumerator<g>> extends strand<g,ge,g,ge> {
 
-	Generator<g> complex();
+	Generator<g,ge> complex();
 
-	Generator<g> denominator();
+	Generator<g,ge> denominator();
 
 }
