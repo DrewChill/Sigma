@@ -3,8 +3,8 @@ package ml.kit.primitive.commutative;
 import ml.kit.primitive.chiral.Left;
 import ml.kit.primitive.chiral.Right;
 import ml.kit.primitive.presentation.Relator;
-import ml.kit.primitive.str.Enumerator;
-import ml.kit.primitive.str.Reader;
+import ml.kit.primitive.read.Enumerator;
+import ml.kit.primitive.read.Reader;
 
 public interface SymProduct<g,rg extends Reader<g>,h,rh extends Reader<h>> {
 
