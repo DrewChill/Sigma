@@ -3,10 +3,10 @@ package ml.kit.primitive.presentation;
 import ml.kit.primitive.str.Enumerator;
 import ml.kit.primitive.str.strand;
 
-public interface Relator<g,ge extends Enumerator<g>> extends strand<g,ge,g,ge> {
+public interface Relator<g,eg extends Enumerator<g>> extends strand<g,eg,g,eg> {
 
-	Generator<g,ge> complex();
+	Generator<g,eg> complex();
 
-	Generator<g,ge> denominator();
+	Generator<g,eg> denominator();
 
 }

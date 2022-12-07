@@ -1,11 +1,12 @@
 package ml.kit.primitive.commutative;
 
 import ml.kit.primitive.presentation.Generator;
+import ml.kit.primitive.str.Reader;
 
-public interface Commutator<g,h> extends Generator<g> {
+public interface Commutator<g,rg extends Reader<g>,h,rh extends Reader<h>> extends Generator<g,rg> {
 
-	Commutator<g,h> complex();
+	Commutator<g,rg,h,rh> complex();
 
-	Commutator<h,g> denominator();
+	Commutator<h,rh,g,rg> denominator();
 
 }
