@@ -1,4 +1,4 @@
-package ml.kit.primitive.commutative;
+package ml.kit.primitive.commutator;
 
 import ml.kit.primitive.chiral.Left;
 import ml.kit.primitive.chiral.Right;

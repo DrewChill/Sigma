@@ -1,10 +1,9 @@
 package ml.kit.primitive.read;
 
-import ml.kit.primitive.num.number;
+import ml.kit.primitive.Operator.Operator;
 
 public interface Reader<g> {
 
-	//TODO: yeah...idk, we'll see
-	<result> result read(g obj, number options);
+	<result> result read(g obj, Operator<g,result> options);
 
 }
