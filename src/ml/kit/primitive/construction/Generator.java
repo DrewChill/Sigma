@@ -1,4 +1,4 @@
-package ml.kit.primitive.presentation;
+package ml.kit.primitive.construction;
 
 import ml.kit.primitive.read.Reader;
 import ml.kit.primitive.str.string;

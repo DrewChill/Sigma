@@ -2,7 +2,7 @@ package ml.kit.primitive.commutator;
 
 import ml.kit.primitive.chiral.Left;
 import ml.kit.primitive.chiral.Right;
-import ml.kit.primitive.presentation.Relator;
+import ml.kit.primitive.construction.Relator;
 import ml.kit.primitive.read.Enumerator;
 import ml.kit.primitive.read.Reader;
 

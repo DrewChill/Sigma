@@ -1,6 +1,6 @@
 package ml.kit.primitive.read;
 
-import ml.kit.primitive.Operator.Operator;
+import ml.kit.primitive.operator.Operator;
 
 public interface Reader<g> {
 
