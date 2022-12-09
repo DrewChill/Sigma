@@ -1,7 +1,7 @@
 package archive;
 
 import ml.kit.primitive.chiral.Product;
-import ml.kit.primitive.num.number;
+import ml.kit.primitive.num.Complex;
 import ml.kit.primitive.operator.Operator;
 
 public class aproductcharacter<x,y> implements Product<x,y,aproduct<x,y>> {
@@ -11,7 +11,7 @@ public class aproductcharacter<x,y> implements Product<x,y,aproduct<x,y>> {
 	}
 
 	@Override
-	public number complex() {
+	public Complex complex() {
 		return null;
 	}
 

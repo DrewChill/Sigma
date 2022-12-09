@@ -1,8 +1,5 @@
-package ml.kit.primitive.commutator;
+package ml.kit.primitive.operator.commutator;
 
-import ml.kit.primitive.chiral.Left;
-import ml.kit.primitive.chiral.Right;
-import archive.read.Enumerator;
 import ml.kit.primitive.str.character;
 
 public interface SymProduct<g,rg extends character<g>,h,rh extends character<h>> {

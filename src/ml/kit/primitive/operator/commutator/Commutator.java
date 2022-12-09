@@ -1,4 +1,4 @@
-package ml.kit.primitive.commutator;
+package ml.kit.primitive.operator.commutator;
 
 import ml.kit.primitive.chiral.Product;
 import ml.kit.primitive.operator.Operator;

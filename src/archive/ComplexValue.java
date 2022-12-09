@@ -2,7 +2,7 @@ package archive;
 
 import archive.valuation.Valuation;
 
-public interface NumberValue<In,T,Out> extends Valuation
+public interface ComplexValue<In,T,Out> extends Valuation
 		<In,
 		T,
 		Number,

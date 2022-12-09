@@ -1,9 +1,9 @@
 package ml.kit.primitive.num;
 
-public interface number {
+import ml.kit.primitive.str.character;
 
-	Number real();
+public interface number<R extends Number> extends character<R> {
 
-	number complex();
+
 
 }

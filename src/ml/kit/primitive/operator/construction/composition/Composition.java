@@ -1,7 +1,8 @@
-package ml.kit.primitive.operator;
+package ml.kit.primitive.operator.construction.composition;
 
 import ml.kit.primitive.chiral.Product;
-import ml.kit.primitive.num.number;
+import ml.kit.primitive.num.Complex;
+import ml.kit.primitive.operator.Operator;
 
 public class Composition<I, O, E> implements Operator<I,E> {
 
@@ -14,7 +15,7 @@ public class Composition<I, O, E> implements Operator<I,E> {
 	}
 
 	@Override
-	public number complex() {
+	public Complex complex() {
 		return null;
 	}
 
@@ -39,7 +40,7 @@ public class Composition<I, O, E> implements Operator<I,E> {
 	}
 
 	@Override
-	public Product<I,E> image() {
+	public Product<I,E> kernel() {
 		return null;
 	}
 

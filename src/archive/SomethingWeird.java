@@ -1,6 +1,6 @@
 package archive;
 
-import ml.kit.primitive.num.number;
+import ml.kit.primitive.num.Complex;
 import ml.kit.primitive.num.Rational;
 import ml.kit.primitive.num.measure.code.pkg.group.Action;
 import ml.kit.primitive.num.measure.code.pkg.group.Group;
@@ -22,12 +22,12 @@ public class SomethingWeird<point,domain extends Rational>
 	}
 
 	@Override
-	public number complex() {
+	public Complex complex() {
 		return null;
 	}
 
 	@Override
-	public number denominator() {
+	public Complex denominator() {
 		return null;
 	}
 	//--------------------

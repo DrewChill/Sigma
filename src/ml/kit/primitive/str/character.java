@@ -1,11 +1,10 @@
 package ml.kit.primitive.str;
 
-import ml.kit.primitive.num.number;
 import ml.kit.primitive.operator.Operator;
 
-public interface character<g> extends number {
+public interface character<g> {
 
-	g image();
+	g kernel();
 
 	<result> result read(Operator<g,result> options);
 
