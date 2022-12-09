@@ -1,8 +1,10 @@
 package ml.kit.primitive.operator;
 
-import ml.kit.primitive.num.number;
+import ml.kit.primitive.chiral.Product;
+import ml.kit.primitive.str.character;
 
-public interface Operator<I,O> extends number {
+//character is the left/right identity
+public interface Operator<I,O> extends character<Product<I,O>> {
 
 	O operate(I input);
 

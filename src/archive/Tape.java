@@ -1,9 +1,9 @@
-package ml.kit.primitive.str;
+package archive;
 
 import ml.kit.primitive.operator.Operator;
-import ml.kit.primitive.read.Reader;
+import ml.kit.primitive.str.character;
 
-public interface Tape<g,rg extends Reader<g>,h, rh extends Reader<h>> extends Strand<g,rg,h,rh> {
+public interface Tape<g,rg extends character<g>,h, rh extends character<h>> extends Strand<g,rg,h,rh> {
 
 	Tape<h,rh,?,?> complex();
 
