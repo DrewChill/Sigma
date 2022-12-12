@@ -17,11 +17,11 @@ public interface Operator<input,center,result,identity extends Product<input,cen
 
 	<prefix,
 			preCenter,
-			preIdentity extends Product<prefix,preCenter,result>,
-			centralProduct extends Product<preCenter,result,center>>
-	Operator<prefix,centralProduct,input,
-			? extends Product<prefix,centralProduct,input>> prepend(
-			Operator<prefix,preCenter,result,preIdentity> operator);
+			preIdentity extends Product<prefix,preCenter,input>,
+			centralProduct extends Product<preCenter,input,center>>
+	Operator<prefix,centralProduct,result,
+			? extends Product<prefix,centralProduct,result>> prepend(
+			Operator<prefix,preCenter,input,preIdentity> operator);
 
 
 }
