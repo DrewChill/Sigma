@@ -8,12 +8,12 @@ public interface Operator<input,center,result,identity extends Product<input,cen
 	result operate(input input);
 
 	<extension,
-			extensionCenter,
-			extensionIdentity extends Product<result,extensionCenter,extension>,
-			centralProduct extends Product<center,result,extensionCenter>,
-			centralIdentity extends Product<input,centralProduct,extension>>
-	Operator<input,centralProduct,extension,centralIdentity>
-	append(Operator<result,extensionCenter,extension,extensionIdentity> operator);
+			extCenter,
+			extIdentity extends Product<result,extCenter,extension>,
+			centralProduct extends Product<center,result,extCenter>>
+	Operator<input,centralProduct,extension,
+			? extends Product<input,centralProduct,extension>> append(
+					Operator<result,extCenter,extension,extIdentity> operator);
 
 
 }
