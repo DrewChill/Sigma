@@ -1,6 +1,6 @@
-package ml.kit.primitive.chiral.adjoint;
+package ml.kit.primitive.product.adjoint;
 
-import ml.kit.primitive.chiral.Right;
+import ml.kit.primitive.product.Right;
 import ml.kit.primitive.str.AdjointCharacter;
 import ml.kit.primitive.str.TerminalCharacter;
 

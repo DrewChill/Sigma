@@ -1,8 +1,8 @@
 package ml.kit.primitive.operator.construction;
 
-import ml.kit.primitive.chiral.Product;
+import ml.kit.primitive.product.DisjointProduct;
 import ml.kit.primitive.num.Complex;
-import ml.kit.primitive.operator.Operator;
+import ml.kit.primitive.operator.Mapping;
 
 public class TestPresentation<R,N extends Complex> implements Presentation<R,N>{
 
@@ -12,12 +12,12 @@ public class TestPresentation<R,N extends Complex> implements Presentation<R,N>{
 	}
 
 	@Override
-	public <E> Operator<R,E> append(Operator<N,E> operator) {
+	public <E> Mapping<R,E> append(Mapping<N,E> operator) {
 		return null;
 	}
 
 	@Override
-	public <Q> Operator<Q,N> prepend(Operator<Q,R> operator) {
+	public <Q> Mapping<Q,N> prepend(Mapping<Q,R> operator) {
 		return null;
 	}
 
@@ -27,12 +27,12 @@ public class TestPresentation<R,N extends Complex> implements Presentation<R,N>{
 	}
 
 	@Override
-	public Product<R,N> real() {
+	public DisjointProduct<R,N> real() {
 		return null;
 	}
 
 	@Override
-	public <result> result read(Operator<Product<R,N>,result> operator) {
+	public <result> result read(Mapping<DisjointProduct<R,N>,result> operator) {
 		return null;
 	}
 }

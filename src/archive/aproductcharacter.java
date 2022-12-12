@@ -1,10 +1,10 @@
 package archive;
 
-import ml.kit.primitive.chiral.Product;
+import ml.kit.primitive.product.DisjointProduct;
 import ml.kit.primitive.num.Complex;
-import ml.kit.primitive.operator.Operator;
+import ml.kit.primitive.operator.Mapping;
 
-public class aproductcharacter<x,y> implements Product<x,y,aproduct<x,y>> {
+public class aproductcharacter<x,y> implements DisjointProduct<x,y,aproduct<x,y>> {
 	@Override
 	public Number real() {
 		return null;
@@ -21,7 +21,7 @@ public class aproductcharacter<x,y> implements Product<x,y,aproduct<x,y>> {
 	}
 
 	@Override
-	public <result> result read(Operator<aproduct<x,y>,result> options) {
+	public <result> result read(Mapping<aproduct<x,y>,result> options) {
 		return null;
 	}
 }

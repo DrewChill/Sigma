@@ -1,6 +1,6 @@
 package ml.kit.primitive.str;
 
-import ml.kit.primitive.operator.Operator;
+import ml.kit.primitive.operator.Mapping;
 
 public class TestTerminalCharacter<g> implements TerminalCharacter<g> {
 
@@ -10,7 +10,7 @@ public class TestTerminalCharacter<g> implements TerminalCharacter<g> {
 	}
 
 	@Override
-	public <result> result read(Operator<g,result> operator) {
+	public <result> result read(Mapping<g,result> operator) {
 		return null;
 	}
 }

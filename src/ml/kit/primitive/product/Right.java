@@ -1,4 +1,4 @@
-package ml.kit.primitive.chiral;
+package ml.kit.primitive.product;
 
 import ml.kit.primitive.str.TerminalCharacter;
 

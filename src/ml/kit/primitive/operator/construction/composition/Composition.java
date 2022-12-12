@@ -1,15 +1,15 @@
 package ml.kit.primitive.operator.construction.composition;
 
-import ml.kit.primitive.chiral.Product;
+import ml.kit.primitive.product.DisjointProduct;
 import ml.kit.primitive.num.Complex;
-import ml.kit.primitive.operator.Operator;
+import ml.kit.primitive.operator.Mapping;
 
-public class Composition<I, O, E> implements Operator<I,E> {
+public class Composition<I, O, E> implements Mapping<I,E> {
 
-	private final Operator<I,O> first;
-	private final Operator<O,E> second;
+	private final Mapping<I,O> first;
+	private final Mapping<O,E> second;
 
-	public Composition(Operator<I,O> first, Operator<O,E> second) {
+	public Composition(Mapping<I,O> first, Mapping<O,E> second) {
 		this.first = first;
 		this.second = second;
 	}
@@ -30,22 +30,22 @@ public class Composition<I, O, E> implements Operator<I,E> {
 	}
 
 	@Override
-	public <E1> Operator<I,E1> append(Operator<E,E1> operator) {
+	public <E1> Mapping<I,E1> append(Mapping<E,E1> operator) {
 		return null;
 	}
 
 	@Override
-	public <Q> Operator<Q,E> prepend(Operator<Q,I> operator) {
+	public <Q> Mapping<Q,E> prepend(Mapping<Q,I> operator) {
 		return null;
 	}
 
 	@Override
-	public Product<I,E> real() {
+	public DisjointProduct<I,E> real() {
 		return null;
 	}
 
 	@Override
-	public <result> result read(Operator<Product<I,E>,result> operator) {
+	public <result> result read(Mapping<DisjointProduct<I,E>,result> operator) {
 		return null;
 	}
 }

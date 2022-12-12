@@ -1,11 +1,11 @@
 package ml.kit.primitive.str;
 
-import ml.kit.primitive.operator.Operator;
+import ml.kit.primitive.operator.Mapping;
 
 public interface TerminalCharacter<g> {
 
 	g real();
 
-	<result> result read(Operator<g,result> operator);
+	<result> result read(Mapping<g,result> operator);
 
 }
