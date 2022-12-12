@@ -1,7 +1,7 @@
 package archive;
 
 import ml.kit.primitive.operator.Mapping;
-import ml.kit.primitive.str.TerminalCharacter;
+import ml.kit.primitive.seq.TerminalCharacter;
 
 public class TestStringNode<g,cg extends TerminalCharacter<g>> implements StringNode<g,cg> {
 

@@ -1,4 +1,4 @@
-package ml.kit.primitive.str;
+package ml.kit.primitive.seq;
 
 import ml.kit.primitive.operator.combinator.Terminator;
 

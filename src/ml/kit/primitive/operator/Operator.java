@@ -1,7 +1,7 @@
 package ml.kit.primitive.operator;
 
 import ml.kit.primitive.product.Product;
-import ml.kit.primitive.str.TerminalCharacter;
+import ml.kit.primitive.seq.TerminalCharacter;
 
 public interface Operator<input,center,result,identity extends Product<input,center,result>>
 		extends TerminalCharacter<identity> {
