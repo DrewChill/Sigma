@@ -9,4 +9,6 @@ public interface Mapping<input,result> extends Operator<input,EMPTY,result,Disjo
 
 	<E> Mapping<input,E> append(Mapping<result,E> operator);
 
+	<E> Mapping<E,result> prepend(Mapping<E,input> operator);
+
 }

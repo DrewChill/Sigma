@@ -15,5 +15,13 @@ public interface Operator<input,center,result,identity extends Product<input,cen
 			? extends Product<input,centralProduct,extension>> append(
 					Operator<result,extCenter,extension,extIdentity> operator);
 
+	<prefix,
+			preCenter,
+			preIdentity extends Product<prefix,preCenter,result>,
+			centralProduct extends Product<preCenter,result,center>>
+	Operator<prefix,centralProduct,input,
+			? extends Product<prefix,centralProduct,input>> prepend(
+			Operator<prefix,preCenter,result,preIdentity> operator);
+
 
 }
