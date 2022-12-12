@@ -31,12 +31,12 @@ public class TestRepresentation<R,N extends Complex> implements Operator<R,N> {
 	}
 
 	@Override
-	public Product<R,N> kernel() {
+	public Product<R,N> real() {
 		return null;
 	}
 
 	@Override
-	public <result> result read(Operator<Product<R,N>,result> options) {
+	public <result> result read(Operator<Product<R,N>,result> operator) {
 		return null;
 	}
 }

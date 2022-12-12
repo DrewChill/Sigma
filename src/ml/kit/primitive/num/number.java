@@ -1,9 +1,5 @@
 package ml.kit.primitive.num;
 
-import ml.kit.primitive.str.character;
+import ml.kit.primitive.str.TerminalCharacter;
 
-public interface number<R extends Number> extends character<R> {
-
-
-
-}
+public interface number<R extends Number> extends TerminalCharacter<R> {}

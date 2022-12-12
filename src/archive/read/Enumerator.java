@@ -1,8 +1,8 @@
 package archive.read;
 
-import ml.kit.primitive.str.character;
+import ml.kit.primitive.str.TerminalCharacter;
 
-public interface Enumerator<g> extends character<g> {
+public interface Enumerator<g> extends TerminalCharacter<g> {
 
 	g enumeration();
 

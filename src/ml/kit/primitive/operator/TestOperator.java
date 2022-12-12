@@ -10,12 +10,12 @@ public class TestOperator<I,O> implements Operator<I,O>{
 	}
 
 	@Override
-	public Product<I,O> kernel() {
+	public Product<I,O> real() {
 		return null;
 	}
 
 	@Override
-	public <result> result read(Operator<Product<I,O>,result> options) {
+	public <result> result read(Operator<Product<I,O>,result> operator) {
 		return null;
 	}
 

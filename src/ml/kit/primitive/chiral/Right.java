@@ -1,7 +1,9 @@
 package ml.kit.primitive.chiral;
 
+import ml.kit.primitive.str.TerminalCharacter;
+
 public interface Right<r> {
 
-	r getRight();
+	TerminalCharacter<r> getRight();
 
 }

@@ -40,12 +40,12 @@ public class Composition<I, O, E> implements Operator<I,E> {
 	}
 
 	@Override
-	public Product<I,E> kernel() {
+	public Product<I,E> real() {
 		return null;
 	}
 
 	@Override
-	public <result> result read(Operator<Product<I,E>,result> options) {
+	public <result> result read(Operator<Product<I,E>,result> operator) {
 		return null;
 	}
 }

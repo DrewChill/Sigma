@@ -1,15 +1,15 @@
 package ml.kit.primitive.operator;
 
 import ml.kit.primitive.chiral.Product;
-import ml.kit.primitive.str.character;
+import ml.kit.primitive.str.TerminalCharacter;
 
 //character is the left/right identity
-public interface Operator<I,O> extends character<Product<I,O>> {
+public interface Operator<input,result> extends TerminalCharacter<Product<input,result>> {
 
-	O operate(I input);
+	result operate(input input);
 
-	<E> Operator<I,E> append(Operator<O,E> operator);
+	<E> Operator<input,E> append(Operator<result,E> operator);
 
-	<Q> Operator<Q,O> prepend(Operator<Q,I> operator);
+	<Q> Operator<Q,result> prepend(Operator<Q,input> operator);
 
 }
