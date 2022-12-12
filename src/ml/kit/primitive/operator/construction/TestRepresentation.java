@@ -21,7 +21,7 @@ public class TestRepresentation<R,N extends Complex> implements Mapping<R,N> {
 	}
 
 	@Override
-	public <E> Mapping<R,E> append(Mapping<N,E> operator) {
+	public <E> Mapping<R,E> extend(Mapping<N,E> operator) {
 		return null;
 	}
 

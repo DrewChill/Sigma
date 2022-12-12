@@ -22,7 +22,7 @@ public class TestMapping<I,O> implements Mapping<I,O> {
 	//----------------------
 
 	@Override
-	public <E> Mapping<I,E> append(Mapping<O,E> operator) {
+	public <E> Mapping<I,E> extend(Mapping<O,E> operator) {
 		return null;
 	}
 

@@ -30,7 +30,7 @@ public class Composition<I, O, E> implements Mapping<I,E> {
 	}
 
 	@Override
-	public <E1> Mapping<I,E1> append(Mapping<E,E1> operator) {
+	public <E1> Mapping<I,E1> extend(Mapping<E,E1> operator) {
 		return null;
 	}
 
