@@ -6,12 +6,12 @@ import archive.asm.Observable;
 import archive.AbstractEmitter;
 import archive.ProbabilisticSymbol;
 import archive.StochasticSymbol;
-import ml.kit.observer.symbol.SymbolGenerator;
+import ml.kit.observer.symbol.NullGenerator;
 import ml.kit.observer.AbstractObserver;
 
 public class DPEmitter<T extends Observable> extends AbstractEmitter<T> {
 
-	public DPEmitter(SymbolGenerator<T> vocabulary) {
+	public DPEmitter(NullGenerator<T> vocabulary) {
 		super(vocabulary);
 	}
 

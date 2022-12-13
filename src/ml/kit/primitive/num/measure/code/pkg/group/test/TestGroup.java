@@ -12,11 +12,11 @@ import java.util.Set;
 public class TestGroup<g,s extends Rational> implements Group<g,s,TestAction<g,s>> {
 
 	@Override
-	public Number real() {
+	public Number character() {
 		return null;
 	}
 	@Override
-	public Complex complex() {
+	public Complex root() {
 		return null;
 	}
 	@Override

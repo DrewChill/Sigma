@@ -1,5 +1,6 @@
 package ml.kit.primitive.product;
 
-import ml.kit.primitive.seq.TerminalCharacter;
+import ml.kit.primitive.LeftCharacter;
+import ml.kit.primitive.RightCharacter;
 
-public abstract class Product<left,center,right> implements Left<left>,Right<right>,TerminalCharacter<center> {}
+public abstract class Product<x,y> implements LeftCharacter<x>, RightCharacter<y> {}

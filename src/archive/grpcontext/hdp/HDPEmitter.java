@@ -9,14 +9,14 @@ import archive.asm.Observable;
 import archive.AbstractEmitter;
 import archive.ProbabilisticSymbol;
 import archive.StochasticSymbol;
-import ml.kit.observer.symbol.SymbolGenerator;
+import ml.kit.observer.symbol.NullGenerator;
 import ml.kit.observer.AbstractObserver;
 import ml.kit.observer.ObserverBasis;
 
 public class HDPEmitter<T extends Observable> extends AbstractEmitter<T> {
 	
 	//---------------------
-	public HDPEmitter(SymbolGenerator<T> symbolGenerator) {
+	public HDPEmitter(NullGenerator<T> symbolGenerator) {
 		super(symbolGenerator);
 	}
 

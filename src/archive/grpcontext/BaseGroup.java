@@ -6,12 +6,12 @@ import archive.asm.Observable;
 import archive.AbstractEmitter;
 import archive.ProbabilisticSymbol;
 import archive.StochasticSymbol;
-import ml.kit.observer.symbol.SymbolGenerator;
+import ml.kit.observer.symbol.NullGenerator;
 import ml.kit.observer.AbstractObserver;
 
 public class BaseGroup<T extends Observable> extends AbstractEmitter<T> {
 
-	public BaseGroup(SymbolGenerator<T> vocabulary) {
+	public BaseGroup(NullGenerator<T> vocabulary) {
 		super(vocabulary);
 	}
 

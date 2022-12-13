@@ -1,16 +1,16 @@
 package archive;
 
-import ml.kit.primitive.operator.combinator.Combinator;
-import ml.kit.primitive.seq.OperationalCharacter;
+import ml.kit.primitive.product.relation.combinator.Combinator;
+import ml.kit.primitive.seq.TransformationCharacter;
 import ml.kit.primitive.seq.TerminalCharacter;
 
-public interface InitCharacter<g,h,ch extends TerminalCharacter<h>> extends OperationalCharacter<g,h> {
+public interface InitCharacter<g,h,ch extends TerminalCharacter<h>> extends TransformationCharacter<g,h> {
 
 	@Override
-	ch complex();
+	ch root();
 
 	default <result> result read(Combinator<g,h,ch,result> combinator){
-		return combinator.operate(complex()).operate(real());
+		return combinator.operate(this.root()).operate(character());
 	}
 
 }

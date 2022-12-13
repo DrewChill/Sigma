@@ -4,7 +4,7 @@ import java.util.*;
 
 import ml.kit.function.SymbolShape;
 import archive.StochasticSymbol;
-import ml.kit.observer.symbol.SymbolGenerator;
+import ml.kit.observer.symbol.NullGenerator;
 import archive.asm.Observable;
 import archive.AbstractEmitter;
 import archive.ObservationHistory;
@@ -24,7 +24,7 @@ public class AbstractObserver<T extends Observable> {
 	public SymbolShape<T> localShape;
 	public SymbolRelation<T> globalShape;
 
-	public SymbolGenerator<T> vocabulary;
+	public NullGenerator<T> vocabulary;
 	private Collection<AbstractEmitter<T>> inputs = new ArrayList<>();
 
 	public Map<String,ObserverBasis<?>> parameters = new HashMap<>();

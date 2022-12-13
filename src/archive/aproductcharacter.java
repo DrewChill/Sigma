@@ -1,17 +1,17 @@
 package archive;
 
-import ml.kit.primitive.product.DisjointProduct;
+import ml.kit.primitive.product.DisjointRelation;
 import ml.kit.primitive.num.Complex;
-import ml.kit.primitive.operator.Op;
+import ml.kit.primitive.product.relation.Op;
 
-public class aproductcharacter<x,y> implements DisjointProduct<x,y,aproduct<x,y>> {
+public class aproductcharacter<x,y> implements DisjointRelation<x,y,aproduct<x,y>> {
 	@Override
-	public Number real() {
+	public Number character() {
 		return null;
 	}
 
 	@Override
-	public Complex complex() {
+	public Complex root() {
 		return null;
 	}
 

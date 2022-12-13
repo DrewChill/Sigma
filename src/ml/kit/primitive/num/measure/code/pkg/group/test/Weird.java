@@ -14,12 +14,12 @@ public class Weird<point,domain extends Rational>
 		Group<point,domain,Weird<point,domain>>, Action<point,domain> {
 
 	@Override
-	public Number real() {
+	public Number character() {
 		return null;
 	}
 
 	@Override
-	public Complex complex() {
+	public Complex root() {
 		return null;
 	}
 

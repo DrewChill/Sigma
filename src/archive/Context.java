@@ -6,16 +6,16 @@ import java.util.Collection;
 import java.util.Set;
 
 import archive.asm.Observable;
-import ml.kit.observer.symbol.SymbolGenerator;
+import ml.kit.observer.symbol.NullGenerator;
 import ml.kit.observer.AbstractObserver;
 
 public abstract class Context<T extends Observable> {
 	
-	public SymbolGenerator<T> vocabulary;
+	public NullGenerator<T> vocabulary;
 	private Collection<AbstractEmitter<T>> inputs = new ArrayList<>();
 
 	public Context(AbstractObserver<T> contextStructure) {
-		this.vocabulary = new SymbolGenerator<T>(contextStructure);
+		this.vocabulary = new NullGenerator<T>(contextStructure);
 		this.vocabulary.setContext(this);
 	}
 	

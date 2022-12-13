@@ -1,12 +1,12 @@
 package archive;
 
-import ml.kit.primitive.operator.Op;
+import ml.kit.primitive.product.relation.Op;
 import ml.kit.primitive.seq.TerminalCharacter;
 
 public class TestStringNode<g,cg extends TerminalCharacter<g>> implements StringNode<g,cg> {
 
 	@Override
-	public cg real() {
+	public cg character() {
 		return null;
 	}
 

@@ -51,12 +51,12 @@ public class TestGroup<g,s extends Rational,A extends Action<g,s>> implements ml
 	}
 
 	@Override
-	public Number real() {
+	public Number character() {
 		return null;
 	}
 
 	@Override
-	public Complex complex() {
+	public Complex root() {
 		return null;
 	}
 

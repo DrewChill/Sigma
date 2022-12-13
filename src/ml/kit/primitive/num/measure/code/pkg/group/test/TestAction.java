@@ -8,11 +8,11 @@ import ml.kit.primitive.num.measure.code.pkg.group.Group;
 public class TestAction<g,s extends Rational> implements Action<g,s> {
 
 	@Override
-	public Number real() {
+	public Number character() {
 		return null;
 	}
 	@Override
-	public Complex complex() {
+	public Complex root() {
 		return null;
 	}
 	@Override
