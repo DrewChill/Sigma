@@ -1,6 +1,6 @@
 package ml.kit.primitive.operator.combinator;
 
-import ml.kit.primitive.operator.Mapping;
-import ml.kit.primitive.seq.TerminalCharacter;
+import ml.kit.primitive.operator.Op;
+import ml.kit.primitive.seq.OperationalCharacter;
 
-public interface Combinator<g,h,ch extends TerminalCharacter<h>,result> extends Mapping<ch,Mapping<g,result>> {}
+public interface Combinator<a,b,c,result> extends Op<OperationalCharacter<b,c>,Op<a,result>> {}

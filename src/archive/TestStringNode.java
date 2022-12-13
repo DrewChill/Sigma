@@ -1,6 +1,6 @@
 package archive;
 
-import ml.kit.primitive.operator.Mapping;
+import ml.kit.primitive.operator.Op;
 import ml.kit.primitive.seq.TerminalCharacter;
 
 public class TestStringNode<g,cg extends TerminalCharacter<g>> implements StringNode<g,cg> {
@@ -16,7 +16,7 @@ public class TestStringNode<g,cg extends TerminalCharacter<g>> implements String
 	}
 
 	@Override
-	public <result> result read(Mapping<cg,result> operator) {
+	public <result> result read(Op<cg,result> operator) {
 		return null;
 	}
 }

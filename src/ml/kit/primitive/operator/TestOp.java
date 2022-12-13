@@ -2,7 +2,7 @@ package ml.kit.primitive.operator;
 
 import ml.kit.primitive.product.DisjointProduct;
 
-public class TestMapping<I,O> implements Mapping<I,O> {
+public class TestOp<I,O> implements Op<I,O> {
 
 	@Override
 	public O operate(I input) {
@@ -15,19 +15,19 @@ public class TestMapping<I,O> implements Mapping<I,O> {
 	}
 
 	@Override
-	public <result> result read(Mapping<DisjointProduct<I,O>,result> operator) {
+	public <result> result read(Op<DisjointProduct<I,O>,result> operator) {
 		return null;
 	}
 
 	//----------------------
 
 	@Override
-	public <E> Mapping<I,E> extend(Mapping<O,E> operator) {
+	public <E> Op<I,E> extend(Op<O,E> operator) {
 		return null;
 	}
 
 	@Override
-	public <Q> Mapping<Q,O> prepend(Mapping<Q,I> operator) {
+	public <Q> Op<Q,O> prepend(Op<Q,I> operator) {
 		return null;
 	}
 }

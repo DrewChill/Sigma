@@ -1,5 +1,5 @@
 package ml.kit.primitive.product;
 
-import ml.kit.primitive.EMPTY;
+import ml.kit.primitive.Nothing;
 
-public abstract class DisjointProduct<g,h> extends Product<g,EMPTY,h> {}
+public abstract class DisjointProduct<g,h> extends Product<g,Nothing,h> {}

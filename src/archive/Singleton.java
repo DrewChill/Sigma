@@ -1,4 +1,4 @@
-package ml.kit.primitive;
+package archive;
 
 import java.util.Collection;
 import java.util.Collections;

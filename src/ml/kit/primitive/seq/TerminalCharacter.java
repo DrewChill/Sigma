@@ -1,11 +1,10 @@
 package ml.kit.primitive.seq;
 
-import ml.kit.primitive.operator.Mapping;
+import ml.kit.primitive.Nothing;
+import ml.kit.primitive.Something;
 
-public interface TerminalCharacter<g> {
+public interface TerminalCharacter<c> extends Something<c> {
 
-	g real();
-
-	<result> result read(Mapping<g,result> operator);
+	Nothing complex();
 
 }

@@ -24,5 +24,4 @@ public interface Operator<input,center,result,identity extends Product<input,cen
 			? extends Product<prefix,centralProduct,result>> prepend(
 			Operator<prefix,preCenter,input,preIdentity> operator);
 
-
 }

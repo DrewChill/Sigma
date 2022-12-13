@@ -2,7 +2,7 @@ package archive;
 
 import ml.kit.primitive.product.DisjointProduct;
 import ml.kit.primitive.num.Complex;
-import ml.kit.primitive.operator.Mapping;
+import ml.kit.primitive.operator.Op;
 
 public class aproductcharacter<x,y> implements DisjointProduct<x,y,aproduct<x,y>> {
 	@Override
@@ -21,7 +21,7 @@ public class aproductcharacter<x,y> implements DisjointProduct<x,y,aproduct<x,y>
 	}
 
 	@Override
-	public <result> result read(Mapping<aproduct<x,y>,result> options) {
+	public <result> result read(Op<aproduct<x,y>,result> options) {
 		return null;
 	}
 }
