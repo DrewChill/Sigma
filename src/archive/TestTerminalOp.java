@@ -1,10 +1,10 @@
 package archive;
 
-import ml.kit.primitive.product.relation.Op;
-import ml.kit.primitive.product.relation.Action;
-import ml.kit.primitive.product.relation.seq.TerminalOp;
-import ml.kit.primitive.product.DisjointRelation;
-import ml.kit.primitive.product.Relation;
+import archive.relation.Op;
+import archive.relation.Action;
+import archive.relation.seq.TerminalOp;
+import archive.relation.DisjointRelation;
+import archive.relation.Relation;
 
 public class TestTerminalOp<c,b,a,result> implements TerminalOp<c,b,a,result> {
 	@Override

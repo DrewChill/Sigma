@@ -1,6 +1,6 @@
 package archive;
 
-import ml.kit.primitive.product.relation.Op;
+import archive.relation.Op;
 import ml.kit.primitive.seq.TerminalCharacter;
 
 public class TestStringNode<g,cg extends TerminalCharacter<g>> implements StringNode<g,cg> {

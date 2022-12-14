@@ -1,6 +1,12 @@
 package ml.kit.primitive.product;
 
-import ml.kit.primitive.LeftCharacter;
-import ml.kit.primitive.RightCharacter;
+import ml.kit.primitive.Liminal;
+import ml.kit.primitive.VOID;
+import ml.kit.primitive.topo.Closed;
 
-public abstract class Product<x,y> implements LeftCharacter<x>, RightCharacter<y> {}
+public abstract class Product extends Closed implements VOID {
+
+	@Override
+	public abstract Liminal getCenter();
+
+}

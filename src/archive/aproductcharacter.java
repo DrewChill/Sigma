@@ -1,8 +1,8 @@
 package archive;
 
-import ml.kit.primitive.product.DisjointRelation;
+import archive.relation.DisjointRelation;
 import ml.kit.primitive.num.Complex;
-import ml.kit.primitive.product.relation.Op;
+import archive.relation.Op;
 
 public class aproductcharacter<x,y> implements DisjointRelation<x,y,aproduct<x,y>> {
 	@Override
@@ -16,7 +16,7 @@ public class aproductcharacter<x,y> implements DisjointRelation<x,y,aproduct<x,y
 	}
 
 	@Override
-	public aproduct<x,y> image() {
+	public aproduct<x,y> getCenter() {
 		return null;
 	}
 

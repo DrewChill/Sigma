@@ -1,9 +1,9 @@
 package archive;
 
-import ml.kit.primitive.LeftCharacter;
-import ml.kit.primitive.RightCharacter;
+import ml.kit.primitive.direction.d_Left;
+import ml.kit.primitive.direction.d_Right;
 
-public class aproduct<x,y> implements LeftCharacter<x>, RightCharacter<y> {
+public class aproduct<x,y> implements d_Left<x>, d_Right<y> {
 	@Override
 	public x getLeft() {
 		return null;

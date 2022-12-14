@@ -1,6 +1,6 @@
 package archive;
 
-import ml.kit.primitive.product.relation.combinator.Combinator;
+import archive.relation.combinator.Combinator;
 import ml.kit.primitive.seq.TransformationCharacter;
 import ml.kit.primitive.seq.TerminalCharacter;
 
