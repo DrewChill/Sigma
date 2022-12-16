@@ -6,6 +6,6 @@ import ml.foundation.primitive.Preliminal;
 import ml.foundation.primitive.VOID;
 import ml.foundation.complex.operation.Operation;
 
-public abstract class r_Absorbtion<zero extends VOID,one extends Dense>
-		extends Liminal implements Operation<Preliminal,zero,one> {
+public abstract class L_Absorbtion<one extends Dense, zero extends VOID>
+		extends Liminal implements Operation<Preliminal,one,zero> {
 }
