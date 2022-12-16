@@ -1,6 +1,6 @@
 package archive.str;
 
-import ml.kit.primitive.Dense;
+import ml.foundation.primitive.Dense;
 import archive.str.ch.action.LeftAction;
 import archive.str.ch.action.RightAction;
 

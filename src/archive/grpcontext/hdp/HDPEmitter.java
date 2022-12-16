@@ -9,9 +9,9 @@ import archive.asm.Observable;
 import archive.AbstractEmitter;
 import archive.ProbabilisticSymbol;
 import archive.StochasticSymbol;
-import ml.kit.observer.symbol.NullGenerator;
-import ml.kit.observer.AbstractObserver;
-import ml.kit.observer.ObserverBasis;
+import ml.observer.symbol.NullGenerator;
+import ml.observer.AbstractObserver;
+import ml.observer.ObserverBasis;
 
 public class HDPEmitter<T extends Observable> extends AbstractEmitter<T> {
 	

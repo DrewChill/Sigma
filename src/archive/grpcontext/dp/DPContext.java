@@ -5,7 +5,7 @@ import java.io.InputStream;
 import archive.asm.Observable;
 import archive.Context;
 import archive.AbstractEmitter;
-import ml.kit.observer.AbstractObserver;
+import ml.observer.AbstractObserver;
 
 public class DPContext<T extends Observable> extends Context<T>{
 

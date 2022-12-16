@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import ml.kit.function.SymbolShape;
+import ml.function.SymbolShape;
 
 public abstract class StochasticSymbol<T> {
 	

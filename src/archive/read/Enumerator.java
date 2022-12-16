@@ -1,6 +1,6 @@
 package archive.read;
 
-import ml.kit.primitive.seq.TerminalCharacter;
+import ml.foundation.primitive.seq.TerminalCharacter;
 
 public interface Enumerator<g> extends TerminalCharacter<g> {
 

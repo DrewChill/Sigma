@@ -6,8 +6,8 @@ import archive.asm.Observable;
 import archive.AbstractEmitter;
 import archive.ProbabilisticSymbol;
 import archive.StochasticSymbol;
-import ml.kit.observer.symbol.NullGenerator;
-import ml.kit.observer.AbstractObserver;
+import ml.observer.symbol.NullGenerator;
+import ml.observer.AbstractObserver;
 
 public class DPEmitter<T extends Observable> extends AbstractEmitter<T> {
 

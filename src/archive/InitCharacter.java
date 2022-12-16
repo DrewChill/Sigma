@@ -1,8 +1,8 @@
 package archive;
 
 import archive.relation.combinator.Combinator;
-import ml.kit.primitive.seq.TransformationCharacter;
-import ml.kit.primitive.seq.TerminalCharacter;
+import ml.foundation.primitive.seq.TransformationCharacter;
+import ml.foundation.primitive.seq.TerminalCharacter;
 
 public interface InitCharacter<g,h,ch extends TerminalCharacter<h>> extends TransformationCharacter<g,h> {
 

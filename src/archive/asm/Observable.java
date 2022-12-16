@@ -3,8 +3,8 @@ package archive.asm;
 import java.util.HashMap;
 import java.util.Map;
 
-import ml.kit.num.measure.code.Code;
-import ml.kit.observer.emitter.Emitter;
+import ml.num.measure.code.Code;
+import ml.observer.emitter.Emitter;
 import archive.EmitterGroup;
 
 public abstract class Observable {

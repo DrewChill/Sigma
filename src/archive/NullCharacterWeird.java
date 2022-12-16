@@ -1,9 +1,9 @@
 package archive;
 
-import ml.kit.num.Complex;
-import ml.kit.num.Rational;
-import ml.kit.num.measure.code.pkg.group.Action;
-import ml.kit.num.measure.code.pkg.group.Group;
+import ml.num.Complex;
+import ml.num.Rational;
+import ml.num.measure.code.pkg.group.Action;
+import ml.num.measure.code.pkg.group.Group;
 
 import java.util.Collection;
 import java.util.Set;

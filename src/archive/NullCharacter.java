@@ -2,7 +2,7 @@ package archive;
 
 import archive.relation.seq.Kernel;
 
-public interface NullCharacter<c> extends ml.kit.primitive.seq.NullCharacter {
+public interface NullCharacter<c> extends ml.foundation.primitive.seq.NullCharacter {
 
 	c value();
 

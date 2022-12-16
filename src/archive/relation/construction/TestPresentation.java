@@ -1,7 +1,7 @@
 package archive.relation.construction;
 
 import archive.relation.DisjointRelation;
-import ml.kit.num.Complex;
+import ml.num.Complex;
 import archive.relation.Op;
 
 public class TestPresentation<R,N extends Complex> implements Presentation<R,N>{

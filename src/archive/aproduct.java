@@ -1,7 +1,7 @@
 package archive;
 
-import ml.kit.primitive.direction.d_Left;
-import ml.kit.primitive.direction.d_Right;
+import ml.foundation.primitive.direction.d_Left;
+import ml.foundation.primitive.direction.d_Right;
 
 public class aproduct<x,y> implements d_Left<x>, d_Right<y> {
 	@Override

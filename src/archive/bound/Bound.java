@@ -1,6 +1,6 @@
 package archive.bound;
 
-import ml.kit.num.measure.code.Code;
+import ml.num.measure.code.Code;
 
 public interface Bound<T> {
 

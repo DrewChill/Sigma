@@ -1,7 +1,7 @@
 package archive;
 
 import archive.relation.DisjointRelation;
-import ml.kit.num.Complex;
+import ml.num.Complex;
 import archive.relation.Op;
 
 public class aproductcharacter<x,y> implements DisjointRelation<x,y,aproduct<x,y>> {

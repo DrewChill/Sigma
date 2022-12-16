@@ -8,8 +8,8 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import ml.kit.observer.emitter.Emitter;
-import ml.kit.observer.AbstractObserver;
+import ml.observer.emitter.Emitter;
+import ml.observer.AbstractObserver;
 
 public abstract class AbstractEmitter<T> implements Emitter<T>,Runnable {
 

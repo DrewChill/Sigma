@@ -6,8 +6,8 @@ import java.util.Collection;
 import java.util.Set;
 
 import archive.asm.Observable;
-import ml.kit.observer.symbol.NullGenerator;
-import ml.kit.observer.AbstractObserver;
+import ml.observer.symbol.NullGenerator;
+import ml.observer.AbstractObserver;
 
 public abstract class Context<T extends Observable> {
 	
