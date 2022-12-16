@@ -3,7 +3,7 @@ package archive.asm;
 import java.util.HashMap;
 import java.util.Map;
 
-import ml.kit.primitive.num.measure.code.Code;
+import ml.kit.num.measure.code.Code;
 import ml.kit.observer.emitter.Emitter;
 import archive.EmitterGroup;
 

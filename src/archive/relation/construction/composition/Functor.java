@@ -1,6 +1,6 @@
 package archive.relation.construction.composition;
 
-import ml.kit.primitive.num.Complex;
+import ml.kit.num.Complex;
 import archive.relation.construction.Presentation;
 import archive.relation.construction.Representation;
 import archive.relation.Op;

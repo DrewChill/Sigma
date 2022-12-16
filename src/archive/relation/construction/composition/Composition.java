@@ -1,7 +1,7 @@
 package archive.relation.construction.composition;
 
 import archive.relation.DisjointRelation;
-import ml.kit.primitive.num.Complex;
+import ml.kit.num.Complex;
 import archive.relation.Op;
 
 public class Composition<I, O, E> implements Op<I,E> {

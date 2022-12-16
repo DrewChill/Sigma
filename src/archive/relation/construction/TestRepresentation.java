@@ -1,7 +1,7 @@
 package archive.relation.construction;
 
 import archive.relation.DisjointRelation;
-import ml.kit.primitive.num.Complex;
+import ml.kit.num.Complex;
 import archive.relation.Op;
 
 public class TestRepresentation<R,N extends Complex> implements Op<R,N> {
