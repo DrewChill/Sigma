@@ -1,9 +1,9 @@
 package archive;
 
-import ml.foundation.primitive.direction.d_Left;
-import ml.foundation.primitive.direction.d_Right;
+import ml.foundation.primitive.d.DenseLeft;
+import ml.foundation.primitive.d.DenseRight;
 
-public class aproduct<x,y> implements d_Left<x>, d_Right<y> {
+public class aproduct<x,y> implements DenseLeft<x>, DenseRight<y> {
 	@Override
 	public x getLeft() {
 		return null;
